@@ -20,9 +20,8 @@ namespace RallyTheRobots
         public virtual void LeaveScreen()
         {
         }
-        public virtual Screen Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings)
+        public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            return this;
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {

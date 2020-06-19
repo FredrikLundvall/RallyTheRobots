@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots
 {
-    public class GameSettings
+    public class GameStatus
     {
-        public bool Fullscreen = true;
-        public int Width = 1920;
-        public int Height = 1080;
+        public RunningStatusEnum RunningStatus = RunningStatusEnum.NotStarted;
     }
 }

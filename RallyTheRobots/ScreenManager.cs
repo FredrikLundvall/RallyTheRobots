@@ -11,8 +11,13 @@ namespace RallyTheRobots
         private List<Screen> _screenList= new List<Screen>(20);
         public ScreenManager()
         {
-            _screenList.Add(new StartupScreen());
-            _currentScreen = _screenList[0];
+            StartMenuScreen startMenu = new StartMenuScreen();
+            SplashScreen splash = new SplashScreen(startMenu);
+            StartupScreen startup = new StartupScreen(splash);
+            _screenList.Add(startup);
+            _screenList.Add(splash);
+            _screenList.Add(startMenu);
+            _currentScreen = startup;
         }
         public void LoadContent(GraphicsDevice graphicsDevice)
         {
@@ -21,9 +26,9 @@ namespace RallyTheRobots
                 screen.LoadContent(graphicsDevice);
             }
         }
-        public void Update(GameTime gameTime, GameSettings gameSettings)
+        public void Update(GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            _currentScreen.Update(this, gameTime, gameSettings);
+            _currentScreen.Update(this, gameTime, gameSettings, gameStatus);
         }
         public void ChangeScreen(Screen newScreen)
         {

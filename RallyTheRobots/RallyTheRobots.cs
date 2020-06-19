@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ResolutionBuddy;
 
 namespace RallyTheRobots
 {
@@ -13,6 +14,8 @@ namespace RallyTheRobots
         SpriteBatch spriteBatch;
         ScreenManager screenManager;
         GameSettings settings;
+        GameStatus gameStatus;
+        IResolution _resolution;
 
         public RallyTheRobots()
         {
@@ -20,18 +23,17 @@ namespace RallyTheRobots
             Content.RootDirectory = "Content";
             settings = new GameSettings();
             screenManager = new ScreenManager();
+            gameStatus = new GameStatus();
             graphics.HardwareModeSwitch = true;
 
             this.Window.IsBorderless = true;
             this.Window.Position = new Point(0, 0);
 
-            Resolution.Init(ref graphics);
             // Change Virtual Resolution 
-            Resolution.SetVirtualResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
 #if DEBUG         
-            Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, false);
+            _resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), false, true);
 #else
-            Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, true);
+            _resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.Fullscreen, true);
 #endif
 
             IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
@@ -79,11 +81,10 @@ namespace RallyTheRobots
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             // TODO: Add your update logic here
-            screenManager.Update(gameTime, settings);
+            screenManager.Update(gameTime, settings, gameStatus);
+            if (gameStatus.RunningStatus == RunningStatusEnum.Exiting)
+                Exit();
             base.Update(gameTime);
         }
 
@@ -93,10 +94,9 @@ namespace RallyTheRobots
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            Resolution.BeginDraw();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Resolution.getTransformationMatrix());
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Resolution.TransformationMatrix());
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             screenManager.Draw(gameTime, GraphicsDevice, settings, spriteBatch);
