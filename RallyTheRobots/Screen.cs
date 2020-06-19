@@ -5,12 +5,13 @@ namespace RallyTheRobots
 {
     public class Screen
     {
-        protected readonly ScreenEnum _screenEnum;
-        public Screen(ScreenEnum screenEnum)
+        protected Vector2 _zeroPosition;
+        protected Texture2D _background;
+        public Screen()
         {
-            _screenEnum = screenEnum;
+            _zeroPosition = new Vector2(0, 0);
         }
-        public virtual void Initialize()
+        public virtual void LoadContent(GraphicsDevice graphicsDevice)
         {
         }
         public virtual void EnterScreen()
@@ -19,11 +20,11 @@ namespace RallyTheRobots
         public virtual void LeaveScreen()
         {
         }
-        public virtual ScreenEnum Update(GameTime gameTime, GameSettings gameSettings)
+        public virtual Screen Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings)
         {
-            return _screenEnum;
+            return this;
         }
-        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings)
+        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {
         }
     }

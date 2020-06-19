@@ -11,13 +11,30 @@ namespace RallyTheRobots
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        ScreenManager gameManager; 
+        ScreenManager screenManager;
+        GameSettings settings;
 
         public RallyTheRobots()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            gameManager = new ScreenManager();
+            settings = new GameSettings();
+            screenManager = new ScreenManager();
+            graphics.HardwareModeSwitch = true;
+
+            this.Window.IsBorderless = true;
+            this.Window.Position = new Point(0, 0);
+
+            Resolution.Init(ref graphics);
+            // Change Virtual Resolution 
+            Resolution.SetVirtualResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+#if DEBUG         
+            Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, false);
+#else
+            Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, true);
+#endif
+
+            IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
         }
 
         /// <summary>
@@ -43,6 +60,7 @@ namespace RallyTheRobots
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            screenManager.LoadContent(GraphicsDevice);
         }
 
         /// <summary>
@@ -65,7 +83,7 @@ namespace RallyTheRobots
                 Exit();
 
             // TODO: Add your update logic here
-
+            screenManager.Update(gameTime, settings);
             base.Update(gameTime);
         }
 
@@ -75,10 +93,15 @@ namespace RallyTheRobots
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            Resolution.BeginDraw();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Resolution.getTransformationMatrix());
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            screenManager.Draw(gameTime, GraphicsDevice, settings, spriteBatch);
 
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

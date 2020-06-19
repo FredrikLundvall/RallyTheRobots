@@ -7,30 +7,33 @@ namespace RallyTheRobots
 {
     public class ScreenManager
     {
-        private ScreenEnum _screen = ScreenEnum.StartupScreen;
-        public GameSettings Settings = new GameSettings();
-        private Dictionary<ScreenEnum, Screen> _screenList= new Dictionary<ScreenEnum, Screen>(20);
+        private Screen _currentScreen;
+        private List<Screen> _screenList= new List<Screen>(20);
         public ScreenManager()
         {
-            _screenList.Add(ScreenEnum.StartupScreen, new StartupScreen(ScreenEnum.StartupScreen));
+            _screenList.Add(new StartupScreen());
+            _currentScreen = _screenList[0];
         }
-        private Screen getCurrentScreen()
+        public void LoadContent(GraphicsDevice graphicsDevice)
         {
-            return _screenList[_screen];
+            foreach(Screen screen in _screenList)
+            {
+                screen.LoadContent(graphicsDevice);
+            }
         }
         public void Update(GameTime gameTime, GameSettings gameSettings)
         {
-            ScreenEnum possiblyNewScreen = getCurrentScreen().Update(gameTime,gameSettings);
-            if (possiblyNewScreen != _screen)
-            {
-                getCurrentScreen().LeaveScreen();
-                _screen = possiblyNewScreen;
-                getCurrentScreen().EnterScreen();
-            }
+            _currentScreen.Update(this, gameTime, gameSettings);
         }
-        public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings)
+        public void ChangeScreen(Screen newScreen)
         {
-            getCurrentScreen().Draw(gameTime, graphicsDevice, gameSettings);
+            _currentScreen.LeaveScreen();
+            _currentScreen = newScreen;
+            _currentScreen.EnterScreen();
+        }
+        public void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
+        {
+            _currentScreen.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch);
         }
     }
 }

@@ -41,8 +41,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Resolution.cs" />
     <Compile Include="ScreenManager.cs" />
-    <Compile Include="ScreenEnum.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="StartupScreen.cs" />
     <Compile Include="RallyTheRobots.cs" />
@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\startup.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
