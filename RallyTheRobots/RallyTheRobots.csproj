@@ -44,9 +44,13 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ButtonAction.cs" />
     <Compile Include="ButtonArea.cs" />
     <Compile Include="ButtonStatusEnum.cs" />
+    <Compile Include="ChangeScreenAction.cs" />
+    <Compile Include="ExitToDesktopButtonAction.cs" />
     <Compile Include="GameStatus.cs" />
+    <Compile Include="LoadMenuScreen.cs" />
     <Compile Include="RunningStatus.cs" />
     <Compile Include="ScreenManager.cs" />
     <Compile Include="GameSettings.cs" />
@@ -105,16 +109,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\loadmenu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\splash.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\startmenu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\startmenu_continue_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\startmenu_continue_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\startmenu_exit_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\startmenu_exit_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\startmenu_load_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\startmenu_load_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\startmenu_new_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\startmenu_new_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\startmenu_settings_focused.png">

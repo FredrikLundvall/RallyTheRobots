@@ -6,12 +6,13 @@ namespace RallyTheRobots
 {
     public class SplashScreen : Screen
     {
-        public SplashScreen() : base()
+        public SplashScreen(ScreenManager screenManager) : base(screenManager) {}
+        public override void Initialize()
         {
-        }
-        public override void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
-        {
-            base.Update(manager, gameTime, gameSettings, gameStatus);
+            AddBackground("Content\\splash.png");
+            Screen startMenu = _screenManager.GetScreen<StartMenuScreen>();
+            ScreenChangeOnTimeout(startMenu, 3.0);
+            ScreenChangeOnAnyButton(startMenu);
         }
     }
 }

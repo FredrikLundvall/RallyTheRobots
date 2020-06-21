@@ -9,6 +9,7 @@ namespace RallyTheRobots
 {
     public class Screen
     {
+        const double FOCUS_CHANGE_TIME = 0.4;
         protected Vector2 _zeroPosition;
         protected Texture2D _background;
         protected string _backgroundPath;
@@ -16,11 +17,17 @@ namespace RallyTheRobots
         protected Screen _timeoutScreen;
         protected double _timeoutSeconds;
         protected TimeSpan _totalGameTimeEnter;
+        protected TimeSpan _totalGameTimeFocusChange;
         protected List<ButtonArea> _buttonAreaList;
-        public Screen()
+        protected ScreenManager _screenManager;
+        public Screen(ScreenManager screenManager)
         {
+            _screenManager = screenManager;
             _zeroPosition = new Vector2(0, 0);
             _buttonAreaList = new List<ButtonArea>(30);
+        }
+        public virtual void Initialize()
+        {
         }
         public virtual void AddBackground(string backgroundPath)
         {
@@ -56,6 +63,7 @@ namespace RallyTheRobots
         public virtual void EnterScreen(GameTime gameTime)
         {
             _totalGameTimeEnter = gameTime.TotalGameTime;
+            _totalGameTimeFocusChange = gameTime.TotalGameTime;
         }
         public virtual void LeaveScreen()
         {
@@ -68,16 +76,21 @@ namespace RallyTheRobots
                 manager.ChangeScreen(gameTime, _timeoutScreen);
 
             if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y > 0.3 || Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
-                FocusPreviousButtonArea();
+                FocusPreviousButtonArea(gameTime);
             else if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < -0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < -0.3 || Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
-                FocusNextButtonArea();
+                FocusNextButtonArea(gameTime);
+            else
+                _totalGameTimeFocusChange = new TimeSpan(0,0,0);
             foreach (ButtonArea button in _buttonAreaList)
             {
                 button.Update(manager, this, gameTime, gameSettings, gameStatus);
             }
         }
-        protected virtual void FocusPreviousButtonArea()
+        protected virtual void FocusPreviousButtonArea(GameTime gameTime)
         {
+            if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
+                return;
+            _totalGameTimeFocusChange = gameTime.TotalGameTime;
             ButtonArea previousButton = null;
             for(int i = 0; i < _buttonAreaList.Count; i++)
             {
@@ -99,8 +112,11 @@ namespace RallyTheRobots
             }
             SetFocusedButtonArea(previousButton);
         }
-        protected virtual void FocusNextButtonArea()
+        protected virtual void FocusNextButtonArea(GameTime gameTime)
         {
+            if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
+                return;
+            _totalGameTimeFocusChange = gameTime.TotalGameTime;
             ButtonArea nextButton = null;
             for (int i = _buttonAreaList.Count - 1; i >= 0; i--)
             {
