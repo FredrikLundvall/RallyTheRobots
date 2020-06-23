@@ -23,6 +23,7 @@ namespace RallyTheRobots
         public Vector2 Position;
         public bool Visible = true;
         public bool Disabled = false;
+        public bool HasShortcutWithGoBackButton = false;
         public ButtonStatusEnum Status = ButtonStatusEnum.Idle;
         protected ButtonAction _buttonAction = ButtonAction.GetEmptyButtonAction();
         public virtual void SetIdleImage(string imagePath)
@@ -82,8 +83,18 @@ namespace RallyTheRobots
         public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             //Check if the button was released between the last triggering of DoAction
-            if ((Visible && !Disabled && Status == ButtonStatusEnum.Focused) && (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3 || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.E)))
-                _buttonAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
+            //Move the _buttonIsHeldDown to the ScreenManager to keep it between screens
+            if (InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)))
+            {
+                if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && Status == ButtonStatusEnum.Focused)
+                {
+                    manager.ButtonForSelectIsHeldDown = true;
+                    _buttonAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
+                }
+            }
+            else
+                manager.ButtonForSelectIsHeldDown = false;
+
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {

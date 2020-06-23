@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,14 @@ namespace RallyTheRobots
         public override void Initialize()
         {
             AddBackground("Content\\loadmenu.png");
-            ScreenChangeOnAnyButton(_screenManager.GetScreen<StartMenuScreen>());
+            ButtonArea returnButton = new ButtonArea();
+            returnButton.SetIdleImage("Content\\loadmenu_return_idle.png");
+            returnButton.SetFocusedImage("Content\\loadmenu_return_focused.png");
+            returnButton.Position = new Vector2(83, 62);
+            returnButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<StartMenuScreen>()));
+            returnButton.HasShortcutWithGoBackButton = true;
+            AddButtonArea(returnButton);
+            SetFocusedButtonArea(returnButton);
         }
     }
 }

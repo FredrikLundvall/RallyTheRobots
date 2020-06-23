@@ -9,6 +9,7 @@ namespace RallyTheRobots
     {
         private Screen _currentScreen;
         private List<Screen> _screenList= new List<Screen>(20);
+        public bool ButtonForSelectIsHeldDown = false;
         public ScreenManager()
         {
             _screenList.Add(new StartupScreen(this));
@@ -49,7 +50,6 @@ namespace RallyTheRobots
         }
         public void ChangeScreen(GameTime gameTime, Screen newScreen)
         {
-            //Set timeout for this to stop the selection in next screen?
             _currentScreen.LeaveScreen();
             _currentScreen = newScreen;
             _currentScreen.EnterScreen(gameTime);

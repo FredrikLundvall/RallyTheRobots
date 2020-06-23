@@ -50,6 +50,7 @@
     <Compile Include="ChangeScreenAction.cs" />
     <Compile Include="ExitToDesktopButtonAction.cs" />
     <Compile Include="GameStatus.cs" />
+    <Compile Include="InputChecker.cs" />
     <Compile Include="LoadMenuScreen.cs" />
     <Compile Include="RunningStatus.cs" />
     <Compile Include="ScreenManager.cs" />
@@ -110,6 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\loadmenu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\loadmenu_return_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\loadmenu_return_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\splash.png">
