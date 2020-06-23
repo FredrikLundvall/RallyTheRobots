@@ -20,6 +20,7 @@ namespace RallyTheRobots
         protected TimeSpan _totalGameTimeFocusChange;
         protected List<ButtonArea> _buttonAreaList;
         protected ScreenManager _screenManager;
+        protected ButtonArea _focusedAtEnterButtonArea;
         public Screen(ScreenManager screenManager)
         {
             _screenManager = screenManager;
@@ -28,6 +29,10 @@ namespace RallyTheRobots
         }
         public virtual void Initialize()
         {
+        }
+        public virtual void SetFocusedAtEnterButtonArea(ButtonArea focusedButton)
+        {
+            _focusedAtEnterButtonArea = focusedButton;
         }
         public virtual void AddBackground(string backgroundPath)
         {
@@ -64,6 +69,10 @@ namespace RallyTheRobots
         {
             _totalGameTimeEnter = gameTime.TotalGameTime;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
+            if (_focusedAtEnterButtonArea != null)
+                SetFocusedButtonArea(_focusedAtEnterButtonArea);
+            else
+                ChangeSelectedButtonAreaToFocused(gameTime);
         }
         public virtual void LeaveScreen()
         {
@@ -83,6 +92,9 @@ namespace RallyTheRobots
                 FocusNextButtonArea(gameTime);
             else
                 _totalGameTimeFocusChange = new TimeSpan(0,0,0);
+
+            if (!manager.ButtonForSelectIsHeldDown && InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
+                SelectFocusedButtonArea(gameTime);
             foreach (ButtonArea button in _buttonAreaList)
             {
                 button.Update(manager, this, gameTime, gameSettings, gameStatus);
@@ -96,7 +108,7 @@ namespace RallyTheRobots
             ButtonArea previousButton = null;
             for(int i = 0; i < _buttonAreaList.Count; i++)
             {
-                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused)
+                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused || _buttonAreaList[i].Status == ButtonStatusEnum.Selected)
                     break;
                 else if(_buttonAreaList[i].Visible && !_buttonAreaList[i].Disabled)
                     previousButton = _buttonAreaList[i];
@@ -122,7 +134,7 @@ namespace RallyTheRobots
             ButtonArea nextButton = null;
             for (int i = _buttonAreaList.Count - 1; i >= 0; i--)
             {
-                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused)
+                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused || _buttonAreaList[i].Status == ButtonStatusEnum.Selected)
                     break;
                 else if (_buttonAreaList[i].Visible && !_buttonAreaList[i].Disabled)
                     nextButton = _buttonAreaList[i];
@@ -139,6 +151,34 @@ namespace RallyTheRobots
                 }
             }
             SetFocusedButtonArea(nextButton);
+        }
+        protected virtual void ChangeSelectedButtonAreaToFocused(GameTime gameTime)
+        {
+            ButtonArea selectedButton = null;
+            for (int i = 0; i < _buttonAreaList.Count; i++)
+            {
+                if (_buttonAreaList[i].Status == ButtonStatusEnum.Selected || _buttonAreaList[i].Status == ButtonStatusEnum.Focused)
+                {
+                    selectedButton = _buttonAreaList[i];
+                    break;
+                }
+            }
+            if (selectedButton != null)
+                SetFocusedButtonArea(selectedButton);
+        }
+        protected virtual void SelectFocusedButtonArea(GameTime gameTime)
+        {
+            ButtonArea focusedButton = null;
+            for (int i = 0; i < _buttonAreaList.Count; i++)
+            {
+                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused)
+                {
+                    focusedButton = _buttonAreaList[i];
+                    break;
+                }
+            }
+            if (focusedButton != null)
+                SetSelectedButtonArea(focusedButton);
         }
         public virtual void SetFocusedButtonArea(ButtonArea focusedButton)
         {

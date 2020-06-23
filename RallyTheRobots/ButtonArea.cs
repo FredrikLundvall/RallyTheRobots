@@ -23,6 +23,7 @@ namespace RallyTheRobots
         public Vector2 Position;
         public bool Visible = true;
         public bool Disabled = false;
+        //Maybe move this functionality to the screen (only one shortcut with GoBackButton per screen is probably a requirement)
         public bool HasShortcutWithGoBackButton = false;
         public ButtonStatusEnum Status = ButtonStatusEnum.Idle;
         protected ButtonAction _buttonAction = ButtonAction.GetEmptyButtonAction();
@@ -86,7 +87,7 @@ namespace RallyTheRobots
             //Move the _buttonIsHeldDown to the ScreenManager to keep it between screens
             if (InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)))
             {
-                if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && Status == ButtonStatusEnum.Focused)
+                if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings))))
                 {
                     manager.ButtonForSelectIsHeldDown = true;
                     _buttonAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);

@@ -20,7 +20,13 @@ namespace RallyTheRobots
             returnButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<StartMenuScreen>()));
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
-            SetFocusedButtonArea(returnButton);
+            ButtonArea filelistButton = new ButtonArea();
+            filelistButton.SetIdleImage("Content\\loadmenu_filelist_idle.png");
+            filelistButton.SetFocusedImage("Content\\loadmenu_filelist_focused.png");
+            filelistButton.SetSelectedImage("Content\\loadmenu_filelist_selected.png");
+            filelistButton.Position = new Vector2(83, 202);
+            AddButtonArea(filelistButton);
+            SetFocusedAtEnterButtonArea(returnButton);
         }
     }
 }

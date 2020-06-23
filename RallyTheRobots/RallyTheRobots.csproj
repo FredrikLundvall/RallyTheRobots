@@ -113,6 +113,15 @@
     <Content Include="Content\loadmenu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\loadmenu_filelist_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\loadmenu_filelist_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\loadmenu_filelist_selected.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\loadmenu_return_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
