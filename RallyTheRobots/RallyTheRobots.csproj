@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="GUI\Common\ButtonAction.cs" />
     <Compile Include="GUI\Common\ButtonArea.cs" />
+    <Compile Include="GUI\Common\ButtonAreaList.cs" />
     <Compile Include="GUI\Common\ButtonStatusEnum.cs" />
     <Compile Include="GUI\Common\ChangeScreenAction.cs" />
     <Compile Include="GUI\Common\ExitToDesktopButtonAction.cs" />

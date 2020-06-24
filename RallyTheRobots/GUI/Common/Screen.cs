@@ -18,14 +18,14 @@ namespace RallyTheRobots
         protected double _timeoutSeconds;
         protected TimeSpan _totalGameTimeEnter;
         protected TimeSpan _totalGameTimeFocusChange;
-        protected List<ButtonArea> _buttonAreaList;
+        protected ButtonAreaList _buttonAreaList;
         protected ScreenManager _screenManager;
         protected ButtonArea _focusedAtEnterButtonArea;
         public Screen(ScreenManager screenManager)
         {
             _screenManager = screenManager;
             _zeroPosition = new Vector2(0, 0);
-            _buttonAreaList = new List<ButtonArea>(30);
+            _buttonAreaList = new ButtonAreaList();
         }
         public virtual void Initialize()
         {
@@ -60,10 +60,7 @@ namespace RallyTheRobots
                 _background = Texture2D.FromStream(graphicsDevice, tempstream);
                 tempstream.Close();
             }
-            foreach(ButtonArea button in _buttonAreaList)
-            {
-                button.LoadContent(graphicsDevice);
-            }
+            _buttonAreaList.LoadContent(graphicsDevice);
         }
         public virtual void EnterScreen(GameTime gameTime)
         {
@@ -95,117 +92,54 @@ namespace RallyTheRobots
 
             if (!manager.ButtonForSelectIsHeldDown && InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
                 SelectFocusedButtonArea(gameTime);
-            foreach (ButtonArea button in _buttonAreaList)
-            {
-                button.Update(manager, this, gameTime, gameSettings, gameStatus);
-            }
+
+            _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
         }
         protected virtual void FocusPreviousButtonArea(GameTime gameTime)
         {
             if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
                 return;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
-            ButtonArea previousButton = null;
-            for(int i = 0; i < _buttonAreaList.Count; i++)
-            {
-                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused || _buttonAreaList[i].Status == ButtonStatusEnum.Selected)
-                    break;
-                else if(_buttonAreaList[i].Visible && !_buttonAreaList[i].Disabled)
-                    previousButton = _buttonAreaList[i];
-            }
-            if (previousButton == null)
-            {
-                for (int i = _buttonAreaList.Count - 1; i >= 0; i--)
-                {
-                    if (_buttonAreaList[i].Visible && !_buttonAreaList[i].Disabled)
-                    {
-                        previousButton = _buttonAreaList[i];
-                        break;
-                    }
-                }
-            }
-            SetFocusedButtonArea(previousButton);
+            SetFocusedButtonArea(_buttonAreaList.GetPreviousButtonArea());
         }
+
         protected virtual void FocusNextButtonArea(GameTime gameTime)
         {
             if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
                 return;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
-            ButtonArea nextButton = null;
-            for (int i = _buttonAreaList.Count - 1; i >= 0; i--)
-            {
-                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused || _buttonAreaList[i].Status == ButtonStatusEnum.Selected)
-                    break;
-                else if (_buttonAreaList[i].Visible && !_buttonAreaList[i].Disabled)
-                    nextButton = _buttonAreaList[i];
-            }
-            if (nextButton == null)
-            {
-                for (int i = 0; i < _buttonAreaList.Count; i++)
-                {
-                    if (_buttonAreaList[i].Visible && !_buttonAreaList[i].Disabled)
-                    {
-                        nextButton = _buttonAreaList[i];
-                        break;
-                    }
-                }
-            }
-            SetFocusedButtonArea(nextButton);
+            SetFocusedButtonArea(_buttonAreaList.GetNextButtonArea());
         }
+
         protected virtual void ChangeSelectedButtonAreaToFocused(GameTime gameTime)
         {
             ButtonArea selectedButton = null;
-            for (int i = 0; i < _buttonAreaList.Count; i++)
-            {
-                if (_buttonAreaList[i].Status == ButtonStatusEnum.Selected || _buttonAreaList[i].Status == ButtonStatusEnum.Focused)
-                {
-                    selectedButton = _buttonAreaList[i];
-                    break;
-                }
-            }
+            selectedButton = _buttonAreaList.GetSelectedOrFocusedButtonArea(selectedButton);
             if (selectedButton != null)
                 SetFocusedButtonArea(selectedButton);
         }
+
         protected virtual void SelectFocusedButtonArea(GameTime gameTime)
         {
             ButtonArea focusedButton = null;
-            for (int i = 0; i < _buttonAreaList.Count; i++)
-            {
-                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused)
-                {
-                    focusedButton = _buttonAreaList[i];
-                    break;
-                }
-            }
+            focusedButton = _buttonAreaList.GetFocusedButtonArea(focusedButton);
             if (focusedButton != null)
                 SetSelectedButtonArea(focusedButton);
         }
+
         public virtual void SetFocusedButtonArea(ButtonArea focusedButton)
         {
-            SetStatusButtonArea(focusedButton, ButtonStatusEnum.Focused);
+            _buttonAreaList.SetStatusButtonArea(focusedButton, ButtonStatusEnum.Focused);
         }
         public virtual void SetSelectedButtonArea(ButtonArea selectedButton)
         {
-            SetStatusButtonArea(selectedButton, ButtonStatusEnum.Selected);
-        }
-        protected virtual void SetStatusButtonArea(ButtonArea actualButton, ButtonStatusEnum newStatus)
-        {
-            foreach (ButtonArea button in _buttonAreaList)
-            {
-                if (button == actualButton && button.Visible && !button.Disabled)
-                    button.Status = newStatus;
-                else
-                    button.Status = ButtonStatusEnum.Idle;
-            }
+            _buttonAreaList.SetStatusButtonArea(selectedButton, ButtonStatusEnum.Selected);
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {
             if(_background != null)
                 spriteBatch.Draw(_background, _zeroPosition, Color.White);
-            foreach (ButtonArea button in _buttonAreaList)
-            {
-                button.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch);
-            }
+            _buttonAreaList.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch);
         }
     }
 }
