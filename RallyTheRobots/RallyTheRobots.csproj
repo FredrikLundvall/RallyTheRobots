@@ -115,21 +115,26 @@
     <Content Include="Content\loadmenu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\loadmenu_filelist_focused.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\loadmenu_filelist_idle.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\loadmenu_filelist_selected.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\loadmenu_001_focused.png" />
+    <Content Include="Content\loadmenu_001_idle.png" />
+    <Content Include="Content\loadmenu_002_focused.png" />
+    <Content Include="Content\loadmenu_002_idle.png" />
+    <Content Include="Content\loadmenu_003_focused.png" />
+    <Content Include="Content\loadmenu_003_idle.png" />
+    <Content Include="Content\loadmenu_down_focused.png" />
+    <Content Include="Content\loadmenu_down_idle.png" />
+    <Content Include="Content\loadmenu_end_paranteses_focused.png" />
+    <Content Include="Content\loadmenu_end_paranteses_idle.png" />
     <Content Include="Content\loadmenu_return_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\loadmenu_return_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\loadmenu_snapshot_focused.png" />
+    <Content Include="Content\loadmenu_snapshot_idle.png" />
+    <Content Include="Content\loadmenu_up_focused.png" />
+    <Content Include="Content\loadmenu_up_idle.png" />
     <Content Include="Content\splash.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
