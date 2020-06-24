@@ -13,6 +13,7 @@ namespace RallyTheRobots
             Screen startMenu = _screenManager.GetScreen<StartMenuScreen>();
             ScreenChangeOnTimeout(startMenu, 3.0);
             ScreenChangeOnAnyButton(startMenu);
+            base.Initialize();
         }
     }
 }

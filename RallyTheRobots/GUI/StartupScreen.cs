@@ -11,6 +11,7 @@ namespace RallyTheRobots
         {
             AddBackground("Content\\startup.png");
             ScreenChangeOnTimeout(_screenManager.GetScreen<SplashScreen>(), 1.0);
+            base.Initialize();
         }
     }
 }

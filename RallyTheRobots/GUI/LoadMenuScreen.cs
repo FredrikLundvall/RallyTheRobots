@@ -24,9 +24,10 @@ namespace RallyTheRobots
             filelistButton.SetIdleImage("Content\\loadmenu_filelist_idle.png");
             filelistButton.SetFocusedImage("Content\\loadmenu_filelist_focused.png");
             filelistButton.SetSelectedImage("Content\\loadmenu_filelist_selected.png");
-            filelistButton.Position = new Vector2(83, 202);
+            filelistButton.Position = new Vector2(83, 210);
             AddButtonArea(filelistButton);
             SetFocusedAtEnterButtonArea(returnButton);
+            base.Initialize();
         }
     }
 }

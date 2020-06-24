@@ -44,24 +44,25 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ButtonAction.cs" />
-    <Compile Include="ButtonArea.cs" />
-    <Compile Include="ButtonStatusEnum.cs" />
-    <Compile Include="ChangeScreenAction.cs" />
-    <Compile Include="ExitToDesktopButtonAction.cs" />
+    <Compile Include="GUI\Common\ButtonAction.cs" />
+    <Compile Include="GUI\Common\ButtonArea.cs" />
+    <Compile Include="GUI\Common\ButtonStatusEnum.cs" />
+    <Compile Include="GUI\Common\ChangeScreenAction.cs" />
+    <Compile Include="GUI\Common\ExitToDesktopButtonAction.cs" />
     <Compile Include="GameStatus.cs" />
-    <Compile Include="InputChecker.cs" />
-    <Compile Include="LoadMenuScreen.cs" />
+    <Compile Include="GUI\Common\InputChecker.cs" />
+    <Compile Include="GUI\LoadMenuScreen.cs" />
+    <Compile Include="GUI\RallyTheRobotsScreenManager.cs" />
     <Compile Include="RunningStatus.cs" />
-    <Compile Include="ScreenManager.cs" />
+    <Compile Include="GUI\Common\ScreenManager.cs" />
     <Compile Include="GameSettings.cs" />
-    <Compile Include="SplashScreen.cs" />
-    <Compile Include="StartMenuScreen.cs" />
-    <Compile Include="StartupScreen.cs" />
+    <Compile Include="GUI\SplashScreen.cs" />
+    <Compile Include="GUI\StartMenuScreen.cs" />
+    <Compile Include="GUI\StartupScreen.cs" />
     <Compile Include="RallyTheRobots.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screen.cs" />
+    <Compile Include="GUI\Common\Screen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MatrixExtensions.WindowsDX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -175,6 +176,7 @@
     <None Include="app.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.7.0.1708\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.0.1708\build\MonoGame.Framework.WindowsDX.targets')" />

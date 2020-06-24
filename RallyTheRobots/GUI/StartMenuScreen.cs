@@ -38,6 +38,7 @@ namespace RallyTheRobots
             exitButton.SetButtonAction(new ExitToDesktopButtonAction());
             AddButtonArea(exitButton);
             SetFocusedButtonArea(continueGameButton);
+            base.Initialize();
         }
         public override void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {

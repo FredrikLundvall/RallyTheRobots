@@ -22,7 +22,7 @@ namespace RallyTheRobots
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             settings = new GameSettings();
-            screenManager = new ScreenManager();
+            screenManager = new RallyTheRobotsScreenManager();
             gameStatus = new GameStatus();
             graphics.HardwareModeSwitch = true;
 
@@ -48,7 +48,7 @@ namespace RallyTheRobots
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            screenManager.Initialize();
             base.Initialize();
         }
 
