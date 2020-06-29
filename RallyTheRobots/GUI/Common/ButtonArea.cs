@@ -27,6 +27,7 @@ namespace RallyTheRobots
         public bool HasShortcutWithGoBackButton = false;
         public ButtonStatusEnum Status = ButtonStatusEnum.Idle;
         protected ButtonAction _buttonAction = ButtonAction.GetEmptyButtonAction();
+
         public virtual void SetIdleImage(string imagePath)
         {
             _idleImagePath = imagePath;
@@ -97,7 +98,25 @@ namespace RallyTheRobots
                 manager.ButtonForSelectIsHeldDown = false;
 
         }
-        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
+        public virtual Vector2 GetSize()
+        {
+            Texture2D buttonImage = null;
+            if (Visible)
+            {
+                buttonImage = _idleImage;
+                if (Disabled)
+                    buttonImage = _disabledImage;
+                else if (Status == ButtonStatusEnum.Focused)
+                    buttonImage = _focusedImage;
+                else if (Status == ButtonStatusEnum.Selected)
+                    buttonImage = _selectedImage;
+            }
+            if (buttonImage != null)
+                return new Vector2(buttonImage.Width, buttonImage.Height);
+            else
+                return new Vector2(0, 0);
+        }
+        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
             if (Visible)
             {
@@ -109,7 +128,7 @@ namespace RallyTheRobots
                 else if (Status == ButtonStatusEnum.Selected)
                     buttonImage = _selectedImage;
                 if(buttonImage != null)
-                    spriteBatch.Draw(buttonImage, Position, Color.White);
+                    spriteBatch.Draw(buttonImage, Position + offset, Color.White);
             }
         }
     }

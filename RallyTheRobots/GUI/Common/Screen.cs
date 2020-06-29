@@ -21,6 +21,7 @@ namespace RallyTheRobots
         protected ButtonAreaList _buttonAreaList;
         protected ScreenManager _screenManager;
         protected ButtonArea _focusedAtEnterButtonArea;
+
         public Screen(ScreenManager screenManager)
         {
             _screenManager = screenManager;
@@ -47,6 +48,28 @@ namespace RallyTheRobots
             _timeoutScreen = changeToScreen;
             _timeoutSeconds = seconds;
         }
+        public virtual void SetScrollable(bool scrollable)
+        {
+            _buttonAreaList.Scrollable = scrollable;
+        }
+        public virtual void SetScrollVisbleSize(Vector2 scrollVisibleSize)
+        {
+            _buttonAreaList.ScrollVisibleSize = scrollVisibleSize;
+        }
+        public virtual void SetScrollCurrentOffset(Vector2 scrollCurrentOffset)
+        {
+            _buttonAreaList.ScrollCurrentOffset = scrollCurrentOffset;
+        }
+        public virtual void AddScrollUp(ButtonArea aButtonArea)
+        {
+            _buttonAreaList.AddScrollUp(aButtonArea);
+        }
+
+        public virtual void AddScrollDown(ButtonArea aButtonArea)
+        {
+            _buttonAreaList.AddScrollDown(aButtonArea);
+        }
+
         public virtual void AddButtonArea(ButtonArea buttonArea)
         {
             _buttonAreaList.Add(buttonArea);
