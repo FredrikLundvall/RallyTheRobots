@@ -13,14 +13,10 @@ namespace RallyTheRobots
     public class ButtonArea
     {
         protected readonly ContentManager _contentManager;
-        //protected Texture2D _idleImage;
-        protected string _idleImageName;
-        //protected Texture2D _disabledImage;
-        protected string _disabledImageName;
-        //protected Texture2D _focusedImage;
-        protected string _focusedImageName;
-        //protected Texture2D _selectedImage;
-        protected string _selectedImageName;
+        protected List<string> _idleImageName = new List<string>();
+        protected List<string> _disabledImageName = new List<string>();
+        protected List<string> _focusedImageName = new List<string>();
+        protected List<string> _selectedImageName = new List<string>();
         public Vector2 Position;
         public bool Visible = true;
         public bool Disabled = false;
@@ -34,25 +30,25 @@ namespace RallyTheRobots
         {
             _contentManager = contentManager;
         }
-        public virtual void SetIdleImage(string imageName)
+        public virtual void AddIdleImage(string imageName)
         {
-            _idleImageName = imageName;
-            _contentManager.AddImage(_idleImageName);
+            _idleImageName.Add(imageName);
+            _contentManager.AddImage(imageName);
         }
-        public virtual void SetFocusedImage(string imageName)
+        public virtual void AddFocusedImage(string imageName)
         {
-            _focusedImageName = imageName;
-            _contentManager.AddImage(_focusedImageName);
+            _focusedImageName.Add(imageName);
+            _contentManager.AddImage(imageName);
         }
-        public virtual void SetSelectedImage(string imageName)
+        public virtual void AddSelectedImage(string imageName)
         {
-            _selectedImageName = imageName;
-            _contentManager.AddImage(_selectedImageName);
+            _selectedImageName.Add(imageName);
+            _contentManager.AddImage(imageName);
         }
-        public virtual void SetDisabledImage(string imagePath)
+        public virtual void AddDisabledImage(string imageName)
         {
-            _disabledImageName = imagePath;
-            _contentManager.AddImage(_disabledImageName);
+            _disabledImageName.Add(imageName);
+            _contentManager.AddImage(imageName);
         }
         public virtual void SetButtonAction(ButtonAction buttonAction)
         {
@@ -61,29 +57,39 @@ namespace RallyTheRobots
         public virtual void LoadContent(GraphicsDevice graphicsDevice)
         {
         }
-        protected virtual Texture2D GetCurrentImage()
+        protected virtual List<string> GetCurrentImageNameList()
         {
-            Texture2D buttonImage = null;
+            List<string> buttonImageNameList = null;
             if (Visible)
             {
                 if (Disabled)
-                    buttonImage = _contentManager.GetImage(_disabledImageName);
+                    buttonImageNameList = _disabledImageName;
                 else if (Status == ButtonStatusEnum.Focused)
-                    buttonImage = _contentManager.GetImage(_focusedImageName);
+                    buttonImageNameList = _focusedImageName;
                 else if (Status == ButtonStatusEnum.Selected)
-                    buttonImage = _contentManager.GetImage(_selectedImageName);
-                if(buttonImage == null)
-                    buttonImage = _contentManager.GetImage(_idleImageName);
+                    buttonImageNameList = _selectedImageName;
+                if(buttonImageNameList == null)
+                    buttonImageNameList = _idleImageName;
             }
-            return buttonImage;
+            return buttonImageNameList;
         }
         public virtual Vector2 GetSize()
         {
-            Texture2D buttonImage = GetCurrentImage();
-            if (buttonImage != null)
-                return new Vector2(buttonImage.Width, buttonImage.Height);
-            else
-                return new Vector2(0, 0);
+            Vector2 size = new Vector2(0, 0);
+            List<string> currentImageNameList = GetCurrentImageNameList();
+            if (currentImageNameList != null)
+            {
+                foreach (string name in currentImageNameList)
+                {
+                    Texture2D buttonImage = _contentManager.GetImage(name);
+                    if (buttonImage != null)
+                    {
+                        size.Y = (buttonImage.Height > size.Y) ? buttonImage.Height : size.Y;
+                        size.X = size.X + buttonImage.Width;
+                    }
+                }
+            }
+            return size;
         }
         public virtual void Initialize()
         {
@@ -105,9 +111,20 @@ namespace RallyTheRobots
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
-            Texture2D buttonImage = GetCurrentImage();
-            if(buttonImage != null)
-                spriteBatch.Draw(buttonImage, Position + offset, Color.White);
+            Vector2 imageOffset = new Vector2(0, 0);
+            List<string> currentImageNameList = GetCurrentImageNameList();
+            if (currentImageNameList != null)
+            {
+                foreach (string name in currentImageNameList)
+                {
+                    Texture2D buttonImage = _contentManager.GetImage(name);
+                    if (buttonImage != null)
+                    {
+                        spriteBatch.Draw(buttonImage, Position + offset + imageOffset, Color.White);
+                        imageOffset.X = imageOffset.X + buttonImage.Width;
+                    }
+                }
+            }
         }
     }
 }

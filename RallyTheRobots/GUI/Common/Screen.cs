@@ -12,7 +12,6 @@ namespace RallyTheRobots
         const double FOCUS_CHANGE_TIME = 0.4;
         protected readonly ContentManager _contentManager;
         protected Vector2 _zeroPosition;
-        //protected Texture2D _background;
         protected string _backgroundName;
         protected Screen _anyButtonScreen;
         protected Screen _timeoutScreen;
