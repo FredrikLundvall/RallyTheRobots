@@ -106,6 +106,10 @@ namespace RallyTheRobots
             if (!manager.ButtonForSelectIsHeldDown && InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
                 SelectFocusedButtonArea(gameTime);
 
+            ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea();
+            if(mouseOverButtonArea != null)
+                SetFocusedButtonArea(mouseOverButtonArea);
+
             _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
         }
         protected virtual void FocusPreviousButtonArea(GameTime gameTime)

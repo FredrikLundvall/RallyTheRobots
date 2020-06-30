@@ -76,7 +76,6 @@ namespace RallyTheRobots
                     }
                 }
             }
-
             return previousButton;
         }
 
@@ -105,7 +104,6 @@ namespace RallyTheRobots
                     }
                 }
             }
-
             return nextButton;
         }
 
@@ -121,6 +119,19 @@ namespace RallyTheRobots
                 }
             }
             return selectedIndex;
+        }
+
+        public virtual ButtonArea GetMouseOverButtonArea()
+        {
+            foreach (ButtonArea button in _buttonAreaList)
+            {
+                if (button.Visible && !button.Disabled)
+                {
+                    if(InputChecker.MouseIsCurrentlyOverButtonArea(button, ScrollCurrentOffset))
+                        return button;
+                }
+            }
+            return null;
         }
 
         public virtual ButtonArea GetSelectedOrFocusedButtonArea(ButtonArea selectedButton)

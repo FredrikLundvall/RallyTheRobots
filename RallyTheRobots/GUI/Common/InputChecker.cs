@@ -30,5 +30,11 @@ namespace RallyTheRobots
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
+        public static bool MouseIsCurrentlyOverButtonArea(ButtonArea buttonArea, Vector2 offset)
+        {
+            Point mousePosition = Mouse.GetState().Position;
+            Vector2 buttonAreaSize = buttonArea.GetSize();
+            return mousePosition.X >= buttonArea.Position.X + offset.X && mousePosition.X <= buttonArea.Position.X + offset.X + buttonAreaSize.X && mousePosition.Y >= buttonArea.Position.Y + offset.Y && mousePosition.Y <= buttonArea.Position.Y + offset.Y + buttonAreaSize.Y;
+        }
     }
 }
