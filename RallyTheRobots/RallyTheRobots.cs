@@ -12,17 +12,19 @@ namespace RallyTheRobots
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ContentManager contentManager;
         ScreenManager screenManager;
         GameSettings settings;
         GameStatus gameStatus;
-        IResolution _resolution;
+        IResolution resolution;
 
         public RallyTheRobots()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             settings = new GameSettings();
-            screenManager = new RallyTheRobotsScreenManager();
+            contentManager = new ContentManager();
+            screenManager = new RallyTheRobotsScreenManager(contentManager);
             gameStatus = new GameStatus();
             graphics.HardwareModeSwitch = true;
 
@@ -31,9 +33,9 @@ namespace RallyTheRobots
 
             // Change Virtual Resolution 
 #if DEBUG         
-            _resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), false, true);
+            resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), false, true);
 #else
-            _resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.Fullscreen, true);
+            resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.Fullscreen, true);
 #endif
 
             IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
@@ -63,6 +65,7 @@ namespace RallyTheRobots
 
             // TODO: use this.Content to load your game content here
             screenManager.LoadContent(GraphicsDevice);
+            contentManager.LoadContent(GraphicsDevice);
         }
 
         /// <summary>

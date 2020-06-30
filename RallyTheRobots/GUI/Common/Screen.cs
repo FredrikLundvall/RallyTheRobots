@@ -52,10 +52,10 @@ namespace RallyTheRobots
         {
             _buttonAreaList.Scrollable = scrollable;
         }
-        public virtual void SetScrollVisbleSize(Vector2 scrollVisibleSize)
-        {
-            _buttonAreaList.ScrollVisibleSize = scrollVisibleSize;
-        }
+        //public virtual void SetScrollVisbleSize(Vector2 scrollVisibleSize)
+        //{
+        //    _buttonAreaList.ScrollVisibleSize = scrollVisibleSize;
+        //}
         public virtual void SetScrollCurrentOffset(Vector2 scrollCurrentOffset)
         {
             _buttonAreaList.ScrollCurrentOffset = scrollCurrentOffset;

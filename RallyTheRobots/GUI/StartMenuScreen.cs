@@ -36,6 +36,7 @@ namespace RallyTheRobots
             exitButton.SetFocusedImage("Content\\startmenu_exit_focused.png");
             exitButton.Position = new Vector2(83, 905);
             exitButton.SetButtonAction(new ExitToDesktopButtonAction());
+            //exitButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(exitButton);
             SetFocusedButtonArea(continueGameButton);
             base.Initialize();

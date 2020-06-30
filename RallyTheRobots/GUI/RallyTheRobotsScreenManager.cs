@@ -8,6 +8,7 @@ namespace RallyTheRobots
 {
     public class RallyTheRobotsScreenManager : ScreenManager
     {
+        public RallyTheRobotsScreenManager(ContentManager contentManager): base(contentManager) { }
         public override void Initialize()
         {
             AddScreen(new StartupScreen(this));

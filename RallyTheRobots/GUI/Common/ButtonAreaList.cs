@@ -12,7 +12,6 @@ namespace RallyTheRobots
     {
         protected List<ButtonArea> _buttonAreaList = new List<ButtonArea>(30);
         public bool Scrollable = false;
-        public Vector2 ScrollVisibleSize = new Vector2(0,0);
         public Vector2 ScrollCurrentOffset = new Vector2(0, 0);
         protected ButtonArea _scrollUpButtonArea;
         protected ButtonArea _scrollDownButtonArea;
@@ -38,6 +37,10 @@ namespace RallyTheRobots
             {
                 button.LoadContent(graphicsDevice);
             }
+            if(_scrollDownButtonArea != null)
+                _scrollDownButtonArea.LoadContent(graphicsDevice);
+            if (_scrollUpButtonArea != null)
+                _scrollUpButtonArea.LoadContent(graphicsDevice);
         }
 
         public virtual ButtonArea GetPreviousButtonArea()
@@ -53,6 +56,8 @@ namespace RallyTheRobots
             }
             if (previousButton == null)
             {
+                //Reset offset
+                ScrollCurrentOffset = new Vector2(0, 0);
                 //Find the first button from the end that´s visible and enabled
                 for (int i = _buttonAreaList.Count - 1; i >= 0; i--)
                 {
@@ -80,6 +85,8 @@ namespace RallyTheRobots
             }
             if (nextButton == null)
             {
+                //Reset offset
+                ScrollCurrentOffset = new Vector2(0, 0);
                 //Find the first button from the start that´s visible and enabled
                 for (int i = 0; i < _buttonAreaList.Count; i++)
                 {
@@ -138,19 +145,25 @@ namespace RallyTheRobots
         {
             if (Scrollable)
             {
+                _scrollDownButtonArea.Visible = false;
+                _scrollUpButtonArea.Visible = false;
+                if (_buttonAreaList[_buttonAreaList.Count - 1].Position.Y + _buttonAreaList[_buttonAreaList.Count - 1].GetSize().Y + ScrollCurrentOffset.Y >= _scrollDownButtonArea.Position.Y)
+                    _scrollDownButtonArea.Visible = true;
+                if (_buttonAreaList[0].Position.Y + ScrollCurrentOffset.Y <= _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y)
+                    _scrollUpButtonArea.Visible = true;
                 int focusedIndex = GetFocusedButtonAreaIndex(true);
                 if (focusedIndex >= 0)
                 {
                     ButtonArea focusedButton = _buttonAreaList[focusedIndex];
                     if (focusedButton != null)
                     {
-                        if (focusedButton.Position.Y + focusedButton.GetSize().Y + ScrollCurrentOffset.Y > ScrollVisibleSize.Y)
+                        if (focusedButton.Position.Y + focusedButton.GetSize().Y + ScrollCurrentOffset.Y >= _scrollDownButtonArea.Position.Y)
                         {
                             ButtonArea aboveFocusedButton = _buttonAreaList[focusedIndex - 1];
                             //Scroll down
                             ScrollCurrentOffset.Y -= (focusedButton.Position.Y + focusedButton.GetSize().Y) - (aboveFocusedButton.Position.Y + aboveFocusedButton.GetSize().Y);
                         }
-                        else if (focusedButton.Position.Y + ScrollCurrentOffset.Y < 0)
+                        else if (focusedButton.Position.Y + ScrollCurrentOffset.Y < _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y)
                         {
                             ButtonArea belowFocusedButton = _buttonAreaList[focusedIndex + 1];
                             //Scroll up
@@ -171,16 +184,24 @@ namespace RallyTheRobots
 
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {
-            foreach (ButtonArea button in _buttonAreaList)
+            if (Scrollable)
             {
-                if (Scrollable)
+                foreach (ButtonArea button in _buttonAreaList)
                 {
-                    if (button.Position.Y + button.GetSize().Y + ScrollCurrentOffset.Y <= ScrollVisibleSize.Y && button.Position.Y + ScrollCurrentOffset.Y >= 0)
+                    if (button.Position.Y + button.GetSize().Y + ScrollCurrentOffset.Y < _scrollDownButtonArea.Position.Y && button.Position.Y + ScrollCurrentOffset.Y > _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y)
                         button.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, ScrollCurrentOffset);
                 }
-                else
-                    button.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, ScrollCurrentOffset);
+                _scrollUpButtonArea.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, new Vector2(0, 0));
+                _scrollDownButtonArea.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, new Vector2(0, 0));
             }
+            else
+            {
+                foreach (ButtonArea button in _buttonAreaList)
+                {
+                    button.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, ScrollCurrentOffset);
+                }
+            }
+
         }
 
     }
