@@ -6,10 +6,10 @@ namespace RallyTheRobots
 {
     public class StartupScreen : Screen
     {
-        public StartupScreen(ScreenManager screenManager) : base(screenManager) { }
+        public StartupScreen(ContentManager contentManager, ScreenManager screenManager) : base(contentManager, screenManager) { }
         public override void Initialize()
         {
-            AddBackground("Content\\startup.png");
+            AddBackground("startup.png");
             ScreenChangeOnTimeout(_screenManager.GetScreen<SplashScreen>(), 1.0);
             base.Initialize();
         }

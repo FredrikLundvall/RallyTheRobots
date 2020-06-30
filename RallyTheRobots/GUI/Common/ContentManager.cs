@@ -2,22 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RallyTheRobots
 {
     public class ContentManager
     {
+        List<string> _imageNameList = new List<string>();
         Dictionary<string, Texture2D> _imageList = new Dictionary<string, Texture2D>();
         public void AddImage(string name)
         {
-            _imageList.Add(name, null);
+            _imageNameList.Add(name);
         }
         public Texture2D GetImage(string name)
         {
-            _imageList.TryGetValue(name, out Texture2D image);
+            Texture2D image = null;
+            if (name != null)
+                _imageList.TryGetValue(name, out image);
             return image;
         }
         public virtual void Initialize()
@@ -26,7 +26,7 @@ namespace RallyTheRobots
         public virtual void LoadContent(GraphicsDevice graphicsDevice)
         {
             FileStream tempstream;
-            foreach (string name in _imageList.Keys)
+            foreach (string name in _imageNameList)
             {
                 if (name != "" & File.Exists("Content\\" + name))
                 {

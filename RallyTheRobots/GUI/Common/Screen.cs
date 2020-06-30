@@ -10,34 +10,38 @@ namespace RallyTheRobots
     public class Screen
     {
         const double FOCUS_CHANGE_TIME = 0.4;
+        protected readonly ContentManager _contentManager;
         protected Vector2 _zeroPosition;
-        protected Texture2D _background;
-        protected string _backgroundPath;
+        //protected Texture2D _background;
+        protected string _backgroundName;
         protected Screen _anyButtonScreen;
         protected Screen _timeoutScreen;
         protected double _timeoutSeconds;
         protected TimeSpan _totalGameTimeEnter;
         protected TimeSpan _totalGameTimeFocusChange;
         protected ButtonAreaList _buttonAreaList;
-        protected ScreenManager _screenManager;
+        protected readonly ScreenManager _screenManager;
         protected ButtonArea _focusedAtEnterButtonArea;
 
-        public Screen(ScreenManager screenManager)
+        public Screen(ContentManager contentManager, ScreenManager screenManager)
         {
+            _contentManager = contentManager;
             _screenManager = screenManager;
             _zeroPosition = new Vector2(0, 0);
             _buttonAreaList = new ButtonAreaList();
         }
         public virtual void Initialize()
         {
+            _buttonAreaList.Initialize();
         }
         public virtual void SetFocusedAtEnterButtonArea(ButtonArea focusedButton)
         {
             _focusedAtEnterButtonArea = focusedButton;
         }
-        public virtual void AddBackground(string backgroundPath)
+        public virtual void AddBackground(string backgroundName)
         {
-            _backgroundPath = backgroundPath;
+            _backgroundName = backgroundName;
+            _contentManager.AddImage(_backgroundName);
         }
         public virtual void ScreenChangeOnAnyButton(Screen changeToScreen)
         {
@@ -52,10 +56,6 @@ namespace RallyTheRobots
         {
             _buttonAreaList.Scrollable = scrollable;
         }
-        //public virtual void SetScrollVisbleSize(Vector2 scrollVisibleSize)
-        //{
-        //    _buttonAreaList.ScrollVisibleSize = scrollVisibleSize;
-        //}
         public virtual void SetScrollCurrentOffset(Vector2 scrollCurrentOffset)
         {
             _buttonAreaList.ScrollCurrentOffset = scrollCurrentOffset;
@@ -64,25 +64,16 @@ namespace RallyTheRobots
         {
             _buttonAreaList.AddScrollUp(aButtonArea);
         }
-
         public virtual void AddScrollDown(ButtonArea aButtonArea)
         {
             _buttonAreaList.AddScrollDown(aButtonArea);
         }
-
         public virtual void AddButtonArea(ButtonArea buttonArea)
         {
             _buttonAreaList.Add(buttonArea);
         }
         public virtual void LoadContent(GraphicsDevice graphicsDevice)
         {
-            FileStream tempstream;
-            if (_backgroundPath != "" & File.Exists(_backgroundPath))
-            {
-                tempstream = new FileStream(_backgroundPath, FileMode.Open);
-                _background = Texture2D.FromStream(graphicsDevice, tempstream);
-                tempstream.Close();
-            }
             _buttonAreaList.LoadContent(graphicsDevice);
         }
         public virtual void EnterScreen(GameTime gameTime)
@@ -160,8 +151,9 @@ namespace RallyTheRobots
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {
-            if(_background != null)
-                spriteBatch.Draw(_background, _zeroPosition, Color.White);
+            Texture2D background = _contentManager.GetImage(_backgroundName);
+            if (background != null)
+                spriteBatch.Draw(background, _zeroPosition, Color.White);
             _buttonAreaList.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch);
         }
     }

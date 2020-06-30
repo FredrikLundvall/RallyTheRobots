@@ -7,13 +7,13 @@ namespace RallyTheRobots
 {
     public class ScreenManager
     {
-        public readonly ContentManager ContentManager;
+        protected readonly ContentManager _contentManager;
         protected Screen _currentScreen;
         protected List<Screen> _screenList= new List<Screen>(20);
         public bool ButtonForSelectIsHeldDown = false;
         public ScreenManager(ContentManager contentManager)
         {
-            ContentManager = contentManager;
+            _contentManager = contentManager;
         }
         public virtual void AddScreen(Screen aScreen)
         {
@@ -21,7 +21,6 @@ namespace RallyTheRobots
         }
         public virtual void Initialize()
         {
-            ContentManager.Initialize();
             InitializeScreens();
             //Setup the starting screen
             _currentScreen = _screenList[0];
@@ -45,7 +44,6 @@ namespace RallyTheRobots
         }
         public virtual void LoadContent(GraphicsDevice graphicsDevice)
         {
-            ContentManager.LoadContent(graphicsDevice);
             foreach (Screen screen in _screenList)
             {
                 screen.LoadContent(graphicsDevice);

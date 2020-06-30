@@ -20,17 +20,25 @@ namespace RallyTheRobots
         {
             _buttonAreaList.Add(aButtonArea);
         }
-
         public virtual void AddScrollUp(ButtonArea aButtonArea)
         {
             _scrollUpButtonArea = aButtonArea;
         }
-
         public virtual void AddScrollDown(ButtonArea aButtonArea)
         {
             _scrollDownButtonArea = aButtonArea;
         }
-
+        public virtual void Initialize()
+        {
+            foreach (ButtonArea button in _buttonAreaList)
+            {
+                button.Initialize();
+            }
+            if (_scrollUpButtonArea != null)
+                _scrollUpButtonArea.Visible = false;
+            if (_scrollDownButtonArea != null)
+                _scrollDownButtonArea.Visible = false;
+        }
         public virtual void LoadContent(GraphicsDevice graphicsDevice)
         {
             foreach (ButtonArea button in _buttonAreaList)

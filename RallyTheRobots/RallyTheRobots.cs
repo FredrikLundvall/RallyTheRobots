@@ -64,8 +64,8 @@ namespace RallyTheRobots
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            screenManager.LoadContent(GraphicsDevice);
             contentManager.LoadContent(GraphicsDevice);
+            screenManager.LoadContent(GraphicsDevice);
         }
 
         /// <summary>

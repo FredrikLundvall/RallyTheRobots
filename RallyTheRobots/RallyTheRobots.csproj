@@ -44,7 +44,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ContentManager.cs" />
+    <Compile Include="GUI\Common\ContentManager.cs" />
     <Compile Include="GUI\Common\ButtonAction.cs" />
     <Compile Include="GUI\Common\ButtonArea.cs" />
     <Compile Include="GUI\Common\ButtonAreaList.cs" />
