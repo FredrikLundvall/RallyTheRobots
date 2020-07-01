@@ -2,18 +2,21 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ResolutionBuddy;
 
 namespace RallyTheRobots
 {
     public class ScreenManager
     {
         protected readonly ContentManager _contentManager;
+        protected readonly IResolution _resolution;
         protected Screen _currentScreen;
         protected List<Screen> _screenList= new List<Screen>(20);
         public bool ButtonForSelectIsHeldDown = false;
-        public ScreenManager(ContentManager contentManager)
+        public ScreenManager(ContentManager contentManager, IResolution resolution)
         {
             _contentManager = contentManager;
+            _resolution = resolution;
         }
         public virtual void AddScreen(Screen aScreen)
         {

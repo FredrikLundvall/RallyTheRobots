@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using ResolutionBuddy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace RallyTheRobots
 {
     public class LoadMenuScreen : Screen
     {
-        public LoadMenuScreen(ContentManager contentManager, ScreenManager screenManager) : base(contentManager, screenManager) { }
+        public LoadMenuScreen(ContentManager contentManager, ScreenManager screenManager, IResolution resolution) : base(contentManager, screenManager, resolution) { }
         public override void Initialize()
         {
             //AddBackground("loadmenu.png");

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ResolutionBuddy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,14 +122,15 @@ namespace RallyTheRobots
             return selectedIndex;
         }
 
-        public virtual ButtonArea GetMouseOverButtonArea()
+        public virtual ButtonArea GetMouseOverButtonArea(GameTime gameTime, GameSettings gameSettings, IResolution resolution)
         {
             foreach (ButtonArea button in _buttonAreaList)
             {
                 if (button.Visible && !button.Disabled)
                 {
-                    if(InputChecker.MouseIsCurrentlyOverButtonArea(button, ScrollCurrentOffset))
-                        return button;
+                    if (!Scrollable || (button.Position.Y + button.GetSize().Y + ScrollCurrentOffset.Y < _scrollDownButtonArea.Position.Y && button.Position.Y + ScrollCurrentOffset.Y > _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y))
+                        if (InputChecker.MouseIsCurrentlyOverButtonArea(button, ScrollCurrentOffset, resolution))
+                            return button;
                 }
             }
             return null;
@@ -157,6 +159,14 @@ namespace RallyTheRobots
                 if (button == actualButton && button.Visible && !button.Disabled)
                     button.Status = newStatus;
                 else
+                    button.Status = ButtonStatusEnum.Idle;
+            }
+        }
+        public virtual void SetAllButtonAreasIdle()
+        {
+            foreach (ButtonArea button in _buttonAreaList)
+            {
+                if (button.Visible && !button.Disabled)
                     button.Status = ButtonStatusEnum.Idle;
             }
         }

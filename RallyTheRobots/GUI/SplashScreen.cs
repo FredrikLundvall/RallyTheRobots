@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ResolutionBuddy;
 
 namespace RallyTheRobots
 {
     public class SplashScreen : Screen
     {
-        public SplashScreen(ContentManager contentManager, ScreenManager screenManager) : base(contentManager, screenManager) {}
+        public SplashScreen(ContentManager contentManager, ScreenManager screenManager, IResolution resolution) : base(contentManager, screenManager, resolution) {}
         public override void Initialize()
         {
             AddBackground("splash.png");

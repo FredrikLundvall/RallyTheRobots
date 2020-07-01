@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ResolutionBuddy;
 
 namespace RallyTheRobots
 {
     public class StartMenuScreen : Screen
     {
-        public StartMenuScreen(ContentManager contentManager, ScreenManager screenManager) : base(contentManager, screenManager) { }
+        public StartMenuScreen(ContentManager contentManager, ScreenManager screenManager, IResolution resolution) : base(contentManager, screenManager, resolution) { }
         public override void Initialize()
         {
             AddBackground("startmenu.png");
@@ -36,7 +37,7 @@ namespace RallyTheRobots
             exitButton.AddFocusedImage("startmenu_exit_focused.png");
             exitButton.Position = new Vector2(83, 905);
             exitButton.SetButtonAction(new ExitToDesktopButtonAction());
-            exitButton.HasShortcutWithGoBackButton = true;
+            //exitButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(exitButton);
             SetFocusedButtonArea(continueGameButton);
             base.Initialize();

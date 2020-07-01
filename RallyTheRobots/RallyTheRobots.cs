@@ -22,23 +22,20 @@ namespace RallyTheRobots
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            settings = new GameSettings();
-            contentManager = new ContentManager();
-            screenManager = new RallyTheRobotsScreenManager(contentManager);
-            gameStatus = new GameStatus();
             graphics.HardwareModeSwitch = true;
-
             this.Window.IsBorderless = true;
             this.Window.Position = new Point(0, 0);
-
+            IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
             // Change Virtual Resolution 
 #if DEBUG         
             resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), false, true);
 #else
             resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.Fullscreen, true);
 #endif
-
-            IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
+            settings = new GameSettings();
+            contentManager = new ContentManager();
+            screenManager = new RallyTheRobotsScreenManager(contentManager, resolution);
+            gameStatus = new GameStatus();
         }
 
         /// <summary>

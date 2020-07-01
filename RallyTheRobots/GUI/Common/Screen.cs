@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ResolutionBuddy;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,7 @@ namespace RallyTheRobots
     {
         const double FOCUS_CHANGE_TIME = 0.4;
         protected readonly ContentManager _contentManager;
+        protected readonly IResolution _resolution;
         protected Vector2 _zeroPosition;
         protected string _backgroundName;
         protected Screen _anyButtonScreen;
@@ -22,9 +24,10 @@ namespace RallyTheRobots
         protected readonly ScreenManager _screenManager;
         protected ButtonArea _focusedAtEnterButtonArea;
 
-        public Screen(ContentManager contentManager, ScreenManager screenManager)
+        public Screen(ContentManager contentManager, ScreenManager screenManager, IResolution resolution)
         {
             _contentManager = contentManager;
+            _resolution = resolution;
             _screenManager = screenManager;
             _zeroPosition = new Vector2(0, 0);
             _buttonAreaList = new ButtonAreaList();
@@ -106,9 +109,15 @@ namespace RallyTheRobots
             if (!manager.ButtonForSelectIsHeldDown && InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
                 SelectFocusedButtonArea(gameTime);
 
-            ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea();
-            if(mouseOverButtonArea != null)
-                SetFocusedButtonArea(mouseOverButtonArea);
+            if(InputChecker.HasMouseMoved(gameTime, gameSettings))
+            {
+                ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea(gameTime, gameSettings, _resolution);
+                if (mouseOverButtonArea != null)
+                    SetFocusedButtonArea(mouseOverButtonArea);
+                else
+                    _buttonAreaList.SetAllButtonAreasIdle();
+            }
+
 
             _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
         }
