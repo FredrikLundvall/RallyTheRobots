@@ -11,7 +11,26 @@ namespace RallyTheRobots
 {
     public static class InputChecker
     {
+        private static Point _currentMousePosition;
         private static Point _oldMousePosition;
+        private static int _currentScrollWheelValue;
+        private static int _oldScrollWheelValue;
+        //TODO: Make a beforeUpdate, afterUpdate and initialize to be able to have control over the state and "events"
+        public static void Initialize()
+        {
+            _oldScrollWheelValue = Mouse.GetState().ScrollWheelValue;
+            _oldMousePosition = Mouse.GetState().Position;
+        }
+        public static void BeforeUpdate(GameTime gameTime, GameSettings gameSettings)
+        {
+            _currentScrollWheelValue = Mouse.GetState().ScrollWheelValue;
+            _currentMousePosition = Mouse.GetState().Position;
+        }
+        public static void AfterUpdate(GameTime gameTime, GameSettings gameSettings)
+        {
+            _oldScrollWheelValue = _currentScrollWheelValue;
+            _oldMousePosition = _currentMousePosition;
+        }
         public static bool ButtonForSelectIsCurrentlyPressed(GameSettings gameSettings)
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3 || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.E) || Mouse.GetState().LeftButton == ButtonState.Pressed;
@@ -34,21 +53,26 @@ namespace RallyTheRobots
         }
         public static bool HasMouseMoved(GameTime gameTime, GameSettings gameSettings)
         {
-            Point mousePosition = Mouse.GetState().Position;
-            if (_oldMousePosition != mousePosition)
-            {
-                _oldMousePosition = mousePosition;
-                return true;
-            }
-            else
-                return false;
+            return _oldMousePosition != _currentMousePosition;
         }
         public static bool MouseIsCurrentlyOverButtonArea(ButtonArea buttonArea, Vector2 offset, IResolution resolution)
         {
-            Point mouseScreenPosition = Mouse.GetState().Position;
+            Point mouseScreenPosition = _currentMousePosition;
             Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
             Vector2 buttonAreaSize = buttonArea.GetSize();
             return mousePosition.X >= buttonArea.Position.X + offset.X && mousePosition.X <= buttonArea.Position.X + offset.X + buttonAreaSize.X && mousePosition.Y >= buttonArea.Position.Y + offset.Y && mousePosition.Y <= buttonArea.Position.Y + offset.Y + buttonAreaSize.Y;
+        }
+        public static bool HasMouseWheelMoved()
+        {
+            return _currentScrollWheelValue != _oldScrollWheelValue;
+        }
+        public static bool MouseWheelUpIsCurrentlyTurned()
+        {
+            return _currentScrollWheelValue > _oldScrollWheelValue;
+        }
+        public static bool MouseWheelDownIsCurrentlyTurned()
+        {
+            return _currentScrollWheelValue < _oldScrollWheelValue;
         }
     }
 }

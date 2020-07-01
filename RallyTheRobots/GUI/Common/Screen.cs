@@ -65,11 +65,13 @@ namespace RallyTheRobots
         public virtual void AddScrollUp(ButtonArea aButtonArea)
         {
             aButtonArea.SetButtonAction(new ScrollUpAction());
+            aButtonArea.HasShortcutWithMouseWheelUp = true;
             _buttonAreaList.AddScrollUp(aButtonArea);
         }
         public virtual void AddScrollDown(ButtonArea aButtonArea)
         {
             aButtonArea.SetButtonAction(new ScrollDownAction());
+            aButtonArea.HasShortcutWithMouseWheelDown = true;
             _buttonAreaList.AddScrollDown(aButtonArea);
         }
         public virtual void AddButtonArea(ButtonArea buttonArea)
@@ -94,7 +96,7 @@ namespace RallyTheRobots
         }
         public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            if (!InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings))
+            if (!InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings) && !InputChecker.MouseWheelUpIsCurrentlyTurned() && !InputChecker.MouseWheelDownIsCurrentlyTurned())
                 manager.ButtonForSelectIsHeldDown = false;
             if (!manager.ButtonForSelectIsHeldDown && _anyButtonScreen != null && InputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
                 manager.ChangeScreen(gameTime, _anyButtonScreen);
@@ -111,7 +113,8 @@ namespace RallyTheRobots
             if (!manager.ButtonForSelectIsHeldDown && InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
                 SelectFocusedButtonArea(gameTime);
 
-            if(InputChecker.HasMouseMoved(gameTime, gameSettings))
+            _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
+            if(InputChecker.HasMouseMoved(gameTime, gameSettings) || InputChecker.HasMouseWheelMoved())
             {
                 ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea(gameTime, gameSettings, _resolution);
                 if (mouseOverButtonArea != null)
@@ -119,7 +122,6 @@ namespace RallyTheRobots
                 else
                     _buttonAreaList.SetAllButtonAreasIdle();
             }
-            _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
         }
         protected virtual void FocusPreviousButtonArea(GameTime gameTime)
         {
@@ -138,17 +140,10 @@ namespace RallyTheRobots
         public virtual void ScrollDownButtonArea(GameTime gameTime)
         {
             _buttonAreaList.ScrollDown();
-           // SetFocusedButtonArea(focusedButton: _buttonAreaList.GetOneAboveVisibleButtonArea());
         }
         public virtual void ScrollUpButtonArea(GameTime gameTime)
         {
             _buttonAreaList.ScrollUp();
-            //SetFocusedButtonArea(_buttonAreaList.GetOneBelowVisibleButtonArea());
-            //if (Scrollable)
-            //{
-            //    int focusedIndex = GetFocusedButtonAreaIndex(true);
-            //    CheckIfScrollUpOrDown(focusedIndex);
-            //}
         }
         protected virtual void ChangeSelectedButtonAreaToFocused(GameTime gameTime)
         {
@@ -164,7 +159,6 @@ namespace RallyTheRobots
             if (focusedButton != null)
                 SetSelectedButtonArea(focusedButton);
         }
-
         public virtual void SetFocusedButtonArea(ButtonArea focusedButton)
         {
             _buttonAreaList.SetStatusButtonArea(focusedButton, ButtonStatusEnum.Focused);

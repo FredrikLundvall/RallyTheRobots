@@ -24,6 +24,7 @@ namespace RallyTheRobots
         }
         public virtual void Initialize()
         {
+            InputChecker.Initialize();
             InitializeScreens();
             //Setup the starting screen
             _currentScreen = _screenList[0];
@@ -54,7 +55,9 @@ namespace RallyTheRobots
         }
         public virtual void Update(GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
+            InputChecker.BeforeUpdate(gameTime, gameSettings);
             _currentScreen.Update(this, gameTime, gameSettings, gameStatus);
+            InputChecker.AfterUpdate(gameTime, gameSettings);
         }
         public virtual void ChangeScreen(GameTime gameTime, Screen newScreen)
         {

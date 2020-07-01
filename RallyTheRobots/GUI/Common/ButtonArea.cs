@@ -22,9 +22,10 @@ namespace RallyTheRobots
         public bool Disabled = false;
         //Maybe move this functionality to the screen (only one shortcut with GoBackButton per screen is probably a requirement)
         public bool HasShortcutWithGoBackButton = false;
+        public bool HasShortcutWithMouseWheelUp = false;
+        public bool HasShortcutWithMouseWheelDown = false;
         public ButtonStatusEnum Status = ButtonStatusEnum.Idle;
         protected ButtonAction _buttonAction = ButtonAction.GetEmptyButtonAction();
-
 
         public ButtonArea(ContentManager contentManager)
         {
@@ -97,10 +98,10 @@ namespace RallyTheRobots
         public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             //Check if the button was released between the last triggering of DoAction
-            //Move the _buttonIsHeldDown to the ScreenManager to keep it between screens
-            if (InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)))
+            //TODO: Move the _buttonIsHeldDown to the ScreenManager to keep it between screens
+            if (InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && InputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && InputChecker.MouseWheelDownIsCurrentlyTurned()))
             {
-                if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings))))
+                if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && InputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && InputChecker.MouseWheelDownIsCurrentlyTurned())))
                 {
                     manager.ButtonForSelectIsHeldDown = true;
                     _buttonAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
