@@ -64,10 +64,12 @@ namespace RallyTheRobots
         }
         public virtual void AddScrollUp(ButtonArea aButtonArea)
         {
+            aButtonArea.SetButtonAction(new ScrollUpAction());
             _buttonAreaList.AddScrollUp(aButtonArea);
         }
         public virtual void AddScrollDown(ButtonArea aButtonArea)
         {
+            aButtonArea.SetButtonAction(new ScrollDownAction());
             _buttonAreaList.AddScrollDown(aButtonArea);
         }
         public virtual void AddButtonArea(ButtonArea buttonArea)
@@ -117,8 +119,6 @@ namespace RallyTheRobots
                 else
                     _buttonAreaList.SetAllButtonAreasIdle();
             }
-
-
             _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
         }
         protected virtual void FocusPreviousButtonArea(GameTime gameTime)
@@ -128,7 +128,6 @@ namespace RallyTheRobots
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
             SetFocusedButtonArea(_buttonAreaList.GetPreviousButtonArea());
         }
-
         protected virtual void FocusNextButtonArea(GameTime gameTime)
         {
             if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
@@ -136,7 +135,21 @@ namespace RallyTheRobots
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
             SetFocusedButtonArea(_buttonAreaList.GetNextButtonArea());
         }
-
+        public virtual void ScrollDownButtonArea(GameTime gameTime)
+        {
+            _buttonAreaList.ScrollDown();
+           // SetFocusedButtonArea(focusedButton: _buttonAreaList.GetOneAboveVisibleButtonArea());
+        }
+        public virtual void ScrollUpButtonArea(GameTime gameTime)
+        {
+            _buttonAreaList.ScrollUp();
+            //SetFocusedButtonArea(_buttonAreaList.GetOneBelowVisibleButtonArea());
+            //if (Scrollable)
+            //{
+            //    int focusedIndex = GetFocusedButtonAreaIndex(true);
+            //    CheckIfScrollUpOrDown(focusedIndex);
+            //}
+        }
         protected virtual void ChangeSelectedButtonAreaToFocused(GameTime gameTime)
         {
             ButtonArea selectedButton = null;
@@ -144,7 +157,6 @@ namespace RallyTheRobots
             if (selectedButton != null)
                 SetFocusedButtonArea(selectedButton);
         }
-
         protected virtual void SelectFocusedButtonArea(GameTime gameTime)
         {
             ButtonArea focusedButton = null;

@@ -53,6 +53,8 @@
     <Compile Include="GUI\Common\ExitToDesktopButtonAction.cs" />
     <Compile Include="GameStatus.cs" />
     <Compile Include="GUI\Common\InputChecker.cs" />
+    <Compile Include="GUI\Common\ScrollDownAction.cs" />
+    <Compile Include="GUI\Common\ScrollUpAction.cs" />
     <Compile Include="GUI\LoadMenuScreen.cs" />
     <Compile Include="GUI\RallyTheRobotsScreenManager.cs" />
     <Compile Include="RunningStatus.cs" />
