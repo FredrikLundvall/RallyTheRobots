@@ -96,12 +96,8 @@ namespace RallyTheRobots
         protected override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Resolution.TransformationMatrix());
-
             GraphicsDevice.Clear(Color.Black);
-
-            // TODO: Add your drawing code here
             screenManager.Draw(gameTime, GraphicsDevice, settings, spriteBatch);
-
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -69,7 +69,7 @@ namespace RallyTheRobots
                     buttonImageNameList = _focusedImageName;
                 else if (Status == ButtonStatusEnum.Selected)
                     buttonImageNameList = _selectedImageName;
-                if(buttonImageNameList == null)
+                if(buttonImageNameList == null || buttonImageNameList.Count == 0)
                     buttonImageNameList = _idleImageName;
             }
             return buttonImageNameList;

@@ -94,35 +94,6 @@ namespace RallyTheRobots
         public virtual void LeaveScreen()
         {
         }
-        public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
-        {
-            if (!InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings) && !InputChecker.MouseWheelUpIsCurrentlyTurned() && !InputChecker.MouseWheelDownIsCurrentlyTurned())
-                manager.ButtonForSelectIsHeldDown = false;
-            if (!manager.ButtonForSelectIsHeldDown && _anyButtonScreen != null && InputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
-                manager.ChangeScreen(gameTime, _anyButtonScreen);
-            if (_timeoutScreen != null & (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds) > _timeoutSeconds)
-                manager.ChangeScreen(gameTime, _timeoutScreen);
-
-            if (InputChecker.PreviousButtonIsCurrentlyPressed(gameSettings))
-                FocusPreviousButtonArea(gameTime);
-            else if (InputChecker.NextButtonIsCurrentlyPressed(gameSettings))
-                FocusNextButtonArea(gameTime);
-            else
-                _totalGameTimeFocusChange = new TimeSpan(0,0,0);
-
-            if (!manager.ButtonForSelectIsHeldDown && InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
-                SelectFocusedButtonArea(gameTime);
-
-            _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
-            if(InputChecker.HasMouseMoved(gameTime, gameSettings) || InputChecker.HasMouseWheelMoved())
-            {
-                ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea(gameTime, gameSettings, _resolution);
-                if (mouseOverButtonArea != null)
-                    SetFocusedButtonArea(mouseOverButtonArea);
-                else
-                    _buttonAreaList.SetAllButtonAreasIdle();
-            }
-        }
         protected virtual void FocusPreviousButtonArea(GameTime gameTime)
         {
             if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
@@ -166,6 +137,35 @@ namespace RallyTheRobots
         public virtual void SetSelectedButtonArea(ButtonArea selectedButton)
         {
             _buttonAreaList.SetStatusButtonArea(selectedButton, ButtonStatusEnum.Selected);
+        }
+        public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
+        {
+            if (!InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings) && !InputChecker.MouseWheelUpIsCurrentlyTurned() && !InputChecker.MouseWheelDownIsCurrentlyTurned())
+                manager.ButtonForSelectIsHeldDown = false;
+            if (!manager.ButtonForSelectIsHeldDown && _anyButtonScreen != null && InputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
+                manager.ChangeScreen(gameTime, _anyButtonScreen);
+            if (_timeoutScreen != null & (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds) > _timeoutSeconds)
+                manager.ChangeScreen(gameTime, _timeoutScreen);
+
+            if (InputChecker.PreviousButtonIsCurrentlyPressed(gameSettings))
+                FocusPreviousButtonArea(gameTime);
+            else if (InputChecker.NextButtonIsCurrentlyPressed(gameSettings))
+                FocusNextButtonArea(gameTime);
+            else
+                _totalGameTimeFocusChange = new TimeSpan(0, 0, 0);
+
+            if (!manager.ButtonForSelectIsHeldDown && InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
+                SelectFocusedButtonArea(gameTime);
+
+            _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
+            if (InputChecker.HasMouseMoved(gameTime, gameSettings) || InputChecker.HasMouseWheelMoved())
+            {
+                ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea(gameTime, gameSettings, _resolution);
+                if (mouseOverButtonArea != null)
+                    SetFocusedButtonArea(mouseOverButtonArea);
+                else
+                    _buttonAreaList.SetAllButtonAreasIdle();
+            }
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {
