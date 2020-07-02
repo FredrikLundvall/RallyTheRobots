@@ -11,23 +11,29 @@ namespace RallyTheRobots
 {
     public class ButtonAreaList
     {
+        internal InputChecker _inputChecker;
         protected List<ButtonArea> _buttonAreaList = new List<ButtonArea>(30);
         public bool Scrollable = false;
         public Vector2 ScrollCurrentOffset = new Vector2(0, 0);
         protected ButtonArea _scrollUpButtonArea;
         protected ButtonArea _scrollDownButtonArea;
 
-        public virtual void Add(ButtonArea aButtonArea)
+        internal void SetInputChecker(InputChecker inputChecker)
         {
-            _buttonAreaList.Add(aButtonArea);
+            if (_inputChecker == null)
+                _inputChecker = inputChecker;
         }
-        public virtual void AddScrollUp(ButtonArea aButtonArea)
+        public virtual void Add(ButtonArea buttonArea)
         {
-            _scrollUpButtonArea = aButtonArea;
+            _buttonAreaList.Add(buttonArea);
         }
-        public virtual void AddScrollDown(ButtonArea aButtonArea)
+        public virtual void AddScrollUp(ButtonArea buttonArea)
         {
-            _scrollDownButtonArea = aButtonArea;
+            _scrollUpButtonArea = buttonArea;
+        }
+        public virtual void AddScrollDown(ButtonArea buttonArea)
+        {
+            _scrollDownButtonArea = buttonArea;
         }
         public virtual void Initialize()
         {
@@ -36,9 +42,15 @@ namespace RallyTheRobots
                 button.Initialize();
             }
             if (_scrollUpButtonArea != null)
+            {
                 _scrollUpButtonArea.Visible = false;
+                _scrollUpButtonArea.Initialize();
+            }
             if (_scrollDownButtonArea != null)
+            {
                 _scrollDownButtonArea.Visible = false;
+                _scrollDownButtonArea.Initialize();
+            }
         }
         public virtual ButtonArea GetPreviousButtonArea()
         {
@@ -117,7 +129,7 @@ namespace RallyTheRobots
                 if (button.Visible && !button.Disabled)
                 {
                     if (!Scrollable || (button.Position.Y + button.GetSize().Y + ScrollCurrentOffset.Y < _scrollDownButtonArea.Position.Y && button.Position.Y + ScrollCurrentOffset.Y > _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y))
-                        if (InputChecker.MouseIsCurrentlyOverButtonArea(button, ScrollCurrentOffset, resolution))
+                        if (_inputChecker.MouseIsCurrentlyOverButtonArea(button, ScrollCurrentOffset, resolution))
                             return button;
                 }
             }
@@ -125,12 +137,12 @@ namespace RallyTheRobots
             {
                 if (_scrollUpButtonArea.Visible && !_scrollUpButtonArea.Disabled)
                 {
-                    if (InputChecker.MouseIsCurrentlyOverButtonArea(_scrollUpButtonArea, new Vector2(0, 0), resolution))
+                    if (_inputChecker.MouseIsCurrentlyOverButtonArea(_scrollUpButtonArea, new Vector2(0, 0), resolution))
                         return _scrollUpButtonArea;
                 }
                 if (_scrollDownButtonArea.Visible && !_scrollDownButtonArea.Disabled)
                 {
-                    if (InputChecker.MouseIsCurrentlyOverButtonArea(_scrollDownButtonArea, new Vector2(0, 0), resolution))
+                    if (_inputChecker.MouseIsCurrentlyOverButtonArea(_scrollDownButtonArea, new Vector2(0, 0), resolution))
                         return _scrollDownButtonArea;
                 }
             }
@@ -239,12 +251,16 @@ namespace RallyTheRobots
                     }
                 }
             }
-            _scrollDownButtonArea.Visible = false;
-            _scrollUpButtonArea.Visible = false;
             if (_buttonAreaList[_buttonAreaList.Count - 1].Position.Y + _buttonAreaList[_buttonAreaList.Count - 1].GetSize().Y + ScrollCurrentOffset.Y >= _scrollDownButtonArea.Position.Y)
                 _scrollDownButtonArea.Visible = true;
+            else
+                _scrollDownButtonArea.Visible = false;
+
             if (_buttonAreaList[0].Position.Y + ScrollCurrentOffset.Y <= _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y)
                 _scrollUpButtonArea.Visible = true;
+            else
+                _scrollUpButtonArea.Visible = false;
+
         }
         public virtual void Update(ScreenManager manager, Screen aScreen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {

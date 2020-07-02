@@ -7,7 +7,6 @@ namespace RallyTheRobots
 {
     public class SplashScreen : Screen
     {
-        public SplashScreen(ContentManager contentManager, ScreenManager screenManager, IResolution resolution) : base(contentManager, screenManager, resolution) {}
         public override void Initialize()
         {
             AddBackground("splash.png");

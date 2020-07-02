@@ -8,23 +8,41 @@ namespace RallyTheRobots
 {
     public class ScreenManager
     {
-        protected readonly ContentManager _contentManager;
-        protected readonly IResolution _resolution;
+        protected ContentManager _contentManager;
+        protected IResolution _resolution;
+        protected InputChecker _inputChecker;
         protected Screen _currentScreen;
         protected List<Screen> _screenList= new List<Screen>(20);
         public bool ButtonForSelectIsHeldDown = false;
-        public ScreenManager(ContentManager contentManager, IResolution resolution)
+        public ScreenManager()
         {
-            _contentManager = contentManager;
-            _resolution = resolution;
+        }
+        internal void SetContentManager(ContentManager contentManager)
+        {
+            if (_contentManager == null)
+                _contentManager = contentManager;
+        }
+        internal void SetResolution(IResolution resolution)
+        {
+            if (_resolution == null)
+                _resolution = resolution;
+        }
+        internal void SetInputChecker(InputChecker inputChecker)
+        {
+            if (_inputChecker == null)
+                _inputChecker = inputChecker;
         }
         public virtual void AddScreen(Screen aScreen)
         {
+            aScreen.SetContentManager(_contentManager);
+            aScreen.SetScreenManager(this);
+            aScreen.SetResolution(_resolution);
+            aScreen.SetInputChecker(_inputChecker);
             _screenList.Add(aScreen);
         }
         public virtual void Initialize()
         {
-            InputChecker.Initialize();
+            _inputChecker.Initialize();
             InitializeScreens();
             //Setup the starting screen
             _currentScreen = _screenList[0];
@@ -48,9 +66,9 @@ namespace RallyTheRobots
         }
         public virtual void Update(GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            InputChecker.BeforeUpdate(gameTime, gameSettings);
+            _inputChecker.BeforeUpdate(gameTime, gameSettings);
             _currentScreen.Update(this, gameTime, gameSettings, gameStatus);
-            InputChecker.AfterUpdate(gameTime, gameSettings);
+            _inputChecker.AfterUpdate(gameTime, gameSettings);
         }
         public virtual void ChangeScreen(GameTime gameTime, Screen newScreen)
         {

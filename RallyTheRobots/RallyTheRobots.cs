@@ -14,6 +14,7 @@ namespace RallyTheRobots
         SpriteBatch spriteBatch;
         ContentManager contentManager;
         ScreenManager screenManager;
+        InputChecker inputChecker;
         GameSettings settings;
         GameStatus gameStatus;
         IResolution resolution;
@@ -33,9 +34,13 @@ namespace RallyTheRobots
 #else
             resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.Fullscreen, true);
 #endif
-            settings = new GameSettings();
             contentManager = new ContentManager();
-            screenManager = new RallyTheRobotsScreenManager(contentManager, resolution);
+            inputChecker = new InputChecker();
+            screenManager = new RallyTheRobotsScreenManager();
+            screenManager.SetContentManager(contentManager);
+            screenManager.SetResolution(resolution);
+            screenManager.SetInputChecker(inputChecker);
+            settings = new GameSettings();
             gameStatus = new GameStatus();
         }
         /// <summary>
@@ -57,7 +62,6 @@ namespace RallyTheRobots
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
             contentManager.LoadContent(GraphicsDevice);
         }

@@ -12,7 +12,8 @@ namespace RallyTheRobots
 {
     public class ButtonArea
     {
-        protected readonly ContentManager _contentManager;
+        internal ContentManager _contentManager;
+        internal InputChecker _inputChecker;
         protected List<string> _idleImageName = new List<string>();
         protected List<string> _disabledImageName = new List<string>();
         protected List<string> _focusedImageName = new List<string>();
@@ -27,29 +28,31 @@ namespace RallyTheRobots
         public ButtonStatusEnum Status = ButtonStatusEnum.Idle;
         protected ButtonAction _buttonAction = ButtonAction.GetEmptyButtonAction();
 
-        public ButtonArea(ContentManager contentManager)
+        internal void SetContentManager(ContentManager contentManager)
         {
-            _contentManager = contentManager;
+            if (_contentManager == null)
+                _contentManager = contentManager;
+        }
+        internal void SetInputChecker(InputChecker inputChecker)
+        {
+            if (_inputChecker == null)
+                _inputChecker = inputChecker;
         }
         public virtual void AddIdleImage(string imageName)
         {
             _idleImageName.Add(imageName);
-            _contentManager.AddImage(imageName);
         }
         public virtual void AddFocusedImage(string imageName)
         {
             _focusedImageName.Add(imageName);
-            _contentManager.AddImage(imageName);
         }
         public virtual void AddSelectedImage(string imageName)
         {
             _selectedImageName.Add(imageName);
-            _contentManager.AddImage(imageName);
         }
         public virtual void AddDisabledImage(string imageName)
         {
             _disabledImageName.Add(imageName);
-            _contentManager.AddImage(imageName);
         }
         public virtual void SetButtonAction(ButtonAction buttonAction)
         {
@@ -91,14 +94,22 @@ namespace RallyTheRobots
         }
         public virtual void Initialize()
         {
+            foreach(string imageName in _idleImageName)
+                _contentManager.AddImage(imageName);
+            foreach (string imageName in _focusedImageName)
+                _contentManager.AddImage(imageName);
+            foreach (string imageName in _selectedImageName)
+                _contentManager.AddImage(imageName);
+            foreach (string imageName in _disabledImageName)
+                _contentManager.AddImage(imageName);
         }
         public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             //Check if the button was released between the last triggering of DoAction
             //TODO: Move the _buttonIsHeldDown to the ScreenManager to keep it between screens
-            if (InputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && InputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && InputChecker.MouseWheelDownIsCurrentlyTurned()))
+            if (_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned()))
             {
-                if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && InputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && InputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && InputChecker.MouseWheelDownIsCurrentlyTurned())))
+                if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
                 {
                     manager.ButtonForSelectIsHeldDown = true;
                     _buttonAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);

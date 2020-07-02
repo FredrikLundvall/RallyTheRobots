@@ -9,13 +9,12 @@ namespace RallyTheRobots
 {
     public class RallyTheRobotsScreenManager : ScreenManager
     {
-        public RallyTheRobotsScreenManager(ContentManager contentManager, IResolution resolution) : base(contentManager, resolution) { }
         public override void Initialize()
         {
-            AddScreen(new StartupScreen(_contentManager, this, _resolution));
-            AddScreen(new SplashScreen(_contentManager, this, _resolution));
-            AddScreen(new StartMenuScreen(_contentManager, this, _resolution));
-            AddScreen(new LoadMenuScreen(_contentManager, this, _resolution));
+            AddScreen(new StartupScreen());
+            AddScreen(new SplashScreen());
+            AddScreen(new StartMenuScreen());
+            AddScreen(new LoadMenuScreen());
             base.Initialize();
         }
     }

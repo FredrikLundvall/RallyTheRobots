@@ -9,68 +9,67 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots
 {
-    public static class InputChecker
+    public class InputChecker
     {
-        private static Point _currentMousePosition;
-        private static Point _oldMousePosition;
-        private static int _currentScrollWheelValue;
-        private static int _oldScrollWheelValue;
-        //TODO: Make a beforeUpdate, afterUpdate and initialize to be able to have control over the state and "events"
-        public static void Initialize()
+        private  Point _currentMousePosition;
+        private  Point _oldMousePosition;
+        private  int _currentScrollWheelValue;
+        private  int _oldScrollWheelValue;
+        public virtual void Initialize()
         {
             _oldScrollWheelValue = Mouse.GetState().ScrollWheelValue;
             _oldMousePosition = Mouse.GetState().Position;
         }
-        public static void BeforeUpdate(GameTime gameTime, GameSettings gameSettings)
+        public virtual void BeforeUpdate(GameTime gameTime, GameSettings gameSettings)
         {
             _currentScrollWheelValue = Mouse.GetState().ScrollWheelValue;
             _currentMousePosition = Mouse.GetState().Position;
         }
-        public static void AfterUpdate(GameTime gameTime, GameSettings gameSettings)
+        public virtual void AfterUpdate(GameTime gameTime, GameSettings gameSettings)
         {
             _oldScrollWheelValue = _currentScrollWheelValue;
             _oldMousePosition = _currentMousePosition;
         }
-        public static bool ButtonForSelectIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool ButtonForSelectIsCurrentlyPressed(GameSettings gameSettings)
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3 || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.E) || Mouse.GetState().LeftButton == ButtonState.Pressed;
         }
-        public static bool AnyButtonIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool AnyButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return Keyboard.GetState().GetPressedKeys().GetLength(0) > 0 || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed;
         }
-        public static bool PreviousButtonIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool PreviousButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y > 0.3 || Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W);
         }
-        public static bool NextButtonIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool NextButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < -0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < -0.3 || Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S);
         }
-        public static bool GoBackButtonIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool GoBackButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
-        public static bool HasMouseMoved(GameTime gameTime, GameSettings gameSettings)
+        public virtual bool HasMouseMoved(GameTime gameTime, GameSettings gameSettings)
         {
             return _oldMousePosition != _currentMousePosition;
         }
-        public static bool MouseIsCurrentlyOverButtonArea(ButtonArea buttonArea, Vector2 offset, IResolution resolution)
+        public virtual bool MouseIsCurrentlyOverButtonArea(ButtonArea buttonArea, Vector2 offset, IResolution resolution)
         {
             Point mouseScreenPosition = _currentMousePosition;
             Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
             Vector2 buttonAreaSize = buttonArea.GetSize();
             return mousePosition.X >= buttonArea.Position.X + offset.X && mousePosition.X <= buttonArea.Position.X + offset.X + buttonAreaSize.X && mousePosition.Y >= buttonArea.Position.Y + offset.Y && mousePosition.Y <= buttonArea.Position.Y + offset.Y + buttonAreaSize.Y;
         }
-        public static bool HasMouseWheelMoved()
+        public virtual bool HasMouseWheelMoved()
         {
             return _currentScrollWheelValue != _oldScrollWheelValue;
         }
-        public static bool MouseWheelUpIsCurrentlyTurned()
+        public virtual bool MouseWheelUpIsCurrentlyTurned()
         {
             return _currentScrollWheelValue > _oldScrollWheelValue;
         }
-        public static bool MouseWheelDownIsCurrentlyTurned()
+        public virtual bool MouseWheelDownIsCurrentlyTurned()
         {
             return _currentScrollWheelValue < _oldScrollWheelValue;
         }

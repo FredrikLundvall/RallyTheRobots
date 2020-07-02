@@ -7,7 +7,6 @@ namespace RallyTheRobots
 {
     public class StartupScreen : Screen
     {
-        public StartupScreen(ContentManager contentManager, ScreenManager screenManager, IResolution resolution) : base(contentManager, screenManager, resolution) { }
         public override void Initialize()
         {
             AddBackground("startup.png");
