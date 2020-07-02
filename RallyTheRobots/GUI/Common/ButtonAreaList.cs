@@ -12,6 +12,7 @@ namespace RallyTheRobots
     public class ButtonAreaList
     {
         internal InputChecker _inputChecker;
+        internal IResolution _resolution;
         protected List<ButtonArea> _buttonAreaList = new List<ButtonArea>(30);
         public bool Scrollable = false;
         public Vector2 ScrollCurrentOffset = new Vector2(0, 0);
@@ -22,6 +23,11 @@ namespace RallyTheRobots
         {
             if (_inputChecker == null)
                 _inputChecker = inputChecker;
+        }
+        internal void SetResolution(IResolution resolution)
+        {
+            if (_resolution == null)
+                _resolution = resolution;
         }
         public virtual void Add(ButtonArea buttonArea)
         {
@@ -212,10 +218,13 @@ namespace RallyTheRobots
                 else
                     button.Status = ButtonStatusEnum.Idle;
             }
-            if (_scrollUpButtonArea == actualButton && _scrollUpButtonArea.Visible && !_scrollUpButtonArea.Disabled)
-                _scrollUpButtonArea.Status = newStatus;
-            if (_scrollDownButtonArea == actualButton && _scrollDownButtonArea.Visible && !_scrollDownButtonArea.Disabled)
-                _scrollDownButtonArea.Status = newStatus;
+            if (Scrollable)
+            {
+                if (_scrollUpButtonArea == actualButton && _scrollUpButtonArea.Visible && !_scrollUpButtonArea.Disabled)
+                    _scrollUpButtonArea.Status = newStatus;
+                if (_scrollDownButtonArea == actualButton && _scrollDownButtonArea.Visible && !_scrollDownButtonArea.Disabled)
+                    _scrollDownButtonArea.Status = newStatus;
+            }
         }
         public virtual void SetAllButtonAreasIdle()
         {
@@ -271,12 +280,12 @@ namespace RallyTheRobots
             }
             foreach (ButtonArea button in _buttonAreaList)
             {
-                button.Update(manager, aScreen, gameTime, gameSettings, gameStatus);
+                button.Update(manager, aScreen, gameTime, gameSettings, gameStatus, ScrollCurrentOffset, _resolution);
             }
             if(Scrollable)
             {
-                _scrollUpButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus);
-                _scrollDownButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus);
+                _scrollUpButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus, new Vector2(0, 0), _resolution);
+                _scrollDownButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus, new Vector2(0, 0), _resolution);
             }
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)

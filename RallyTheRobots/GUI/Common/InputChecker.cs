@@ -32,7 +32,11 @@ namespace RallyTheRobots
         }
         public virtual bool ButtonForSelectIsCurrentlyPressed(GameSettings gameSettings)
         {
-            return GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3 || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.E) || Mouse.GetState().LeftButton == ButtonState.Pressed;
+            return GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3 || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.E);
+        }
+        public virtual bool ButtonForSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
+        {
+            return Mouse.GetState().LeftButton == ButtonState.Pressed;
         }
         public virtual bool AnyButtonIsCurrentlyPressed(GameSettings gameSettings)
         {

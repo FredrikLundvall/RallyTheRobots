@@ -14,6 +14,7 @@ namespace RallyTheRobots
             continueGameButton.AddIdleImage("startmenu_continue_idle.png");
             continueGameButton.AddFocusedImage("startmenu_continue_focused.png");
             continueGameButton.Position = new Vector2(83, 414);
+            continueGameButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<GameScreen>()));
             AddButtonArea(continueGameButton);
             ButtonArea loadGameButton = new ButtonArea();
             loadGameButton.AddIdleImage("startmenu_load_idle.png");
@@ -25,6 +26,7 @@ namespace RallyTheRobots
             newGameButton.AddIdleImage("startmenu_new_idle.png");
             newGameButton.AddFocusedImage("startmenu_new_focused.png");
             newGameButton.Position = new Vector2(83, 655);
+            newGameButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<GameScreen>()));
             AddButtonArea(newGameButton);
             ButtonArea settingsButton = new ButtonArea();
             settingsButton.AddIdleImage("startmenu_settings_idle.png");
@@ -40,10 +42,6 @@ namespace RallyTheRobots
             AddButtonArea(exitButton);
             SetFocusedButtonArea(continueGameButton);
             base.Initialize();
-        }
-        public override void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
-        {
-            base.Update(manager, gameTime, gameSettings, gameStatus);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ResolutionBuddy;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -103,11 +104,10 @@ namespace RallyTheRobots
             foreach (string imageName in _disabledImageName)
                 _contentManager.AddImage(imageName);
         }
-        public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
+        public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus, Vector2 offset, IResolution resolution)
         {
             //Check if the button was released between the last triggering of DoAction
-            //TODO: Move the _buttonIsHeldDown to the ScreenManager to keep it between screens
-            if (_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned()))
+            if (_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings) && _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution)) || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned()))
             {
                 if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
                 {
@@ -115,7 +115,8 @@ namespace RallyTheRobots
                     _buttonAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
                 }
             }
-            else
+            //Exception for the press of mousebutton outside the ButtonArea
+            else if (!_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
                 manager.ButtonForSelectIsHeldDown = false;
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)

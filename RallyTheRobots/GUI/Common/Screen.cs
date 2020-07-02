@@ -44,6 +44,7 @@ namespace RallyTheRobots
         {
             if (_resolution == null)
                 _resolution = resolution;
+            _buttonAreaList.SetResolution(_resolution);
         }
         internal void SetInputChecker(InputChecker inputChecker)
         {
@@ -161,7 +162,7 @@ namespace RallyTheRobots
         }
         public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            if (!_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !_inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings) && !_inputChecker.MouseWheelUpIsCurrentlyTurned() && !_inputChecker.MouseWheelDownIsCurrentlyTurned())
+            if (!_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings) && !_inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings) && !_inputChecker.MouseWheelUpIsCurrentlyTurned() && !_inputChecker.MouseWheelDownIsCurrentlyTurned())
                 manager.ButtonForSelectIsHeldDown = false;
             if (!manager.ButtonForSelectIsHeldDown && _anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
                 manager.ChangeScreen(gameTime, _anyButtonScreen);

@@ -44,6 +44,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GameScreen.cs" />
     <Compile Include="GUI\Common\ContentManager.cs" />
     <Compile Include="GUI\Common\ButtonAction.cs" />
     <Compile Include="GUI\Common\ButtonArea.cs" />
@@ -115,6 +116,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ingame.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\loadmenu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
