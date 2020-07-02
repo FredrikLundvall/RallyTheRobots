@@ -40,18 +40,6 @@ namespace RallyTheRobots
             if (_scrollDownButtonArea != null)
                 _scrollDownButtonArea.Visible = false;
         }
-        public virtual void LoadContent(GraphicsDevice graphicsDevice)
-        {
-            foreach (ButtonArea button in _buttonAreaList)
-            {
-                button.LoadContent(graphicsDevice);
-            }
-            if(_scrollDownButtonArea != null)
-                _scrollDownButtonArea.LoadContent(graphicsDevice);
-            if (_scrollUpButtonArea != null)
-                _scrollUpButtonArea.LoadContent(graphicsDevice);
-        }
-
         public virtual ButtonArea GetPreviousButtonArea()
         {
             ButtonArea previousButton = null;

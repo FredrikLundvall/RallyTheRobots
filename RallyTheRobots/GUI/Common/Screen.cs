@@ -78,10 +78,6 @@ namespace RallyTheRobots
         {
             _buttonAreaList.Add(buttonArea);
         }
-        public virtual void LoadContent(GraphicsDevice graphicsDevice)
-        {
-            _buttonAreaList.LoadContent(graphicsDevice);
-        }
         public virtual void EnterScreen(GameTime gameTime)
         {
             _totalGameTimeEnter = gameTime.TotalGameTime;

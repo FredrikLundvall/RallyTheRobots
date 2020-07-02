@@ -55,9 +55,6 @@ namespace RallyTheRobots
         {
             _buttonAction = buttonAction;
         }
-        public virtual void LoadContent(GraphicsDevice graphicsDevice)
-        {
-        }
         protected virtual List<string> GetCurrentImageNameList()
         {
             List<string> buttonImageNameList = null;

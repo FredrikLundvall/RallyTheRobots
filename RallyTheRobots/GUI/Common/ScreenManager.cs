@@ -46,13 +46,6 @@ namespace RallyTheRobots
             }
             return null;
         }
-        public virtual void LoadContent(GraphicsDevice graphicsDevice)
-        {
-            foreach (Screen screen in _screenList)
-            {
-                screen.LoadContent(graphicsDevice);
-            }
-        }
         public virtual void Update(GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             InputChecker.BeforeUpdate(gameTime, gameSettings);

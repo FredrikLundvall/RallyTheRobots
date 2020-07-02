@@ -26,6 +26,7 @@ namespace RallyTheRobots
             this.Window.IsBorderless = true;
             this.Window.Position = new Point(0, 0);
             IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
+            IsMouseVisible = true;
             // Change Virtual Resolution 
 #if DEBUG         
             resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), false, true);
@@ -37,7 +38,6 @@ namespace RallyTheRobots
             screenManager = new RallyTheRobotsScreenManager(contentManager, resolution);
             gameStatus = new GameStatus();
         }
-
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -46,12 +46,9 @@ namespace RallyTheRobots
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            IsMouseVisible = true;
             screenManager.Initialize();
             base.Initialize();
         }
-
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -63,9 +60,7 @@ namespace RallyTheRobots
 
             // TODO: use this.Content to load your game content here
             contentManager.LoadContent(GraphicsDevice);
-            screenManager.LoadContent(GraphicsDevice);
         }
-
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// game-specific content.
@@ -74,7 +69,6 @@ namespace RallyTheRobots
         {
             // TODO: Unload any non ContentManager content here
         }
-
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -82,13 +76,11 @@ namespace RallyTheRobots
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
             screenManager.Update(gameTime, settings, gameStatus);
             if (gameStatus.RunningStatus == RunningStatusEnum.Exiting)
                 Exit();
             base.Update(gameTime);
         }
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
