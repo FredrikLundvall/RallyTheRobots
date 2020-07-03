@@ -44,7 +44,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GameScreen.cs" />
+    <Compile Include="GUI\ControlsMenuScreen.cs" />
+    <Compile Include="GUI\GraphicsMenuScreen.cs" />
+    <Compile Include="GUI\GameScreen.cs" />
     <Compile Include="GUI\Common\ContentManager.cs" />
     <Compile Include="GUI\Common\ButtonAction.cs" />
     <Compile Include="GUI\Common\ButtonArea.cs" />
@@ -68,6 +70,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\Common\Screen.cs" />
+    <Compile Include="GUI\SettingsMenuScreen.cs" />
+    <Compile Include="GUI\SoundMenuScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MatrixExtensions.WindowsDX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -116,6 +120,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\controlsmenu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\graphicssmenu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\ingame.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -192,6 +202,30 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\loadmenu_up_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\settingsmenu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\settingsmenu_controls_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\settingsmenu_controls_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\settingsmenu_graphics_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\settingsmenu_graphics_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\settingsmenu_sound_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\settingsmenu_sound_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\soundmenu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\splash.png">

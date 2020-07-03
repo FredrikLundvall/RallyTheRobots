@@ -15,7 +15,11 @@ namespace RallyTheRobots
             AddScreen(new SplashScreen());
             AddScreen(new StartMenuScreen());
             AddScreen(new LoadMenuScreen());
+            AddScreen(new SettingsMenuScreen());
             AddScreen(new GameScreen());
+            AddScreen(new GraphicsMenuScreen());
+            AddScreen(new SoundMenuScreen());
+            AddScreen(new ControlsMenuScreen());
             base.Initialize();
         }
     }

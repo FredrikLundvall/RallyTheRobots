@@ -32,6 +32,7 @@ namespace RallyTheRobots
             settingsButton.AddIdleImage("startmenu_settings_idle.png");
             settingsButton.AddFocusedImage("startmenu_settings_focused.png");
             settingsButton.Position = new Vector2(83, 790);
+            settingsButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             AddButtonArea(settingsButton);
             ButtonArea exitButton = new ButtonArea();
             exitButton.AddIdleImage("startmenu_exit_idle.png");
