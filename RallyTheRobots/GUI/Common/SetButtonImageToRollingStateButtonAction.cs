@@ -7,24 +7,21 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots
 {
-    public class ChangeButtonAreaImageButtonAction : ButtonAction
+    public class SetButtonImageToRollingStateButtonAction : ButtonAction
     {
         ButtonArea _buttonArea;
-        bool _isTrue;
-        public ChangeButtonAreaImageButtonAction(ButtonArea buttonArea, bool isTrue)
+        string _imageName;
+        public SetButtonImageToRollingStateButtonAction(ButtonArea buttonArea, string imageName)
         {
             _buttonArea = buttonArea;
-            _isTrue = isTrue;
+            _imageName = imageName;
         }
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            _isTrue = !_isTrue;
+            _buttonArea.AdvanceRollingState();
             _buttonArea.ClearImages();
-            _buttonArea.AddSuffixedImage("graphicsmenu_fullscreen");
-            if (_isTrue)
-                _buttonArea.AddSuffixedImage("true");
-            else
-                _buttonArea.AddSuffixedImage("false");
+            _buttonArea.AddSuffixedImage(_imageName);
+            _buttonArea.AddSuffixedImage(_buttonArea.GetCurrentRollingState());
         }
     }
 }

@@ -19,6 +19,7 @@ namespace RallyTheRobots
         protected List<string> _disabledImageName = new List<string>();
         protected List<string> _focusedImageName = new List<string>();
         protected List<string> _selectedImageName = new List<string>();
+        protected RollingState _rollingState = new RollingState();
         public Vector2 Position;
         public bool Visible = true;
         public bool Disabled = false;
@@ -38,6 +39,22 @@ namespace RallyTheRobots
         {
             if (_inputChecker == null)
                 _inputChecker = inputChecker;
+        }
+        public virtual void AddRollingState(string rollingState)
+        {
+            _rollingState.AddState(rollingState);
+        }
+        public virtual string GetCurrentRollingState()
+        {
+            return _rollingState.GetCurrentState();
+        }
+        public virtual void SetCurrentRollingState(string rollingState)
+        {
+            _rollingState.SetCurrentState(rollingState);
+        }
+        public virtual void AdvanceRollingState()
+        {
+            _rollingState.AdvanceState();
         }
         public virtual void ClearImages()
         {

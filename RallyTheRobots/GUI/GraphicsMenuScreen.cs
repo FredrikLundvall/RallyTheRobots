@@ -25,12 +25,18 @@ namespace RallyTheRobots
                 fullscreenButton.AddSuffixedImage("true");
             else
                 fullscreenButton.AddSuffixedImage("false");
+            fullscreenButton.AddRollingState("true");
+            fullscreenButton.AddRollingState("false");
+            if (isFullscreen)
+                fullscreenButton.SetCurrentRollingState("true");
+            else
+                fullscreenButton.SetCurrentRollingState("false");
             _contentManager.AddImage("true_idle.png");
             _contentManager.AddImage("true_focused.png");
             _contentManager.AddImage("false_idle.png");
             _contentManager.AddImage("false_focused.png");
             fullscreenButton.Position = new Vector2(83, 420);
-            fullscreenButton.SetButtonAction(new ChangeButtonAreaImageButtonAction(fullscreenButton, isFullscreen));
+            fullscreenButton.SetButtonAction(new SetButtonImageToRollingStateButtonAction(fullscreenButton, "graphicsmenu_fullscreen"));
             AddButtonArea(fullscreenButton);
             ButtonArea resolutionButton = new ButtonArea();
             resolutionButton.AddSuffixedImage("graphicsmenu_resolution");
