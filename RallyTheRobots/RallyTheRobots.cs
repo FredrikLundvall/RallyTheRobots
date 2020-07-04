@@ -23,17 +23,26 @@ namespace RallyTheRobots
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.HardwareModeSwitch = true;
-            this.Window.IsBorderless = true;
             this.Window.Position = new Point(0, 0);
+            //this.Window.IsBorderless = true;
+            //graphics.HardwareModeSwitch = true;
+            //graphics.IsFullScreen = true;
+            //graphics.ApplyChanges();
+            //graphics.ToggleFullScreen();
             IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
             IsMouseVisible = true;
-            // Change Virtual Resolution 
-#if DEBUG         
-            resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), false, true);
+            foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
+            {
+                string name = displayMode.Width.ToString() + 'x' + displayMode.Height.ToString();
+            }
+            // Change Virtual Resolution
+#if DEBUG
+            //resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), true, true);
+            resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(800, 600), false, true);
 #else
             resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.Fullscreen, true);
 #endif
+
             contentManager = new ContentManager();
             inputChecker = new InputChecker();
             screenManager = new RallyTheRobotsScreenManager();

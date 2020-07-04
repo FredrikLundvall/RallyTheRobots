@@ -39,6 +39,20 @@ namespace RallyTheRobots
             if (_inputChecker == null)
                 _inputChecker = inputChecker;
         }
+        public virtual void ClearImages()
+        {
+            _idleImageName.Clear();
+            _disabledImageName.Clear();
+            _focusedImageName.Clear();
+            _selectedImageName.Clear();
+        }
+        public virtual void AddSuffixedImage(string imageName, string idleSuffix = "_idle.png", string focusedSuffix = "_focused.png", string selectedSuffix = "_selected.png", string disabledSuffix = "_disabled.png")
+        {
+            _idleImageName.Add(imageName + idleSuffix);
+            _focusedImageName.Add(imageName + focusedSuffix);
+            _selectedImageName.Add(imageName + selectedSuffix);
+            _disabledImageName.Add(imageName + disabledSuffix);
+        }
         public virtual void AddIdleImage(string imageName)
         {
             _idleImageName.Add(imageName);

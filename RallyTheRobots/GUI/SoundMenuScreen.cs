@@ -13,8 +13,7 @@ namespace RallyTheRobots
         {
             AddBackground("soundmenu.png");
             ButtonArea returnButton = new ButtonArea();
-            returnButton.AddIdleImage("loadmenu_return_idle.png");
-            returnButton.AddFocusedImage("loadmenu_return_focused.png");
+            returnButton.AddSuffixedImage("return");
             returnButton.Position = new Vector2(83, 390);
             returnButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             returnButton.HasShortcutWithGoBackButton = true;
