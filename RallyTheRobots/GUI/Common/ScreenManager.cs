@@ -9,7 +9,7 @@ namespace RallyTheRobots
     public class ScreenManager
     {
         protected ContentManager _contentManager;
-        protected IResolution _resolution;
+        protected ResolutionFactory _resolutionFactory;
         protected InputChecker _inputChecker;
         protected Screen _currentScreen;
         protected List<Screen> _screenList= new List<Screen>(20);
@@ -22,10 +22,10 @@ namespace RallyTheRobots
             if (_contentManager == null)
                 _contentManager = contentManager;
         }
-        internal void SetResolution(IResolution resolution)
+        internal void SetResolution(ResolutionFactory resolutionFactory)
         {
-            if (_resolution == null)
-                _resolution = resolution;
+            if (_resolutionFactory == null)
+                _resolutionFactory = resolutionFactory;
         }
         internal void SetInputChecker(InputChecker inputChecker)
         {
@@ -36,7 +36,7 @@ namespace RallyTheRobots
         {
             aScreen.SetContentManager(_contentManager);
             aScreen.SetScreenManager(this);
-            aScreen.SetResolution(_resolution);
+            aScreen.SetResolution(_resolutionFactory);
             aScreen.SetInputChecker(_inputChecker);
             _screenList.Add(aScreen);
         }
@@ -46,7 +46,6 @@ namespace RallyTheRobots
             InitializeScreens();
             //Setup the starting screen
             _currentScreen = _screenList[0];
-            _currentScreen.EnterScreen(new GameTime());
         }
         protected virtual void InitializeScreens()
         {
@@ -64,17 +63,26 @@ namespace RallyTheRobots
             }
             return null;
         }
+        public virtual void EnterStartScreen(GameTime gameTime, GameSettings gameSettings)
+        {
+            _currentScreen.EnterScreen(gameTime, gameSettings);
+        }
         public virtual void Update(GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             _inputChecker.BeforeUpdate(gameTime, gameSettings);
             _currentScreen.Update(this, gameTime, gameSettings, gameStatus);
             _inputChecker.AfterUpdate(gameTime, gameSettings);
+            if(gameSettings.IsGraphicsChanged())
+            {
+                _resolutionFactory.CreateResolution(gameSettings);
+                gameSettings.GraphicsChangeApplied();
+            }
         }
-        public virtual void ChangeScreen(GameTime gameTime, Screen newScreen)
+        public virtual void ChangeScreen(GameTime gameTime, GameSettings gameSettings, Screen newScreen)
         {
             _currentScreen.LeaveScreen();
             _currentScreen = newScreen;
-            _currentScreen.EnterScreen(gameTime);
+            _currentScreen.EnterScreen(gameTime, gameSettings);
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {

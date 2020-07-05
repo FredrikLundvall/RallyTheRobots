@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots
 {
-    public class ChangeScreenButtonAction : ButtonAction
+    public class ApplySettingFromRollingStateButtonAction : ButtonAction
     {
-        Screen _newScreen;
-        public ChangeScreenButtonAction(Screen newScreen)
+        ButtonArea _fullscreenButtonArea;
+        public ApplySettingFromRollingStateButtonAction(ButtonArea fullscreenButtonArea)
         {
-            _newScreen = newScreen;
+            _fullscreenButtonArea = fullscreenButtonArea;
         }
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            manager.ChangeScreen(gameTime, gameSettings, _newScreen);
+            gameSettings.SetFullscreen(_fullscreenButtonArea.GetCurrentRollingState() == "true");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace RallyTheRobots
     {
         const double FOCUS_CHANGE_TIME = 0.4;
         protected ContentManager _contentManager;
-        protected IResolution _resolution;
+        protected ResolutionFactory _resolutionFactory;
         protected ScreenManager _screenManager;
         protected InputChecker _inputChecker;
         protected Vector2 _zeroPosition;
@@ -40,11 +40,11 @@ namespace RallyTheRobots
             if (_screenManager == null)
                 _screenManager = screenManager;
         }
-        internal void SetResolution(IResolution resolution)
+        internal void SetResolution(ResolutionFactory resolutionFactory)
         {
-            if (_resolution == null)
-                _resolution = resolution;
-            _buttonAreaList.SetResolution(_resolution);
+            if (_resolutionFactory == null)
+                _resolutionFactory = resolutionFactory;
+            _buttonAreaList.SetResolution(_resolutionFactory);
         }
         internal void SetInputChecker(InputChecker inputChecker)
         {
@@ -104,7 +104,7 @@ namespace RallyTheRobots
             buttonArea.SetInputChecker(_inputChecker);
             _buttonAreaList.Add(buttonArea);
         }
-        public virtual void EnterScreen(GameTime gameTime)
+        public virtual void EnterScreen(GameTime gameTime, GameSettings gameSettings)
         {
             _totalGameTimeEnter = gameTime.TotalGameTime;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
@@ -165,9 +165,9 @@ namespace RallyTheRobots
             if (!_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings) && !_inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings) && !_inputChecker.MouseWheelUpIsCurrentlyTurned() && !_inputChecker.MouseWheelDownIsCurrentlyTurned())
                 manager.ButtonForSelectIsHeldDown = false;
             if (!manager.ButtonForSelectIsHeldDown && _anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
-                manager.ChangeScreen(gameTime, _anyButtonScreen);
+                manager.ChangeScreen(gameTime, gameSettings, _anyButtonScreen);
             if (_timeoutScreen != null & (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds) > _timeoutSeconds)
-                manager.ChangeScreen(gameTime, _timeoutScreen);
+                manager.ChangeScreen(gameTime, gameSettings, _timeoutScreen);
 
             if (_inputChecker.PreviousButtonIsCurrentlyPressed(gameSettings))
                 FocusPreviousButtonArea(gameTime);
@@ -182,7 +182,7 @@ namespace RallyTheRobots
             _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
             if (_inputChecker.HasMouseMoved(gameTime, gameSettings) || _inputChecker.HasMouseWheelMoved())
             {
-                ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea(gameTime, gameSettings, _resolution);
+                ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea(gameTime, gameSettings, _resolutionFactory.GetResolution());
                 if (mouseOverButtonArea != null)
                     SetFocusedButtonArea(mouseOverButtonArea);
                 else

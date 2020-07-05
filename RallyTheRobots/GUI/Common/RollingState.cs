@@ -49,5 +49,9 @@ namespace RallyTheRobots
             if (_currentState >= _stateList.Count)
                 _currentState = 0;
         }
+        public virtual string[] ToArray()
+        {
+            return _stateList.ToArray();
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace RallyTheRobots
 {
     public class GraphicsMenuScreen : Screen
     {
-        protected bool isFullscreen = false;
+        protected ButtonArea _fullscreenButton = new ButtonArea();
         public override void Initialize()
         {
             //AddBackground("graphicsmenu.png");
@@ -19,25 +19,14 @@ namespace RallyTheRobots
             returnButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
-            ButtonArea fullscreenButton = new ButtonArea();
-            fullscreenButton.AddSuffixedImage("graphicsmenu_fullscreen");
-            if(isFullscreen)
-                fullscreenButton.AddSuffixedImage("true");
-            else
-                fullscreenButton.AddSuffixedImage("false");
-            fullscreenButton.AddRollingState("true");
-            fullscreenButton.AddRollingState("false");
-            if (isFullscreen)
-                fullscreenButton.SetCurrentRollingState("true");
-            else
-                fullscreenButton.SetCurrentRollingState("false");
-            _contentManager.AddImage("true_idle.png");
-            _contentManager.AddImage("true_focused.png");
-            _contentManager.AddImage("false_idle.png");
-            _contentManager.AddImage("false_focused.png");
-            fullscreenButton.Position = new Vector2(83, 420);
-            fullscreenButton.SetButtonAction(new SetButtonImageToRollingStateButtonAction(fullscreenButton, "graphicsmenu_fullscreen"));
-            AddButtonArea(fullscreenButton);
+            _fullscreenButton.AddRollingState("true");
+            _fullscreenButton.AddRollingState("false");
+            _fullscreenButton.AddRollingStatesAsSuffixedImages();
+            //_fullscreenButton.SetCurrentRollingState("true");
+            _fullscreenButton.SetImageToRollingState("graphicsmenu_fullscreen");
+            _fullscreenButton.Position = new Vector2(83, 420);
+            _fullscreenButton.SetButtonAction(new SetButtonImageToRollingStateButtonAction(_fullscreenButton, "graphicsmenu_fullscreen"));
+            AddButtonArea(_fullscreenButton);
             ButtonArea resolutionButton = new ButtonArea();
             resolutionButton.AddSuffixedImage("graphicsmenu_resolution");
             resolutionButton.AddSuffixedImage("1");
@@ -56,10 +45,19 @@ namespace RallyTheRobots
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddSuffixedImage("apply_settings");
             applyButton.Position = new Vector2(83, 720);
-            //fullscreenButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
+            applyButton.SetButtonAction(new ApplySettingFromRollingStateButtonAction(_fullscreenButton));
             AddButtonArea(applyButton);
             SetFocusedButtonArea(returnButton);
             base.Initialize();
+        }
+        public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
+        {
+            if (gameSettings.GetFullscreen())
+                _fullscreenButton.SetCurrentRollingState("true");
+            else
+                _fullscreenButton.SetCurrentRollingState("false");
+            _fullscreenButton.SetImageToRollingState("graphicsmenu_fullscreen");
+            base.EnterScreen(gameTime, gameSettings);
         }
     }
 }

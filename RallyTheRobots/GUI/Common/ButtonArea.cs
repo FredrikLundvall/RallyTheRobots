@@ -20,6 +20,7 @@ namespace RallyTheRobots
         protected List<string> _focusedImageName = new List<string>();
         protected List<string> _selectedImageName = new List<string>();
         protected RollingState _rollingState = new RollingState();
+        protected List<string> _rollingStateImageName = new List<string>();
         public Vector2 Position;
         public bool Visible = true;
         public bool Disabled = false;
@@ -55,6 +56,23 @@ namespace RallyTheRobots
         public virtual void AdvanceRollingState()
         {
             _rollingState.AdvanceState();
+        }
+        public virtual void AddRollingStatesAsSuffixedImages(string idleSuffix = "_idle.png", string focusedSuffix = "_focused.png", string selectedSuffix = "_selected.png", string disabledSuffix = "_disabled.png")
+        {
+            _rollingState.ToArray();
+            foreach (string stateName in _rollingState.ToArray())
+            {
+                _rollingStateImageName.Add(stateName + idleSuffix);
+                _rollingStateImageName.Add(stateName + focusedSuffix);
+                _rollingStateImageName.Add(stateName + selectedSuffix);
+                _rollingStateImageName.Add(stateName + disabledSuffix);
+            }
+        }
+        public virtual void SetImageToRollingState(string imageName)
+        {
+            ClearImages();
+            AddSuffixedImage(imageName);
+            AddSuffixedImage(GetCurrentRollingState());
         }
         public virtual void ClearImages()
         {
@@ -133,6 +151,8 @@ namespace RallyTheRobots
             foreach (string imageName in _selectedImageName)
                 _contentManager.AddImage(imageName);
             foreach (string imageName in _disabledImageName)
+                _contentManager.AddImage(imageName);
+            foreach (string imageName in _rollingStateImageName)
                 _contentManager.AddImage(imageName);
         }
         public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus, Vector2 offset, IResolution resolution)

@@ -17,7 +17,7 @@ namespace RallyTheRobots
         InputChecker inputChecker;
         GameSettings settings;
         GameStatus gameStatus;
-        IResolution resolution;
+        ResolutionFactory resolutionFactory;
 
         public RallyTheRobots()
         {
@@ -29,28 +29,22 @@ namespace RallyTheRobots
             //graphics.IsFullScreen = true;
             //graphics.ApplyChanges();
             //graphics.ToggleFullScreen();
-            IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
-            IsMouseVisible = true;
+            //IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
+            //IsMouseVisible = true;
             foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
             {
                 string name = displayMode.Width.ToString() + 'x' + displayMode.Height.ToString();
             }
-            // Change Virtual Resolution
-#if DEBUG
-            //resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), true, true);
-            resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(800, 600), false, true);
-#else
-            resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.Fullscreen, true);
-#endif
-
+            settings = new GameSettings();
+            gameStatus = new GameStatus();
+            resolutionFactory = new ResolutionFactory(this, graphics);
+            resolutionFactory.CreateResolution(settings);
             contentManager = new ContentManager();
             inputChecker = new InputChecker();
             screenManager = new RallyTheRobotsScreenManager();
             screenManager.SetContentManager(contentManager);
-            screenManager.SetResolution(resolution);
+            screenManager.SetResolution(resolutionFactory);
             screenManager.SetInputChecker(inputChecker);
-            settings = new GameSettings();
-            gameStatus = new GameStatus();
         }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -73,6 +67,7 @@ namespace RallyTheRobots
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
             contentManager.LoadContent(GraphicsDevice);
+            screenManager.EnterStartScreen(new GameTime(), settings);
         }
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload

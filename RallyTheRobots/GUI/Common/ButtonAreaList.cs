@@ -12,7 +12,7 @@ namespace RallyTheRobots
     public class ButtonAreaList
     {
         internal InputChecker _inputChecker;
-        internal IResolution _resolution;
+        internal ResolutionFactory _resolution;
         protected List<ButtonArea> _buttonAreaList = new List<ButtonArea>(30);
         public bool Scrollable = false;
         public Vector2 ScrollCurrentOffset = new Vector2(0, 0);
@@ -24,7 +24,7 @@ namespace RallyTheRobots
             if (_inputChecker == null)
                 _inputChecker = inputChecker;
         }
-        internal void SetResolution(IResolution resolution)
+        internal void SetResolution(ResolutionFactory resolution)
         {
             if (_resolution == null)
                 _resolution = resolution;
@@ -280,12 +280,12 @@ namespace RallyTheRobots
             }
             foreach (ButtonArea button in _buttonAreaList)
             {
-                button.Update(manager, aScreen, gameTime, gameSettings, gameStatus, ScrollCurrentOffset, _resolution);
+                button.Update(manager, aScreen, gameTime, gameSettings, gameStatus, ScrollCurrentOffset, _resolution.GetResolution());
             }
             if(Scrollable)
             {
-                _scrollUpButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus, new Vector2(0, 0), _resolution);
-                _scrollDownButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus, new Vector2(0, 0), _resolution);
+                _scrollUpButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus, new Vector2(0, 0), _resolution.GetResolution());
+                _scrollDownButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus, new Vector2(0, 0), _resolution.GetResolution());
             }
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
