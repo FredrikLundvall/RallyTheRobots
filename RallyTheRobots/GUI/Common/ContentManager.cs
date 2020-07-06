@@ -28,9 +28,9 @@ namespace RallyTheRobots
             FileStream tempstream;
             foreach (string name in _imageNameList)
             {
-                if (name != "" & File.Exists("Content\\" + name))
+                if (name != "" & File.Exists("Content\\" + name + ".png"))
                 {
-                    tempstream = new FileStream("Content\\" + name, FileMode.Open);
+                    tempstream = new FileStream("Content\\" + name + ".png", FileMode.Open);
                     _imageList[name] = Texture2D.FromStream(graphicsDevice, tempstream);
                     tempstream.Close();
                 }

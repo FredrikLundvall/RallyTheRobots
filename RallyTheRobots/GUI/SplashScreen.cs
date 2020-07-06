@@ -9,7 +9,7 @@ namespace RallyTheRobots
     {
         public override void Initialize()
         {
-            AddBackground("splash.png");
+            AddBackground("splash");
             Screen startMenu = _screenManager.GetScreen<StartMenuScreen>();
             ScreenChangeOnTimeout(startMenu, 3.0);
             ScreenChangeOnAnyButton(startMenu);

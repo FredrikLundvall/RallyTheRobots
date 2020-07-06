@@ -9,7 +9,7 @@ namespace RallyTheRobots
     {
         public override void Initialize()
         {
-            AddBackground("startmenu.png");
+            AddBackground("startmenu");
             ButtonArea continueGameButton = new ButtonArea();
             continueGameButton.AddSuffixedImage("startmenu_continue");
             continueGameButton.Position = new Vector2(83, 414);

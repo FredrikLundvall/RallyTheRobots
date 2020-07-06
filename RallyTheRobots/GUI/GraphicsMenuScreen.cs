@@ -10,9 +10,10 @@ namespace RallyTheRobots
     public class GraphicsMenuScreen : Screen
     {
         protected ButtonArea _fullscreenButton = new ButtonArea();
+        protected ButtonArea _resolutionButton = new ButtonArea();
         public override void Initialize()
         {
-            //AddBackground("graphicsmenu.png");
+            //AddBackground("graphicsmenu");
             ButtonArea returnButton = new ButtonArea();
             returnButton.AddSuffixedImage("return");
             returnButton.Position = new Vector2(83, 270);
@@ -22,26 +23,24 @@ namespace RallyTheRobots
             _fullscreenButton.AddRollingState("true");
             _fullscreenButton.AddRollingState("false");
             _fullscreenButton.AddRollingStatesAsSuffixedImages();
-            //_fullscreenButton.SetCurrentRollingState("true");
             _fullscreenButton.SetImageToRollingState("graphicsmenu_fullscreen");
             _fullscreenButton.Position = new Vector2(83, 420);
             _fullscreenButton.SetButtonAction(new SetButtonImageToRollingStateButtonAction(_fullscreenButton, "graphicsmenu_fullscreen"));
             AddButtonArea(_fullscreenButton);
-            ButtonArea resolutionButton = new ButtonArea();
-            resolutionButton.AddSuffixedImage("graphicsmenu_resolution");
-            resolutionButton.AddSuffixedImage("1");
-            resolutionButton.AddSuffixedImage("9");
-            resolutionButton.AddSuffixedImage("2");
-            resolutionButton.AddSuffixedImage("0");
-            resolutionButton.AddSuffixedImage("x");
-            resolutionButton.AddSuffixedImage("1");
-            resolutionButton.AddSuffixedImage("0");
-            resolutionButton.AddSuffixedImage("8");
-            resolutionButton.AddSuffixedImage("0");
-            resolutionButton.AddSuffixedImage(";");
-            resolutionButton.Position = new Vector2(83, 570);
+            _resolutionButton.AddSuffixedImage("graphicsmenu_resolution");
+            _resolutionButton.AddSuffixedImage("1");
+            _resolutionButton.AddSuffixedImage("9");
+            _resolutionButton.AddSuffixedImage("2");
+            _resolutionButton.AddSuffixedImage("0");
+            _resolutionButton.AddSuffixedImage("x");
+            _resolutionButton.AddSuffixedImage("1");
+            _resolutionButton.AddSuffixedImage("0");
+            _resolutionButton.AddSuffixedImage("8");
+            _resolutionButton.AddSuffixedImage("0");
+            _resolutionButton.AddSuffixedImage(";");
+            _resolutionButton.Position = new Vector2(83, 570);
             //fullscreenButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
-            AddButtonArea(resolutionButton);
+            AddButtonArea(_resolutionButton);
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddSuffixedImage("apply_settings");
             applyButton.Position = new Vector2(83, 720);

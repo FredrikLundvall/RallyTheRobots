@@ -57,7 +57,7 @@ namespace RallyTheRobots
         {
             _rollingState.AdvanceState();
         }
-        public virtual void AddRollingStatesAsSuffixedImages(string idleSuffix = "_idle.png", string focusedSuffix = "_focused.png", string selectedSuffix = "_selected.png", string disabledSuffix = "_disabled.png")
+        public virtual void AddRollingStatesAsSuffixedImages(string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
         {
             _rollingState.ToArray();
             foreach (string stateName in _rollingState.ToArray())
@@ -81,7 +81,7 @@ namespace RallyTheRobots
             _focusedImageName.Clear();
             _selectedImageName.Clear();
         }
-        public virtual void AddSuffixedImage(string imageName, string idleSuffix = "_idle.png", string focusedSuffix = "_focused.png", string selectedSuffix = "_selected.png", string disabledSuffix = "_disabled.png")
+        public virtual void AddSuffixedImage(string imageName, string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
         {
             _idleImageName.Add(imageName + idleSuffix);
             _focusedImageName.Add(imageName + focusedSuffix);

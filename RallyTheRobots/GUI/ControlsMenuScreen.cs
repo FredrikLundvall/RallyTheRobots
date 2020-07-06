@@ -11,7 +11,7 @@ namespace RallyTheRobots
     {
         public override void Initialize()
         {
-            AddBackground("controlsmenu.png");
+            AddBackground("controlsmenu");
             ButtonArea returnButton = new ButtonArea();
             returnButton.AddSuffixedImage("return");
             returnButton.Position = new Vector2(83, 390);

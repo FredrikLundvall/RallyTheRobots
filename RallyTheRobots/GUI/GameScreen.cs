@@ -10,7 +10,7 @@ namespace RallyTheRobots
     {
         public override void Initialize()
         {
-            AddBackground("ingame.png");
+            AddBackground("ingame");
             ScreenChangeOnTimeout(_screenManager.GetScreen<StartMenuScreen>(), 3.0);
             base.Initialize();
         }
