@@ -39,21 +39,27 @@ namespace RallyTheRobots
             if (_contentManager == null)
                 _contentManager = contentManager;
         }
-        public virtual void AddRollingStatesAsSuffixedImages(string[] rollingState, string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
+        public virtual void AddRollingStatesAsSuffixedImages(string rollingStateName, string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
         {
-            foreach (string stateName in rollingState)
-            {
-                _rollingStateImageName.Add(stateName + idleSuffix);
-                _rollingStateImageName.Add(stateName + focusedSuffix);
-                _rollingStateImageName.Add(stateName + selectedSuffix);
-                _rollingStateImageName.Add(stateName + disabledSuffix);
-            }
+            _rollingStateImageName.Add(rollingStateName + idleSuffix);
+            _rollingStateImageName.Add(rollingStateName + focusedSuffix);
+            _rollingStateImageName.Add(rollingStateName + selectedSuffix);
+            _rollingStateImageName.Add(rollingStateName + disabledSuffix);
         }
         public virtual void SetImageToRollingState(string imageName, string currentRollingState)
         {
             ClearImages();
             AddSuffixedImage(imageName);
             AddSuffixedImage(currentRollingState);
+        }
+        public virtual void SetCharacterImageToRollingState(string imageName, string currentRollingState)
+        {
+            ClearImages();
+            AddSuffixedImage(imageName);
+            foreach (char characterImageName in currentRollingState)
+            {
+                AddSuffixedImage(characterImageName.ToString());
+            }
         }
         public virtual void ClearImages()
         {

@@ -80,11 +80,28 @@ namespace RallyTheRobots
         }
         public virtual void AddRollingStatesAsSuffixedImages(string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
         {
-            _buttonAreaImage.AddRollingStatesAsSuffixedImages(_rollingState.ToArray(), idleSuffix, focusedSuffix, selectedSuffix, disabledSuffix);
+            foreach (string stateName in _rollingState.ToArray())
+            {
+                _buttonAreaImage.AddRollingStatesAsSuffixedImages(stateName, idleSuffix, focusedSuffix, selectedSuffix, disabledSuffix);
+            }
+        }
+        public virtual void AddRollingStatesAsSuffixedCharacterImages(string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
+        {
+            foreach (string stateName in _rollingState.ToArray())
+            {
+                foreach (char characterImageName in stateName)
+                {
+                    _buttonAreaImage.AddRollingStatesAsSuffixedImages(characterImageName.ToString(), idleSuffix, focusedSuffix, selectedSuffix, disabledSuffix);
+                }
+            }
         }
         public virtual void SetImageToRollingState(string imageName)
         {
             _buttonAreaImage.SetImageToRollingState(imageName, GetCurrentRollingState());
+        }
+        public virtual void SetCharacterImageToRollingState(string imageName)
+        {
+            _buttonAreaImage.SetCharacterImageToRollingState(imageName, GetCurrentRollingState());
         }
         public virtual void ClearImages()
         {
@@ -93,6 +110,11 @@ namespace RallyTheRobots
         public virtual void AddSuffixedImage(string imageName, string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
         {
             _buttonAreaImage.AddSuffixedImage(imageName, idleSuffix, focusedSuffix, selectedSuffix, disabledSuffix);
+        }
+        public virtual void AddSuffixedCharacterImage(string imageCharacterName, string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
+        {
+            foreach(char characterImageName in imageCharacterName)
+                _buttonAreaImage.AddSuffixedImage(characterImageName.ToString(), idleSuffix, focusedSuffix, selectedSuffix, disabledSuffix);
         }
         public virtual void AddIdleImage(string imageName)
         {

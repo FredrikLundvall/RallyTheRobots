@@ -31,11 +31,23 @@ namespace RallyTheRobots
             //graphics.ToggleFullScreen();
             //IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
             //IsMouseVisible = true;
+            settings = new GameSettings();
+            //Check if resolution is supported
+            bool resolutionIsSupported = false;
             foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
             {
-                string name = displayMode.Width.ToString() + 'x' + displayMode.Height.ToString();
+                if (settings.GetWidth() == displayMode.Width && settings.GetHeight() == displayMode.Height)
+                {
+                    resolutionIsSupported = true;
+                    break;
+                }
             }
-            settings = new GameSettings();
+            if(!resolutionIsSupported)
+            {
+                settings.SetWidth(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width);
+                settings.SetHeight(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+                settings.GraphicsChangeApplied();
+            }
             gameStatus = new GameStatus();
             resolutionFactory = new ResolutionFactory(this, graphics);
             resolutionFactory.CreateResolution(settings);

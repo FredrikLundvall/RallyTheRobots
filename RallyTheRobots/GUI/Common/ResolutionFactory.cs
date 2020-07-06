@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ResolutionBuddy;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,27 @@ namespace RallyTheRobots
             _graphics.HardwareModeSwitch = true;
             _game.IsFixedTimeStep = false; // Setting this to true makes it fixed time step, false is variable time step.
             _game.IsMouseVisible = true;
+            //Check if resolution is supported
+            bool resolutionIsSupported = false;
+            foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
+            {
+                if (settings.GetWidth() == displayMode.Width && settings.GetHeight() == displayMode.Height)
+                {
+                    resolutionIsSupported = true;
+                    break;
+                }
+            }
             // Change Virtual Resolution
 #if DEBUG
-            //resolution = new ResolutionComponent(game, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), true, true);
-            _resolution = new ResolutionComponent(_game, _graphics, new Point(1920, 1080), new Point(800, 600), settings.GetFullscreen(), true);
+            if(resolutionIsSupported)
+                _resolution = new ResolutionComponent(_game, _graphics, new Point(1920, 1080), new Point(settings.GetWidth(), settings.GetHeight()), settings.GetFullscreen(), true);
+            else
+                _resolution = new ResolutionComponent(_game, _graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.GetFullscreen(), true);
 #else
-            _resolution = new ResolutionComponent(this, graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.Fullscreen, true);
+            if(resolutionIsSupported)
+                _resolution = new ResolutionComponent(_game, _graphics, new Point(1920, 1080), new Point(settings.GetWidth(), settings.GetHeight()), settings.GetFullscreen(), true);
+            else
+                _resolution = new ResolutionComponent(_game, _graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.GetFullscreen(), true);
 #endif
 
         }

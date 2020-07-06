@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,35 +28,32 @@ namespace RallyTheRobots
             _fullscreenButton.Position = new Vector2(83, 420);
             _fullscreenButton.SetButtonAction(new SetButtonImageToRollingStateButtonAction(_fullscreenButton, "graphicsmenu_fullscreen"));
             AddButtonArea(_fullscreenButton);
-            _resolutionButton.AddSuffixedImage("graphicsmenu_resolution");
-            _resolutionButton.AddSuffixedImage("1");
-            _resolutionButton.AddSuffixedImage("9");
-            _resolutionButton.AddSuffixedImage("2");
-            _resolutionButton.AddSuffixedImage("0");
-            _resolutionButton.AddSuffixedImage("x");
-            _resolutionButton.AddSuffixedImage("1");
-            _resolutionButton.AddSuffixedImage("0");
-            _resolutionButton.AddSuffixedImage("8");
-            _resolutionButton.AddSuffixedImage("0");
-            _resolutionButton.AddSuffixedImage(";");
+            foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
+            {
+                _resolutionButton.AddRollingState(string.Format("{0:D}x{1:D};", displayMode.Width, displayMode.Height));
+            }
+            //_resolutionButton.AddRollingState("1680x1050;");
+            //_resolutionButton.AddRollingState("1920x1080;");
+            _resolutionButton.AddRollingStatesAsSuffixedCharacterImages();
+            _resolutionButton.SetCharacterImageToRollingState("graphicsmenu_resolution");
             _resolutionButton.Position = new Vector2(83, 570);
-            //fullscreenButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
+            _resolutionButton.SetButtonAction(new SetButtonCharacterImageToRollingStateButtonAction(_resolutionButton, "graphicsmenu_resolution"));
             AddButtonArea(_resolutionButton);
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddSuffixedImage("apply_settings");
             applyButton.Position = new Vector2(83, 720);
-            applyButton.SetButtonAction(new ApplySettingFromRollingStateButtonAction(_fullscreenButton));
+            applyButton.SetButtonAction(new ApplySettingFromRollingStateButtonAction(_fullscreenButton, _resolutionButton));
             AddButtonArea(applyButton);
             SetFocusedButtonArea(returnButton);
             base.Initialize();
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
         {
-            if (gameSettings.GetFullscreen())
-                _fullscreenButton.SetCurrentRollingState("true");
-            else
-                _fullscreenButton.SetCurrentRollingState("false");
+            _fullscreenButton.SetCurrentRollingState(gameSettings.GetFullscreen() ? "true" : "false");
             _fullscreenButton.SetImageToRollingState("graphicsmenu_fullscreen");
+            
+            _resolutionButton.SetCurrentRollingState(string.Format("{0:D}x{1:D};", gameSettings.GetWidth(), gameSettings.GetHeight()));
+            _resolutionButton.SetCharacterImageToRollingState("graphicsmenu_resolution");
             base.EnterScreen(gameTime, gameSettings);
         }
     }

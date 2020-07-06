@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="GUI\Common\ButtonAreaImage.cs" />
     <Compile Include="GUI\Common\ResolutionFactory.cs" />
+    <Compile Include="GUI\Common\SetButtonCharacterImageToRollingStateButtonAction.cs" />
     <Compile Include="GUI\Common\SetButtonImageToRollingStateButtonAction.cs" />
     <Compile Include="GUI\Common\RollingState.cs" />
     <Compile Include="GUI\ApplySettingFromRollingStateButtonAction.cs" />
