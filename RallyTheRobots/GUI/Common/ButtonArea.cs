@@ -13,7 +13,6 @@ namespace RallyTheRobots
 {
     public class ButtonArea
     {
-        internal ContentManager _contentManager;
         internal InputChecker _inputChecker;
         protected ButtonAreaImage _buttonAreaImage = new ButtonAreaImage();
         protected RollingState _rollingState = new RollingState();
@@ -29,11 +28,7 @@ namespace RallyTheRobots
 
         internal void SetContentManager(ContentManager contentManager)
         {
-            if (_contentManager == null)
-            {
-                _contentManager = contentManager;
-                _buttonAreaImage.SetContentManager(contentManager);
-            }
+            _buttonAreaImage.SetContentManager(contentManager);
         }
         internal void SetInputChecker(InputChecker inputChecker)
         {
@@ -81,20 +76,7 @@ namespace RallyTheRobots
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
-            Vector2 imageOffset = new Vector2(0, 0);
-            List<string> currentImageNameList = _buttonAreaImage.GetCurrentImageNameList(Visible, Disabled, Status);
-            if (currentImageNameList != null)
-            {
-                foreach (string name in currentImageNameList)
-                {
-                    Texture2D buttonImage = _contentManager.GetImage(name);
-                    if (buttonImage != null)
-                    {
-                        spriteBatch.Draw(buttonImage, Position + offset + imageOffset, Color.White);
-                        imageOffset.X = imageOffset.X + buttonImage.Width;
-                    }
-                }
-            }
+            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status);
         }
         public virtual void AddRollingStatesAsSuffixedImages(string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
         {

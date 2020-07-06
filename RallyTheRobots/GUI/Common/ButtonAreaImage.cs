@@ -17,6 +17,23 @@ namespace RallyTheRobots
         protected List<string> _selectedImageName = new List<string>();
         protected List<string> _rollingStateImageName = new List<string>();
 
+        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status)
+        {
+            Vector2 imageOffset = new Vector2(0, 0);
+            List<string> currentImageNameList = GetCurrentImageNameList(visible, disabled, status);
+            if (currentImageNameList != null)
+            {
+                foreach (string name in currentImageNameList)
+                {
+                    Texture2D buttonImage = _contentManager.GetImage(name);
+                    if (buttonImage != null)
+                    {
+                        spriteBatch.Draw(buttonImage, position + offset + imageOffset, Color.White);
+                        imageOffset.X = imageOffset.X + buttonImage.Width;
+                    }
+                }
+            }
+        }
         internal void SetContentManager(ContentManager contentManager)
         {
             if (_contentManager == null)
@@ -68,7 +85,7 @@ namespace RallyTheRobots
         {
             _disabledImageName.Add(imageName);
         }
-        internal virtual List<string> GetCurrentImageNameList(bool visible, bool disabled, ButtonStatusEnum status)
+        protected virtual List<string> GetCurrentImageNameList(bool visible, bool disabled, ButtonStatusEnum status)
         {
             List<string> buttonImageNameList = null;
             if (visible)
