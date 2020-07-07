@@ -18,7 +18,7 @@ namespace RallyTheRobots
         }
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            _buttonArea.AdvanceRollingState();
+            _buttonArea.NextRollingState();
             _buttonArea.SetCharacterImageToRollingState(_imageName);
         }
     }

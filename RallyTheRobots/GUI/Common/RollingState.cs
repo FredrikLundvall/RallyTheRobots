@@ -38,7 +38,7 @@ namespace RallyTheRobots
             if (index != -1)
                 _currentState = index;
         }
-        public virtual void AdvanceState()
+        public virtual void NextState()
         {
             if (_stateList.Count == 0)
             {
@@ -48,6 +48,17 @@ namespace RallyTheRobots
             _currentState++;
             if (_currentState >= _stateList.Count)
                 _currentState = 0;
+        }
+        public virtual void PreviousState()
+        {
+            if (_stateList.Count == 0)
+            {
+                _currentState = -1;
+                return;
+            }
+            _currentState--;
+            if (_currentState < 0)
+                _currentState = _stateList.Count - 1;
         }
         public virtual string[] ToArray()
         {

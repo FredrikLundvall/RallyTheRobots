@@ -24,6 +24,11 @@ namespace RallyTheRobots
         protected TimeSpan _totalGameTimeFocusChange;
         protected ButtonAreaList _buttonAreaList;
         protected ButtonArea _focusedAtEnterButtonArea;
+        //TODO: Add actions for these buttons (maybe change how the scrolling is done)
+        protected ButtonAction _buttonPreviousVerticalAction = ButtonAction.GetEmptyButtonAction();
+        protected ButtonAction _buttonNextVerticalAction = ButtonAction.GetEmptyButtonAction();
+        protected ButtonAction _buttonPreviousHorizontalAction = ButtonAction.GetEmptyButtonAction();
+        protected ButtonAction _buttonNextHorizontalAction = ButtonAction.GetEmptyButtonAction();
 
         public Screen()
         {
@@ -169,9 +174,9 @@ namespace RallyTheRobots
             if (_timeoutScreen != null & (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds) > _timeoutSeconds)
                 manager.ChangeScreen(gameTime, gameSettings, _timeoutScreen);
 
-            if (_inputChecker.PreviousButtonIsCurrentlyPressed(gameSettings))
+            if (_inputChecker.PreviousVerticalButtonIsCurrentlyPressed(gameSettings))
                 FocusPreviousButtonArea(gameTime);
-            else if (_inputChecker.NextButtonIsCurrentlyPressed(gameSettings))
+            else if (_inputChecker.NextVerticalButtonIsCurrentlyPressed(gameSettings))
                 FocusNextButtonArea(gameTime);
             else
                 _totalGameTimeFocusChange = new TimeSpan(0, 0, 0);

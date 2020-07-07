@@ -47,9 +47,9 @@ namespace RallyTheRobots
         {
             _rollingState.SetCurrentState(rollingState);
         }
-        public virtual void AdvanceRollingState()
+        public virtual void NextRollingState()
         {
-            _rollingState.AdvanceState();
+            _rollingState.NextState();
         }
         public virtual void SetButtonAction(ButtonAction buttonAction)
         {

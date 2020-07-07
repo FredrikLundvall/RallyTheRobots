@@ -19,7 +19,7 @@ namespace RallyTheRobots
             returnButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
-            for(int i = 0; i <= 100; i++)
+            for(int i = 0; i <= 100; i += 5)
             {
                 _masterVolumeButton.AddRollingState(string.Format("{0:D};", i));
             }

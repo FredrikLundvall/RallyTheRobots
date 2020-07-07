@@ -34,21 +34,37 @@ namespace RallyTheRobots
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3 || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.E);
         }
+        public virtual bool ButtonForAlternateSelectIsCurrentlyPressed(GameSettings gameSettings)
+        {
+            return GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Triggers.Left > 0.3 || GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Back) || Keyboard.GetState().IsKeyDown(Keys.F);
+        }
         public virtual bool ButtonForSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
         {
             return Mouse.GetState().LeftButton == ButtonState.Pressed;
+        }
+        public virtual bool ButtonForAlernateSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
+        {
+            return Mouse.GetState().RightButton == ButtonState.Pressed;
         }
         public virtual bool AnyButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return Keyboard.GetState().GetPressedKeys().GetLength(0) > 0 || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed;
         }
-        public virtual bool PreviousButtonIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool PreviousVerticalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y > 0.3 || Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W);
         }
-        public virtual bool NextButtonIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool NextVerticalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < -0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < -0.3 || Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S);
+        }
+        public virtual bool PreviousHorizontalButtonIsCurrentlyPressed(GameSettings gameSettings)
+        {
+            return GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.3 || Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A);
+        }
+        public virtual bool NextHorizontalButtonIsCurrentlyPressed(GameSettings gameSettings)
+        {
+            return GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < -0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < -0.3 || Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D);
         }
         public virtual bool GoBackButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
