@@ -17,7 +17,7 @@ namespace RallyTheRobots
             //AddBackground("graphicsmenu");
             ButtonArea returnButton = new ButtonArea();
             returnButton.AddSuffixedImage("return");
-            returnButton.Position = new Vector2(83, 270);
+            returnButton.Position = new Vector2(83, 390);
             returnButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
@@ -25,23 +25,21 @@ namespace RallyTheRobots
             _fullscreenButton.AddRollingState("false");
             _fullscreenButton.AddRollingStatesAsSuffixedImages();
             _fullscreenButton.SetImageToRollingState("graphicsmenu_fullscreen");
-            _fullscreenButton.Position = new Vector2(83, 420);
+            _fullscreenButton.Position = new Vector2(83, 540);
             _fullscreenButton.SetButtonAction(new SetButtonImageToRollingStateButtonAction(_fullscreenButton, "graphicsmenu_fullscreen"));
             AddButtonArea(_fullscreenButton);
             foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
             {
                 _resolutionButton.AddRollingState(string.Format("{0:D}x{1:D};", displayMode.Width, displayMode.Height));
             }
-            //_resolutionButton.AddRollingState("1680x1050;");
-            //_resolutionButton.AddRollingState("1920x1080;");
             _resolutionButton.AddRollingStatesAsSuffixedCharacterImages();
             _resolutionButton.SetCharacterImageToRollingState("graphicsmenu_resolution");
-            _resolutionButton.Position = new Vector2(83, 570);
+            _resolutionButton.Position = new Vector2(83, 690);
             _resolutionButton.SetButtonAction(new SetButtonCharacterImageToRollingStateButtonAction(_resolutionButton, "graphicsmenu_resolution"));
             AddButtonArea(_resolutionButton);
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddSuffixedImage("apply_settings");
-            applyButton.Position = new Vector2(83, 720);
+            applyButton.Position = new Vector2(83, 840);
             applyButton.SetButtonAction(new ApplySettingFromRollingStateButtonAction(_fullscreenButton, _resolutionButton));
             AddButtonArea(applyButton);
             SetFocusedButtonArea(returnButton);
