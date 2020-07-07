@@ -11,21 +11,21 @@ namespace RallyTheRobots
     public class ButtonAreaImage
     {
         internal ContentManager _contentManager;
-        protected List<string> _idleImageName = new List<string>();
-        protected List<string> _disabledImageName = new List<string>();
-        protected List<string> _focusedImageName = new List<string>();
-        protected List<string> _selectedImageName = new List<string>();
+        protected List<string> _imageNameList = new List<string>();
         protected List<string> _rollingStateImageName = new List<string>();
+        protected bool _disabledMissing = false;
+        protected bool _focusedMissing = false;
+        protected bool _selectedMissing = false;
 
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status)
         {
             Vector2 imageOffset = new Vector2(0, 0);
-            List<string> currentImageNameList = GetCurrentImageNameList(visible, disabled, status);
-            if (currentImageNameList != null)
+            string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
+            if (_imageNameList != null)
             {
-                foreach (string name in currentImageNameList)
+                foreach (string name in _imageNameList)
                 {
-                    Texture2D buttonImage = _contentManager.GetImage(name);
+                    Texture2D buttonImage = _contentManager.GetImage(name + buttonImageNameSuffix);
                     if (buttonImage != null)
                     {
                         spriteBatch.Draw(buttonImage, position + offset + imageOffset, Color.White);
@@ -39,83 +39,98 @@ namespace RallyTheRobots
             if (_contentManager == null)
                 _contentManager = contentManager;
         }
-        public virtual void AddRollingStatesAsSuffixedImages(string rollingStateName, string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
+        public virtual void AddRollingStatesAsImages(string rollingStateName)
         {
-            _rollingStateImageName.Add(rollingStateName + idleSuffix);
-            _rollingStateImageName.Add(rollingStateName + focusedSuffix);
-            _rollingStateImageName.Add(rollingStateName + selectedSuffix);
-            _rollingStateImageName.Add(rollingStateName + disabledSuffix);
+            _rollingStateImageName.Add(rollingStateName);
         }
         public virtual void SetImageToRollingState(string imageName, string currentRollingState)
         {
             ClearImages();
-            AddSuffixedImage(imageName);
-            AddSuffixedImage(currentRollingState);
+            AddImage(imageName);
+            AddImage(currentRollingState);
         }
         public virtual void SetCharacterImageToRollingState(string imageName, string currentRollingState)
         {
             ClearImages();
-            AddSuffixedImage(imageName);
+            AddImage(imageName);
             foreach (char characterImageName in currentRollingState)
             {
-                AddSuffixedImage(characterImageName.ToString());
+                AddImage(characterImageName.ToString());
             }
         }
         public virtual void ClearImages()
         {
-            _idleImageName.Clear();
-            _disabledImageName.Clear();
-            _focusedImageName.Clear();
-            _selectedImageName.Clear();
+            _imageNameList.Clear();
         }
-        public virtual void AddSuffixedImage(string imageName, string idleSuffix = "_idle", string focusedSuffix = "_focused", string selectedSuffix = "_selected", string disabledSuffix = "_disabled")
+        public virtual void AddImage(string imageName)
         {
-            _idleImageName.Add(imageName + idleSuffix);
-            _focusedImageName.Add(imageName + focusedSuffix);
-            _selectedImageName.Add(imageName + selectedSuffix);
-            _disabledImageName.Add(imageName + disabledSuffix);
+            _imageNameList.Add(imageName);
+        }       
+        protected virtual ButtonAreaImageTypeEnum GetCurrentImageTypeEnum(bool visible, bool disabled, ButtonStatusEnum status)
+        {
+            ButtonAreaImageTypeEnum buttonImageNameType;
+            if (!visible)
+                buttonImageNameType = ButtonAreaImageTypeEnum.Hidden;         
+            else if (disabled && !_disabledMissing)
+                buttonImageNameType = ButtonAreaImageTypeEnum.Disabled;
+            else if (status == ButtonStatusEnum.Selected && !_selectedMissing)
+                buttonImageNameType = ButtonAreaImageTypeEnum.Selected;
+            else if ((status == ButtonStatusEnum.Focused || (status == ButtonStatusEnum.Selected && _selectedMissing)) && !_focusedMissing)
+                buttonImageNameType = ButtonAreaImageTypeEnum.Focused;
+            else
+                buttonImageNameType = ButtonAreaImageTypeEnum.Idle;
+            
+            return buttonImageNameType;
         }
-        public virtual void AddIdleImage(string imageName)
+        protected virtual string GetCurrentImageNameSuffix(ButtonAreaImageTypeEnum buttonImageNameType)
         {
-            _idleImageName.Add(imageName);
+            string buttonImageNameSuffix;
+            if (buttonImageNameType == ButtonAreaImageTypeEnum.Hidden)
+                buttonImageNameSuffix = null;
+            else if (buttonImageNameType == ButtonAreaImageTypeEnum.Disabled)
+                buttonImageNameSuffix = "_disabled";
+            else if (buttonImageNameType == ButtonAreaImageTypeEnum.Focused)
+                buttonImageNameSuffix = "_focused";
+            else if (buttonImageNameType == ButtonAreaImageTypeEnum.Selected)
+                buttonImageNameSuffix = "_selected";
+            else
+                buttonImageNameSuffix = "_idle";
+            return buttonImageNameSuffix;
         }
-        public virtual void AddFocusedImage(string imageName)
+        private string GetCurrentExistingImageNameSuffix(bool visible, bool disabled, ButtonStatusEnum status)
         {
-            _focusedImageName.Add(imageName);
-        }
-        public virtual void AddSelectedImage(string imageName)
-        {
-            _selectedImageName.Add(imageName);
-        }
-        public virtual void AddDisabledImage(string imageName)
-        {
-            _disabledImageName.Add(imageName);
-        }
-        protected virtual List<string> GetCurrentImageNameList(bool visible, bool disabled, ButtonStatusEnum status)
-        {
-            List<string> buttonImageNameList = null;
-            if (visible)
+            ButtonAreaImageTypeEnum imageType = GetCurrentImageTypeEnum(visible, disabled, status);
+            string buttonImageNameSuffix = GetCurrentImageNameSuffix(imageType); ;
+            //Check if texture exists
+            while (imageType == ButtonAreaImageTypeEnum.Disabled || imageType == ButtonAreaImageTypeEnum.Focused || imageType == ButtonAreaImageTypeEnum.Selected)
             {
-                if (disabled)
-                    buttonImageNameList = _disabledImageName;
-                else if (status == ButtonStatusEnum.Focused)
-                    buttonImageNameList = _focusedImageName;
-                else if (status == ButtonStatusEnum.Selected)
-                    buttonImageNameList = _selectedImageName;
-                if (buttonImageNameList == null || buttonImageNameList.Count == 0)
-                    buttonImageNameList = _idleImageName;
+                if (_contentManager.GetImage(_imageNameList[0] + buttonImageNameSuffix) == null)
+                {
+                    if (imageType == ButtonAreaImageTypeEnum.Disabled)
+                        _disabledMissing = true;
+                    else if (imageType == ButtonAreaImageTypeEnum.Focused)
+                        _focusedMissing = true;
+                    else if (imageType == ButtonAreaImageTypeEnum.Selected)
+                        _selectedMissing = true;
+                    else
+                        break;
+                    imageType = GetCurrentImageTypeEnum(visible, disabled, status);
+                    buttonImageNameSuffix = GetCurrentImageNameSuffix(imageType);
+                }
+                else
+                    break;
             }
-            return buttonImageNameList;
+            return buttonImageNameSuffix;
         }
         public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status)
         {
             Vector2 size = new Vector2(0, 0);
-            List<string> currentImageNameList = GetCurrentImageNameList(visible, disabled, status);
-            if (currentImageNameList != null)
+            if (_imageNameList != null && _imageNameList.Count > 0)
             {
-                foreach (string name in currentImageNameList)
+                string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
+                foreach (string name in _imageNameList)
                 {
-                    Texture2D buttonImage = _contentManager.GetImage(name);
+                    Texture2D buttonImage = _contentManager.GetImage(name + buttonImageNameSuffix);
                     if (buttonImage != null)
                     {
                         size.Y = (buttonImage.Height > size.Y) ? buttonImage.Height : size.Y;
@@ -125,18 +140,24 @@ namespace RallyTheRobots
             }
             return size;
         }
+
+
         public virtual void Initialize()
         {
-            foreach (string imageName in _idleImageName)
-                _contentManager.AddImage(imageName);
-            foreach (string imageName in _focusedImageName)
-                _contentManager.AddImage(imageName);
-            foreach (string imageName in _selectedImageName)
-                _contentManager.AddImage(imageName);
-            foreach (string imageName in _disabledImageName)
-                _contentManager.AddImage(imageName);
+            foreach (string imageName in _imageNameList)
+            {
+                _contentManager.AddImage(imageName + "_idle");
+                _contentManager.AddImage(imageName + "_focused");
+                _contentManager.AddImage(imageName + "_selected");
+                _contentManager.AddImage(imageName + "_disabled");
+            }
             foreach (string imageName in _rollingStateImageName)
-                _contentManager.AddImage(imageName);
+            {
+                _contentManager.AddImage(imageName + "_idle");
+                _contentManager.AddImage(imageName + "_focused");
+                _contentManager.AddImage(imageName + "_selected");
+                _contentManager.AddImage(imageName + "_disabled");
+            }
         }
     }
 }

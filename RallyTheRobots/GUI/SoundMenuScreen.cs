@@ -14,7 +14,7 @@ namespace RallyTheRobots
         {
             //AddBackground("soundmenu");
             ButtonArea returnButton = new ButtonArea();
-            returnButton.AddSuffixedImage("return");
+            returnButton.AddImage("return");
             returnButton.Position = new Vector2(83, 390);
             returnButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             returnButton.HasShortcutWithGoBackButton = true;
@@ -23,19 +23,19 @@ namespace RallyTheRobots
             {
                 _masterVolumeButton.AddRollingState(string.Format("{0:D};", i));
             }
-            _masterVolumeButton.AddRollingStatesAsSuffixedCharacterImages();
+            _masterVolumeButton.AddRollingStatesAsCharacterImages();
             _masterVolumeButton.SetCharacterImageToRollingState("soundmenu_mastervolume");
             _masterVolumeButton.Position = new Vector2(83, 540);
             _masterVolumeButton.SetButtonAction(new SetButtonCharacterImageToRollingStateButtonAction(_masterVolumeButton, "soundmenu_mastervolume"));
             AddButtonArea(_masterVolumeButton);
             ButtonArea musicVolumeButton = new ButtonArea();
-            musicVolumeButton.AddSuffixedImage("soundmenu_musicvolume");
-            musicVolumeButton.AddSuffixedImage("slider");
+            musicVolumeButton.AddImage("soundmenu_musicvolume");
+            musicVolumeButton.AddImage("slider");
             musicVolumeButton.Position = new Vector2(83, 690);
             //musicVolumeButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             AddButtonArea(musicVolumeButton);
             ButtonArea applyButton = new ButtonArea();
-            applyButton.AddSuffixedImage("apply_settings");
+            applyButton.AddImage("apply_settings");
             applyButton.Position = new Vector2(83, 840);
             //applyButton.SetButtonAction(new ApplySettingFromRollingStateButtonAction(_fullscreenButton, _resolutionButton));
             AddButtonArea(applyButton);
