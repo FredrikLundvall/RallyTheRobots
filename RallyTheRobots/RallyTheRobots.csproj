@@ -45,7 +45,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GUI\Common\ButtonAreaImage.cs" />
+    <Compile Include="GUI\Common\ButtonAreaImageStackDirectionEnum.cs" />
     <Compile Include="GUI\Common\ButtonAreaImageTypeEnum.cs" />
+    <Compile Include="GUI\Common\ButtonAreaStateImageEnum.cs" />
+    <Compile Include="GUI\Common\Image.cs" />
     <Compile Include="GUI\Common\ResolutionFactory.cs" />
     <Compile Include="GUI\Common\SetButtonCharacterImageToNextRollingStateButtonAction.cs" />
     <Compile Include="GUI\Common\SetButtonImageToNextRollingStateButtonAction.cs" />
@@ -292,6 +295,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\settingsmenu_sound_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\slider_bar_focused.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\slider_bar_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\slider_focused.png">

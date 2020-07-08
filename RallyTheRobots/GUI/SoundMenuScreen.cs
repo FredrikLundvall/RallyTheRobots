@@ -31,7 +31,8 @@ namespace RallyTheRobots
             AddButtonArea(_masterVolumeButton);
             ButtonArea musicVolumeButton = new ButtonArea();
             musicVolumeButton.AddImage("soundmenu_musicvolume");
-            musicVolumeButton.AddImage("slider");
+            musicVolumeButton.AddImage("slider_bar", ButtonAreaImageTypeEnum.Slider);
+            musicVolumeButton.AddImage("slider", ButtonAreaImageTypeEnum.Overlay);
             musicVolumeButton.Position = new Vector2(83, 690);
             //musicVolumeButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             AddButtonArea(musicVolumeButton);

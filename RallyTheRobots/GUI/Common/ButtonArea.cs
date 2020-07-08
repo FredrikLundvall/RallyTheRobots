@@ -129,9 +129,9 @@ namespace RallyTheRobots
         {
             _buttonAreaImage.ClearImages();
         }
-        public virtual void AddImage(string imageName)
+        public virtual void AddImage(string imageName, ButtonAreaImageTypeEnum imageType = ButtonAreaImageTypeEnum.Normal, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
         {
-            _buttonAreaImage.AddImage(imageName);
+            _buttonAreaImage.AddImage(imageName, imageType, imageStackDirection);
         }
         public virtual void AddCharacterImage(string imageCharacterName)
         {

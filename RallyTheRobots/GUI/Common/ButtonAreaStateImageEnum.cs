@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots
 {
-    public enum ButtonAreaImageTypeEnum { Normal, Slider, Overlay };
+    public enum ButtonAreaStateImageEnum { Hidden, Disabled, Idle, Focused, Selected };
 }

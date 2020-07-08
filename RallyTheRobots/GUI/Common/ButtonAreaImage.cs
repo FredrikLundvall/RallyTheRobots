@@ -11,7 +11,7 @@ namespace RallyTheRobots
     public class ButtonAreaImage
     {
         internal ContentManager _contentManager;
-        protected List<string> _imageNameList = new List<string>();
+        protected List<Image> _imageList = new List<Image>();
         protected List<string> _rollingStateImageName = new List<string>();
         protected bool _disabledMissing = false;
         protected bool _focusedMissing = false;
@@ -21,15 +21,30 @@ namespace RallyTheRobots
         {
             Vector2 imageOffset = new Vector2(0, 0);
             string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-            if (_imageNameList != null)
+            if (_imageList != null)
             {
-                foreach (string name in _imageNameList)
+                for(int i= 0; i < _imageList.Count; i++)
                 {
-                    Texture2D buttonImage = _contentManager.GetImage(name + buttonImageNameSuffix);
+                    Image image = _imageList[i];
+                    Texture2D buttonImage = _contentManager.GetImage(image.ImageName + buttonImageNameSuffix);
                     if (buttonImage != null)
                     {
-                        spriteBatch.Draw(buttonImage, position + offset + imageOffset, Color.White);
-                        imageOffset.X = imageOffset.X + buttonImage.Width;
+                        if (image.ImageType != ButtonAreaImageTypeEnum.Slider)
+                            spriteBatch.Draw(buttonImage, position + offset + imageOffset, Color.White);
+                        else
+                        {
+                            Rectangle sliderPartVisible;
+                            if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
+                                sliderPartVisible = new Rectangle(buttonImage.Width / 2, 0, buttonImage.Width / 2, buttonImage.Height);
+                            else
+                                sliderPartVisible = new Rectangle(0, buttonImage.Height / 2, buttonImage.Width, buttonImage.Height / 2);
+                            spriteBatch.Draw(buttonImage, position + offset + imageOffset, sliderPartVisible, Color.White);
+                        }
+                        if (i < _imageList.Count - 1 && _imageList[i + 1].ImageType != ButtonAreaImageTypeEnum.Overlay)
+                            if(image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
+                                imageOffset.X = imageOffset.X + buttonImage.Width;
+                            else
+                                imageOffset.Y = imageOffset.Y + buttonImage.Height;
                     }
                 }
             }
@@ -60,38 +75,37 @@ namespace RallyTheRobots
         }
         public virtual void ClearImages()
         {
-            _imageNameList.Clear();
+            _imageList.Clear();
         }
-        public virtual void AddImage(string imageName)
+        public virtual void AddImage(string imageName, ButtonAreaImageTypeEnum imageType = ButtonAreaImageTypeEnum.Normal, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
         {
-            _imageNameList.Add(imageName);
-        }       
-        protected virtual ButtonAreaImageTypeEnum GetCurrentImageTypeEnum(bool visible, bool disabled, ButtonStatusEnum status)
+            _imageList.Add(new Image(imageName, imageType, imageStackDirection));
+        }
+        protected virtual ButtonAreaStateImageEnum GetCurrentImageStateEnum(bool visible, bool disabled, ButtonStatusEnum status)
         {
-            ButtonAreaImageTypeEnum buttonImageNameType;
+            ButtonAreaStateImageEnum buttonImageState;
             if (!visible)
-                buttonImageNameType = ButtonAreaImageTypeEnum.Hidden;         
+                buttonImageState = ButtonAreaStateImageEnum.Hidden;         
             else if (disabled && !_disabledMissing)
-                buttonImageNameType = ButtonAreaImageTypeEnum.Disabled;
+                buttonImageState = ButtonAreaStateImageEnum.Disabled;
             else if (status == ButtonStatusEnum.Selected && !_selectedMissing)
-                buttonImageNameType = ButtonAreaImageTypeEnum.Selected;
+                buttonImageState = ButtonAreaStateImageEnum.Selected;
             else if ((status == ButtonStatusEnum.Focused || (status == ButtonStatusEnum.Selected && _selectedMissing)) && !_focusedMissing)
-                buttonImageNameType = ButtonAreaImageTypeEnum.Focused;
+                buttonImageState = ButtonAreaStateImageEnum.Focused;
             else
-                buttonImageNameType = ButtonAreaImageTypeEnum.Idle;
-            
-            return buttonImageNameType;
+                buttonImageState = ButtonAreaStateImageEnum.Idle;           
+            return buttonImageState;
         }
-        protected virtual string GetCurrentImageNameSuffix(ButtonAreaImageTypeEnum buttonImageNameType)
+        protected virtual string GetCurrentImageNameSuffix(ButtonAreaStateImageEnum buttonImageStateName)
         {
             string buttonImageNameSuffix;
-            if (buttonImageNameType == ButtonAreaImageTypeEnum.Hidden)
+            if (buttonImageStateName == ButtonAreaStateImageEnum.Hidden)
                 buttonImageNameSuffix = null;
-            else if (buttonImageNameType == ButtonAreaImageTypeEnum.Disabled)
+            else if (buttonImageStateName == ButtonAreaStateImageEnum.Disabled)
                 buttonImageNameSuffix = "_disabled";
-            else if (buttonImageNameType == ButtonAreaImageTypeEnum.Focused)
+            else if (buttonImageStateName == ButtonAreaStateImageEnum.Focused)
                 buttonImageNameSuffix = "_focused";
-            else if (buttonImageNameType == ButtonAreaImageTypeEnum.Selected)
+            else if (buttonImageStateName == ButtonAreaStateImageEnum.Selected)
                 buttonImageNameSuffix = "_selected";
             else
                 buttonImageNameSuffix = "_idle";
@@ -99,22 +113,22 @@ namespace RallyTheRobots
         }
         private string GetCurrentExistingImageNameSuffix(bool visible, bool disabled, ButtonStatusEnum status)
         {
-            ButtonAreaImageTypeEnum imageType = GetCurrentImageTypeEnum(visible, disabled, status);
+            ButtonAreaStateImageEnum imageType = GetCurrentImageStateEnum(visible, disabled, status);
             string buttonImageNameSuffix = GetCurrentImageNameSuffix(imageType); ;
             //Check if texture exists
-            while (imageType == ButtonAreaImageTypeEnum.Disabled || imageType == ButtonAreaImageTypeEnum.Focused || imageType == ButtonAreaImageTypeEnum.Selected)
+            while (imageType == ButtonAreaStateImageEnum.Disabled || imageType == ButtonAreaStateImageEnum.Focused || imageType == ButtonAreaStateImageEnum.Selected)
             {
-                if (_contentManager.GetImage(_imageNameList[0] + buttonImageNameSuffix) == null)
+                if (_contentManager.GetImage(_imageList[0].ImageName + buttonImageNameSuffix) == null)
                 {
-                    if (imageType == ButtonAreaImageTypeEnum.Disabled)
+                    if (imageType == ButtonAreaStateImageEnum.Disabled)
                         _disabledMissing = true;
-                    else if (imageType == ButtonAreaImageTypeEnum.Focused)
+                    else if (imageType == ButtonAreaStateImageEnum.Focused)
                         _focusedMissing = true;
-                    else if (imageType == ButtonAreaImageTypeEnum.Selected)
+                    else if (imageType == ButtonAreaStateImageEnum.Selected)
                         _selectedMissing = true;
                     else
                         break;
-                    imageType = GetCurrentImageTypeEnum(visible, disabled, status);
+                    imageType = GetCurrentImageStateEnum(visible, disabled, status);
                     buttonImageNameSuffix = GetCurrentImageNameSuffix(imageType);
                 }
                 else
@@ -125,31 +139,40 @@ namespace RallyTheRobots
         public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status)
         {
             Vector2 size = new Vector2(0, 0);
-            if (_imageNameList != null && _imageNameList.Count > 0)
+            if (_imageList != null && _imageList.Count > 0)
             {
                 string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-                foreach (string name in _imageNameList)
+                foreach (Image image in _imageList)
                 {
-                    Texture2D buttonImage = _contentManager.GetImage(name + buttonImageNameSuffix);
+                    Texture2D buttonImage = _contentManager.GetImage(image.ImageName + buttonImageNameSuffix);
                     if (buttonImage != null)
                     {
-                        size.Y = (buttonImage.Height > size.Y) ? buttonImage.Height : size.Y;
-                        size.X = size.X + buttonImage.Width;
+                        if (image.ImageType != ButtonAreaImageTypeEnum.Overlay)
+                        {
+                            if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
+                            {
+                                size.X = size.X + buttonImage.Width;
+                                size.Y = (buttonImage.Height > size.Y) ? buttonImage.Height : size.Y;
+                            }
+                            else
+                            {
+                                size.X = (buttonImage.Width > size.X) ? buttonImage.Width : size.X;
+                                size.Y = size.Y + buttonImage.Height;
+                            }
+                        }
                     }
                 }
             }
             return size;
         }
-
-
         public virtual void Initialize()
         {
-            foreach (string imageName in _imageNameList)
+            foreach (Image image in _imageList)
             {
-                _contentManager.AddImage(imageName + "_idle");
-                _contentManager.AddImage(imageName + "_focused");
-                _contentManager.AddImage(imageName + "_selected");
-                _contentManager.AddImage(imageName + "_disabled");
+                _contentManager.AddImage(image.ImageName + "_idle");
+                _contentManager.AddImage(image.ImageName + "_focused");
+                _contentManager.AddImage(image.ImageName + "_selected");
+                _contentManager.AddImage(image.ImageName + "_disabled");
             }
             foreach (string imageName in _rollingStateImageName)
             {
