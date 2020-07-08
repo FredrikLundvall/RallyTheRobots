@@ -47,10 +47,11 @@
     <Compile Include="GUI\Common\ButtonAreaImage.cs" />
     <Compile Include="GUI\Common\ButtonAreaImageTypeEnum.cs" />
     <Compile Include="GUI\Common\ResolutionFactory.cs" />
-    <Compile Include="GUI\Common\SetButtonCharacterImageToRollingStateButtonAction.cs" />
-    <Compile Include="GUI\Common\SetButtonImageToRollingStateButtonAction.cs" />
+    <Compile Include="GUI\Common\SetButtonCharacterImageToNextRollingStateButtonAction.cs" />
+    <Compile Include="GUI\Common\SetButtonImageToNextRollingStateButtonAction.cs" />
     <Compile Include="GUI\Common\RollingState.cs" />
     <Compile Include="GUI\ApplySettingFromRollingStateButtonAction.cs" />
+    <Compile Include="GUI\Common\SetButtonImageToPreviousRollingStateButtonAction.cs" />
     <Compile Include="GUI\ControlsMenuScreen.cs" />
     <Compile Include="GUI\GraphicsMenuScreen.cs" />
     <Compile Include="GUI\GameScreen.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="GUI\Common\Screen.cs" />
     <Compile Include="GUI\SettingsMenuScreen.cs" />
     <Compile Include="GUI\SoundMenuScreen.cs" />
+    <Compile Include="GUI\Common\SetButtonCharacterImageToPreviousRollingStateButtonAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MatrixExtensions.WindowsDX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

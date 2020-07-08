@@ -16,7 +16,7 @@ namespace RallyTheRobots
             ButtonArea returnButton = new ButtonArea();
             returnButton.AddImage("return");
             returnButton.Position = new Vector2(83, 390);
-            returnButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
+            returnButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
             for(int i = 0; i <= 100; i += 5)
@@ -26,7 +26,8 @@ namespace RallyTheRobots
             _masterVolumeButton.AddRollingStatesAsCharacterImages();
             _masterVolumeButton.SetCharacterImageToRollingState("soundmenu_mastervolume");
             _masterVolumeButton.Position = new Vector2(83, 540);
-            _masterVolumeButton.SetButtonAction(new SetButtonCharacterImageToRollingStateButtonAction(_masterVolumeButton, "soundmenu_mastervolume"));
+            _masterVolumeButton.SetButtonSelectAction(new SetButtonCharacterImageToNextRollingStateButtonAction(_masterVolumeButton, "soundmenu_mastervolume"));
+            _masterVolumeButton.SetButtonAlternateSelectAction(new SetButtonCharacterImageToPreviousRollingStateButtonAction(_masterVolumeButton, "soundmenu_mastervolume"));
             AddButtonArea(_masterVolumeButton);
             ButtonArea musicVolumeButton = new ButtonArea();
             musicVolumeButton.AddImage("soundmenu_musicvolume");

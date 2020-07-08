@@ -91,7 +91,7 @@ namespace RallyTheRobots
         {
             buttonArea.SetContentManager(_contentManager);
             buttonArea.SetInputChecker(_inputChecker);
-            buttonArea.SetButtonAction(new ScrollUpAction());
+            buttonArea.SetButtonSelectAction(new ScrollUpAction());
             buttonArea.HasShortcutWithMouseWheelUp = true;
             _buttonAreaList.AddScrollUp(buttonArea);
         }
@@ -99,7 +99,7 @@ namespace RallyTheRobots
         {
             buttonArea.SetContentManager(_contentManager);
             buttonArea.SetInputChecker(_inputChecker);
-            buttonArea.SetButtonAction(new ScrollDownAction());
+            buttonArea.SetButtonSelectAction(new ScrollDownAction());
             buttonArea.HasShortcutWithMouseWheelDown = true;
             _buttonAreaList.AddScrollDown(buttonArea);
         }
@@ -169,7 +169,9 @@ namespace RallyTheRobots
         {
             if (!_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings) && !_inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings) && !_inputChecker.MouseWheelUpIsCurrentlyTurned() && !_inputChecker.MouseWheelDownIsCurrentlyTurned())
                 manager.ButtonForSelectIsHeldDown = false;
-            if (!manager.ButtonForSelectIsHeldDown && _anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
+            if (!_inputChecker.ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) && !_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
+                manager.ButtonForAlternateSelectIsHeldDown = false;
+            if (!manager.ButtonForSelectIsHeldDown && !manager.ButtonForAlternateSelectIsHeldDown && _anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
                 manager.ChangeScreen(gameTime, gameSettings, _anyButtonScreen);
             if (_timeoutScreen != null & (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds) > _timeoutSeconds)
                 manager.ChangeScreen(gameTime, gameSettings, _timeoutScreen);

@@ -24,7 +24,8 @@ namespace RallyTheRobots
         public bool HasShortcutWithMouseWheelUp = false;
         public bool HasShortcutWithMouseWheelDown = false;
         public ButtonStatusEnum Status = ButtonStatusEnum.Idle;
-        protected ButtonAction _buttonAction = ButtonAction.GetEmptyButtonAction();
+        protected ButtonAction _buttonSelectAction = ButtonAction.GetEmptyButtonAction();
+        protected ButtonAction _buttonAlternateSelectAction = ButtonAction.GetEmptyButtonAction();
 
         internal void SetContentManager(ContentManager contentManager)
         {
@@ -51,9 +52,17 @@ namespace RallyTheRobots
         {
             _rollingState.NextState();
         }
-        public virtual void SetButtonAction(ButtonAction buttonAction)
+        public virtual void PreviousRollingState()
         {
-            _buttonAction = buttonAction;
+            _rollingState.PreviousState();
+        }
+        public virtual void SetButtonSelectAction(ButtonAction buttonAction)
+        {
+            _buttonSelectAction = buttonAction;
+        }
+        public virtual void SetButtonAlternateSelectAction(ButtonAction buttonAction)
+        {
+            _buttonAlternateSelectAction = buttonAction;
         }
         public virtual void Initialize()
         {
@@ -67,12 +76,25 @@ namespace RallyTheRobots
                 if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
                 {
                     manager.ButtonForSelectIsHeldDown = true;
-                    _buttonAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
+                    _buttonSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
                 }
             }
             //Exception for the press of mousebutton outside the ButtonArea
             else if (!_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
                 manager.ButtonForSelectIsHeldDown = false;
+            //Check if the alternate button was released between the last triggering of DoAction
+            if (_inputChecker.ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) || (_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings) && _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution)))
+            {
+                if (!manager.ButtonForAlternateSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
+                {
+                    manager.ButtonForAlternateSelectIsHeldDown = true;
+                    _buttonAlternateSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
+                }
+            }
+            //Exception for the press of mousebutton outside the ButtonArea
+            else if (!_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
+                manager.ButtonForAlternateSelectIsHeldDown = false;
+
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {

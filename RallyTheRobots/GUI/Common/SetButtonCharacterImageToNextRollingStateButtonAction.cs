@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots
 {
-    public class SetButtonImageToRollingStateButtonAction : ButtonAction
+    public class SetButtonCharacterImageToNextRollingStateButtonAction : ButtonAction
     {
         ButtonArea _buttonArea;
         string _imageName;
-        public SetButtonImageToRollingStateButtonAction(ButtonArea buttonArea, string imageName)
+        public SetButtonCharacterImageToNextRollingStateButtonAction(ButtonArea buttonArea, string imageName)
         {
             _buttonArea = buttonArea;
             _imageName = imageName;
@@ -19,7 +19,7 @@ namespace RallyTheRobots
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             _buttonArea.NextRollingState();
-            _buttonArea.SetImageToRollingState(_imageName);
+            _buttonArea.SetCharacterImageToRollingState(_imageName);
         }
     }
 }

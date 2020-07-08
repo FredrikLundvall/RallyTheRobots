@@ -42,6 +42,10 @@ namespace RallyTheRobots
         {
             return Mouse.GetState().LeftButton == ButtonState.Pressed;
         }
+        public virtual bool ButtonForAlternateSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
+        {
+            return Mouse.GetState().RightButton == ButtonState.Pressed;
+        }
         public virtual bool ButtonForAlernateSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
         {
             return Mouse.GetState().RightButton == ButtonState.Pressed;
