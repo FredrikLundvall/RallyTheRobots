@@ -27,6 +27,7 @@ namespace RallyTheRobots
             _fullscreenButton.AddImage("graphicsmenu_fullscreen_true_or_false", ButtonAreaImageNameTypeEnum.RollingState);
             _fullscreenButton.Position = new Vector2(83, 540);
             _fullscreenButton.SetButtonSelectAction(new NextRollingStateButtonAction(_fullscreenButton));
+            _fullscreenButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_fullscreenButton));
             AddButtonArea(_fullscreenButton);
             foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
             {
@@ -36,6 +37,7 @@ namespace RallyTheRobots
             _resolutionButton.AddImage("graphicsmenu_resolution_width_x_height", ButtonAreaImageNameTypeEnum.RollingStateCharacter);
             _resolutionButton.Position = new Vector2(83, 690);
             _resolutionButton.SetButtonSelectAction(new NextRollingStateButtonAction(_resolutionButton));
+            _resolutionButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_resolutionButton));
             AddButtonArea(_resolutionButton);
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddImage("apply_settings");

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots
 {
-    public class Image
+    public class ImageSettings
     {
         public readonly string ImageName;
         public ButtonAreaImagePositioningEnum ImagePositioning;
         public ButtonAreaImageStackDirectionEnum ImageStackDirection;
         public ButtonAreaImageNameTypeEnum ImageNameType;
-        public Image(string imageName, ButtonAreaImageNameTypeEnum imageNameType, ButtonAreaImagePositioningEnum imagePositioning, ButtonAreaImageStackDirectionEnum imageStackDirection)
+        public ImageSettings(string imageName, ButtonAreaImageNameTypeEnum imageNameType, ButtonAreaImagePositioningEnum imagePositioning, ButtonAreaImageStackDirectionEnum imageStackDirection)
         {
             ImageName = imageName;
             ImageNameType = imageNameType;

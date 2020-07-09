@@ -11,7 +11,7 @@ namespace RallyTheRobots
     public class ButtonAreaImage
     {
         internal ContentManager _contentManager;
-        protected List<Image> _imageList = new List<Image>();
+        protected List<ImageSettings> _imageList = new List<ImageSettings>();
         protected List<string> _rollingStateImageName = new List<string>();
         protected bool _disabledMissing = false;
         protected bool _focusedMissing = false;
@@ -23,7 +23,7 @@ namespace RallyTheRobots
             if (_imageList != null && _imageList.Count > 0)
             {
                 string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-                foreach(Image image in _imageList)
+                foreach(ImageSettings image in _imageList)
                 {
                     string imageName = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character) ? image.ImageName : currentRollingState;
                     int numberOfChars = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState) ? imageName.Length : 1;
@@ -42,7 +42,7 @@ namespace RallyTheRobots
             if (_imageList != null && _imageList.Count > 0)
             {
                 string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-                foreach (Image image in _imageList)
+                foreach (ImageSettings image in _imageList)
                 {
                     string imageName = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character) ? image.ImageName : currentRollingState;
                     int numberOfChars = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState) ? imageName.Length : 1;
@@ -56,7 +56,7 @@ namespace RallyTheRobots
             }
             return size;
         }
-        private static Vector2 GetTextureSize(Vector2 size, Image image, Texture2D buttonTexture)
+        private static Vector2 GetTextureSize(Vector2 size, ImageSettings image, Texture2D buttonTexture)
         {
             if (buttonTexture != null)
             {
@@ -73,7 +73,7 @@ namespace RallyTheRobots
             }
             return size;
         }
-        protected virtual Vector2 DrawTexture(SpriteBatch spriteBatch, Vector2 offset, Vector2 position, Vector2 imageOffset, Image image, Texture2D buttonTexture)
+        protected virtual Vector2 DrawTexture(SpriteBatch spriteBatch, Vector2 offset, Vector2 position, Vector2 imageOffset, ImageSettings image, Texture2D buttonTexture)
         {
             if (buttonTexture != null)
             {
@@ -108,7 +108,7 @@ namespace RallyTheRobots
         {
             if (_imageList != null && _imageList.Count > 0)
             {
-                foreach (Image image in _imageList)
+                foreach (ImageSettings image in _imageList)
                 {
                     if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState)
                         return true;                            
@@ -120,7 +120,7 @@ namespace RallyTheRobots
         {
             if (_imageList != null && _imageList.Count > 0)
             {
-                foreach (Image image in _imageList)
+                foreach (ImageSettings image in _imageList)
                 {
                     if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingStateCharacter)
                         return true;
@@ -134,7 +134,7 @@ namespace RallyTheRobots
         }
         public virtual void AddImage(string imageName, ButtonAreaImageNameTypeEnum imageNameType = ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum imageType = ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
         {
-            _imageList.Add(new Image(imageName, imageNameType, imageType, imageStackDirection));
+            _imageList.Add(new ImageSettings(imageName, imageNameType, imageType, imageStackDirection));
         }
         protected virtual ButtonAreaStateImageEnum GetCurrentImageStateEnum(bool visible, bool disabled, ButtonStatusEnum status)
         {
@@ -193,7 +193,7 @@ namespace RallyTheRobots
         }
         public virtual void Initialize()
         {
-            foreach (Image image in _imageList)
+            foreach (ImageSettings image in _imageList)
             {
                 _contentManager.AddTexture2D(image.ImageName + "_idle");
                 _contentManager.AddTexture2D(image.ImageName + "_focused");
