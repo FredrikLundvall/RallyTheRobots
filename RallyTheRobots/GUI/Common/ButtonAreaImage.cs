@@ -35,7 +35,7 @@ namespace RallyTheRobots
                         {
                             Rectangle sliderPartVisible;
                             if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
-                                sliderPartVisible = new Rectangle(buttonImage.Width / 2, 0, buttonImage.Width / 2, buttonImage.Height);
+                                sliderPartVisible = new Rectangle((buttonImage.Width * 25) / 100, 0, (buttonImage.Width * 75) / 100, buttonImage.Height);
                             else
                                 sliderPartVisible = new Rectangle(0, buttonImage.Height / 2, buttonImage.Width, buttonImage.Height / 2);
                             spriteBatch.Draw(buttonImage, position + offset + imageOffset, sliderPartVisible, Color.White);
