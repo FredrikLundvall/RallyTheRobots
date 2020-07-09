@@ -17,37 +17,83 @@ namespace RallyTheRobots
         protected bool _focusedMissing = false;
         protected bool _selectedMissing = false;
 
-        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status)
+        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
         {
             Vector2 imageOffset = new Vector2(0, 0);
-            string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-            if (_imageList != null)
+            if (_imageList != null && _imageList.Count > 0)
             {
-                for(int i= 0; i < _imageList.Count; i++)
+                string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
+                foreach(Image image in _imageList)
                 {
-                    Image image = _imageList[i];
-                    Texture2D buttonImage = _contentManager.GetImage(image.ImageName + buttonImageNameSuffix);
-                    if (buttonImage != null)
+                    string imageName = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character) ? image.ImageName : currentRollingState;
+                    int numberOfChars = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState) ? imageName.Length : 1;
+                    for(int i = 0; i < imageName.Length; i += numberOfChars)
                     {
-                        if (image.ImageType != ButtonAreaImageTypeEnum.Slider)
-                            spriteBatch.Draw(buttonImage, position + offset + imageOffset, Color.White);
-                        else
-                        {
-                            Rectangle sliderPartVisible;
-                            if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
-                                sliderPartVisible = new Rectangle((buttonImage.Width * 25) / 100, 0, (buttonImage.Width * 75) / 100, buttonImage.Height);
-                            else
-                                sliderPartVisible = new Rectangle(0, buttonImage.Height / 2, buttonImage.Width, buttonImage.Height / 2);
-                            spriteBatch.Draw(buttonImage, position + offset + imageOffset, sliderPartVisible, Color.White);
-                        }
-                        if (i < _imageList.Count - 1 && _imageList[i + 1].ImageType != ButtonAreaImageTypeEnum.Overlay)
-                            if(image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
-                                imageOffset.X = imageOffset.X + buttonImage.Width;
-                            else
-                                imageOffset.Y = imageOffset.Y + buttonImage.Height;
+                        string characterImageName = imageName.Substring(i, numberOfChars);
+                        Texture2D texture = _contentManager.GetTexture2D(characterImageName + buttonImageNameSuffix);
+                        imageOffset = DrawTexture(spriteBatch, offset, position, imageOffset, image, texture);
                     }
                 }
             }
+        }
+        public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
+        {
+            Vector2 size = new Vector2(0, 0);
+            if (_imageList != null && _imageList.Count > 0)
+            {
+                string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
+                foreach (Image image in _imageList)
+                {
+                    string imageName = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character) ? image.ImageName : currentRollingState;
+                    int numberOfChars = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState) ? imageName.Length : 1;
+                    for (int i = 0; i < imageName.Length; i += numberOfChars)
+                    {
+                        string characterImageName = imageName.Substring(i, numberOfChars);
+                        Texture2D texture = _contentManager.GetTexture2D(characterImageName + buttonImageNameSuffix);
+                        size = GetTextureSize(size, image, texture);
+                    }
+                }
+            }
+            return size;
+        }
+        private static Vector2 GetTextureSize(Vector2 size, Image image, Texture2D buttonTexture)
+        {
+            if (buttonTexture != null)
+            {
+                if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
+                {
+                    size.X = size.X + buttonTexture.Width;
+                    size.Y = (buttonTexture.Height > size.Y) ? buttonTexture.Height : size.Y;
+                }
+                else if(image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Vertical)
+                {
+                    size.X = (buttonTexture.Width > size.X) ? buttonTexture.Width : size.X;
+                    size.Y = size.Y + buttonTexture.Height;
+                }
+            }
+            return size;
+        }
+        protected virtual Vector2 DrawTexture(SpriteBatch spriteBatch, Vector2 offset, Vector2 position, Vector2 imageOffset, Image image, Texture2D buttonTexture)
+        {
+            if (buttonTexture != null)
+            {
+                if (image.ImagePositioning == ButtonAreaImagePositioningEnum.Unmovable)
+                    spriteBatch.Draw(buttonTexture, position + offset + imageOffset, Color.White);
+                else
+                {
+                    Rectangle sliderPartVisible = new Rectangle(0, 0, buttonTexture.Width, buttonTexture.Height);
+                    if (image.ImagePositioning == ButtonAreaImagePositioningEnum.HorizontalSlider)
+                        sliderPartVisible = new Rectangle((buttonTexture.Width * 25) / 100, 0, (buttonTexture.Width * 75) / 100, buttonTexture.Height);
+                    else if (image.ImagePositioning == ButtonAreaImagePositioningEnum.VerticalSlider)
+                        sliderPartVisible = new Rectangle(0, buttonTexture.Height / 2, buttonTexture.Width, buttonTexture.Height / 2);
+                    spriteBatch.Draw(buttonTexture, position + offset + imageOffset, sliderPartVisible, Color.White);
+                }
+                if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
+                    imageOffset.X = imageOffset.X + buttonTexture.Width;
+                else if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Vertical)
+                    imageOffset.Y = imageOffset.Y + buttonTexture.Height;
+            }
+            return imageOffset;
         }
         internal void SetContentManager(ContentManager contentManager)
         {
@@ -58,28 +104,37 @@ namespace RallyTheRobots
         {
             _rollingStateImageName.Add(rollingStateName);
         }
-        public virtual void SetImageToRollingState(string imageName, string currentRollingState)
+        public virtual bool ReferencingRollingStateAsImage()
         {
-            ClearImages();
-            AddImage(imageName);
-            AddImage(currentRollingState);
-        }
-        public virtual void SetCharacterImageToRollingState(string imageName, string currentRollingState)
-        {
-            ClearImages();
-            AddImage(imageName);
-            foreach (char characterImageName in currentRollingState)
+            if (_imageList != null && _imageList.Count > 0)
             {
-                AddImage(characterImageName.ToString());
+                foreach (Image image in _imageList)
+                {
+                    if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState)
+                        return true;                            
+                }
             }
+            return false;
+        }
+        public virtual bool ReferencingRollingStateAsCharacterImage()
+        {
+            if (_imageList != null && _imageList.Count > 0)
+            {
+                foreach (Image image in _imageList)
+                {
+                    if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingStateCharacter)
+                        return true;
+                }
+            }
+            return false;
         }
         public virtual void ClearImages()
         {
             _imageList.Clear();
         }
-        public virtual void AddImage(string imageName, ButtonAreaImageTypeEnum imageType = ButtonAreaImageTypeEnum.Normal, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
+        public virtual void AddImage(string imageName, ButtonAreaImageNameTypeEnum imageNameType = ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum imageType = ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
         {
-            _imageList.Add(new Image(imageName, imageType, imageStackDirection));
+            _imageList.Add(new Image(imageName, imageNameType, imageType, imageStackDirection));
         }
         protected virtual ButtonAreaStateImageEnum GetCurrentImageStateEnum(bool visible, bool disabled, ButtonStatusEnum status)
         {
@@ -118,7 +173,7 @@ namespace RallyTheRobots
             //Check if texture exists
             while (imageType == ButtonAreaStateImageEnum.Disabled || imageType == ButtonAreaStateImageEnum.Focused || imageType == ButtonAreaStateImageEnum.Selected)
             {
-                if (_contentManager.GetImage(_imageList[0].ImageName + buttonImageNameSuffix) == null)
+                if (_contentManager.GetTexture2D(_imageList[0].ImageName + buttonImageNameSuffix) == null)
                 {
                     if (imageType == ButtonAreaStateImageEnum.Disabled)
                         _disabledMissing = true;
@@ -136,50 +191,21 @@ namespace RallyTheRobots
             }
             return buttonImageNameSuffix;
         }
-        public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status)
-        {
-            Vector2 size = new Vector2(0, 0);
-            if (_imageList != null && _imageList.Count > 0)
-            {
-                string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-                foreach (Image image in _imageList)
-                {
-                    Texture2D buttonImage = _contentManager.GetImage(image.ImageName + buttonImageNameSuffix);
-                    if (buttonImage != null)
-                    {
-                        if (image.ImageType != ButtonAreaImageTypeEnum.Overlay)
-                        {
-                            if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
-                            {
-                                size.X = size.X + buttonImage.Width;
-                                size.Y = (buttonImage.Height > size.Y) ? buttonImage.Height : size.Y;
-                            }
-                            else
-                            {
-                                size.X = (buttonImage.Width > size.X) ? buttonImage.Width : size.X;
-                                size.Y = size.Y + buttonImage.Height;
-                            }
-                        }
-                    }
-                }
-            }
-            return size;
-        }
         public virtual void Initialize()
         {
             foreach (Image image in _imageList)
             {
-                _contentManager.AddImage(image.ImageName + "_idle");
-                _contentManager.AddImage(image.ImageName + "_focused");
-                _contentManager.AddImage(image.ImageName + "_selected");
-                _contentManager.AddImage(image.ImageName + "_disabled");
+                _contentManager.AddTexture2D(image.ImageName + "_idle");
+                _contentManager.AddTexture2D(image.ImageName + "_focused");
+                _contentManager.AddTexture2D(image.ImageName + "_selected");
+                _contentManager.AddTexture2D(image.ImageName + "_disabled");
             }
             foreach (string imageName in _rollingStateImageName)
             {
-                _contentManager.AddImage(imageName + "_idle");
-                _contentManager.AddImage(imageName + "_focused");
-                _contentManager.AddImage(imageName + "_selected");
-                _contentManager.AddImage(imageName + "_disabled");
+                _contentManager.AddTexture2D(imageName + "_idle");
+                _contentManager.AddTexture2D(imageName + "_focused");
+                _contentManager.AddTexture2D(imageName + "_selected");
+                _contentManager.AddTexture2D(imageName + "_disabled");
             }
         }
     }

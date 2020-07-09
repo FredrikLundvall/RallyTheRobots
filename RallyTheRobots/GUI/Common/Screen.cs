@@ -68,7 +68,7 @@ namespace RallyTheRobots
         public virtual void AddBackground(string backgroundName)
         {
             _backgroundName = backgroundName;
-            _contentManager.AddImage(_backgroundName);
+            _contentManager.AddTexture2D(_backgroundName);
         }
         public virtual void ScreenChangeOnAnyButton(Screen changeToScreen)
         {
@@ -198,7 +198,7 @@ namespace RallyTheRobots
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {
-            Texture2D background = _contentManager.GetImage(_backgroundName);
+            Texture2D background = _contentManager.GetTexture2D(_backgroundName);
             if (background != null)
                 spriteBatch.Draw(background, _zeroPosition, Color.White);
             _buttonAreaList.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch);

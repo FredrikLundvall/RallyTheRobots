@@ -66,6 +66,23 @@ namespace RallyTheRobots
         }
         public virtual void Initialize()
         {
+            if (_buttonAreaImage.ReferencingRollingStateAsImage())
+            {
+                foreach (string stateName in _rollingState.ToArray())
+                {
+                    _buttonAreaImage.AddRollingStatesAsImages(stateName);
+                }
+            }
+            if (_buttonAreaImage.ReferencingRollingStateAsCharacterImage())
+            {
+                foreach (string stateName in _rollingState.ToArray())
+                {
+                    foreach (char characterImageName in stateName)
+                    {
+                        _buttonAreaImage.AddRollingStatesAsImages(characterImageName.ToString());
+                    }
+                }
+            }
             _buttonAreaImage.Initialize();
         }
         public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus, Vector2 offset, IResolution resolution)
@@ -94,53 +111,22 @@ namespace RallyTheRobots
             //Exception for the press of mousebutton outside the ButtonArea
             else if (!_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
                 manager.ButtonForAlternateSelectIsHeldDown = false;
-
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
-            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status);
-        }
-        public virtual void AddRollingStatesAsImages()
-        {
-            foreach (string stateName in _rollingState.ToArray())
-            {
-                _buttonAreaImage.AddRollingStatesAsImages(stateName);
-            }
-        }
-        public virtual void AddRollingStatesAsCharacterImages()
-        {
-            foreach (string stateName in _rollingState.ToArray())
-            {
-                foreach (char characterImageName in stateName)
-                {
-                    _buttonAreaImage.AddRollingStatesAsImages(characterImageName.ToString());
-                }
-            }
-        }
-        public virtual void SetImageToRollingState(string imageName)
-        {
-            _buttonAreaImage.SetImageToRollingState(imageName, GetCurrentRollingState());
-        }
-        public virtual void SetCharacterImageToRollingState(string imageName)
-        {
-            _buttonAreaImage.SetCharacterImageToRollingState(imageName, GetCurrentRollingState());
+            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState());
         }
         public virtual void ClearImages()
         {
             _buttonAreaImage.ClearImages();
         }
-        public virtual void AddImage(string imageName, ButtonAreaImageTypeEnum imageType = ButtonAreaImageTypeEnum.Normal, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
+        public virtual void AddImage(string imageName, ButtonAreaImageNameTypeEnum imageNameType = ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum imageType = ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
         {
-            _buttonAreaImage.AddImage(imageName, imageType, imageStackDirection);
-        }
-        public virtual void AddCharacterImage(string imageCharacterName)
-        {
-            foreach (char characterImageName in imageCharacterName)
-                _buttonAreaImage.AddImage(characterImageName.ToString());
+            _buttonAreaImage.AddImage(imageName, imageNameType, imageType, imageStackDirection);
         }
         public virtual Vector2 GetSize()
         {
-            return _buttonAreaImage.GetSize(Visible, Disabled, Status);
+            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState());
         }
     }
 }

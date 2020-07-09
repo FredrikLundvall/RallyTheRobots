@@ -9,12 +9,14 @@ namespace RallyTheRobots
     public class Image
     {
         public readonly string ImageName;
-        public ButtonAreaImageTypeEnum ImageType;
+        public ButtonAreaImagePositioningEnum ImagePositioning;
         public ButtonAreaImageStackDirectionEnum ImageStackDirection;
-        public Image(string imageName, ButtonAreaImageTypeEnum imageType, ButtonAreaImageStackDirectionEnum imageStackDirection)
+        public ButtonAreaImageNameTypeEnum ImageNameType;
+        public Image(string imageName, ButtonAreaImageNameTypeEnum imageNameType, ButtonAreaImagePositioningEnum imagePositioning, ButtonAreaImageStackDirectionEnum imageStackDirection)
         {
             ImageName = imageName;
-            ImageType = imageType;
+            ImageNameType = imageNameType;
+            ImagePositioning = imagePositioning;
             ImageStackDirection = imageStackDirection;
         }
     }

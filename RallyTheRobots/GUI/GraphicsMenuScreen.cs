@@ -23,19 +23,19 @@ namespace RallyTheRobots
             AddButtonArea(returnButton);
             _fullscreenButton.AddRollingState("true");
             _fullscreenButton.AddRollingState("false");
-            _fullscreenButton.AddRollingStatesAsImages();
-            _fullscreenButton.SetImageToRollingState("graphicsmenu_fullscreen");
+            _fullscreenButton.AddImage("graphicsmenu_fullscreen");
+            _fullscreenButton.AddImage("graphicsmenu_fullscreen_true_or_false", ButtonAreaImageNameTypeEnum.RollingState);
             _fullscreenButton.Position = new Vector2(83, 540);
-            _fullscreenButton.SetButtonSelectAction(new SetButtonImageToNextRollingStateButtonAction(_fullscreenButton, "graphicsmenu_fullscreen"));
+            _fullscreenButton.SetButtonSelectAction(new NextRollingStateButtonAction(_fullscreenButton));
             AddButtonArea(_fullscreenButton);
             foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
             {
                 _resolutionButton.AddRollingState(string.Format("{0:D}x{1:D};", displayMode.Width, displayMode.Height));
             }
-            _resolutionButton.AddRollingStatesAsCharacterImages();
-            _resolutionButton.SetCharacterImageToRollingState("graphicsmenu_resolution");
+            _resolutionButton.AddImage("graphicsmenu_resolution");
+            _resolutionButton.AddImage("graphicsmenu_resolution_width_x_height", ButtonAreaImageNameTypeEnum.RollingStateCharacter);
             _resolutionButton.Position = new Vector2(83, 690);
-            _resolutionButton.SetButtonSelectAction(new SetButtonCharacterImageToNextRollingStateButtonAction(_resolutionButton, "graphicsmenu_resolution"));
+            _resolutionButton.SetButtonSelectAction(new NextRollingStateButtonAction(_resolutionButton));
             AddButtonArea(_resolutionButton);
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddImage("apply_settings");
@@ -48,10 +48,8 @@ namespace RallyTheRobots
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
         {
             _fullscreenButton.SetCurrentRollingState(gameSettings.GetFullscreen() ? "true" : "false");
-            _fullscreenButton.SetImageToRollingState("graphicsmenu_fullscreen");
             
             _resolutionButton.SetCurrentRollingState(string.Format("{0:D}x{1:D};", gameSettings.GetWidth(), gameSettings.GetHeight()));
-            _resolutionButton.SetCharacterImageToRollingState("graphicsmenu_resolution");
             base.EnterScreen(gameTime, gameSettings);
         }
     }

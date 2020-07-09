@@ -2,19 +2,16 @@
 
 namespace RallyTheRobots
 {
-    public class SetButtonCharacterImageToPreviousRollingStateButtonAction : ButtonAction
+    public class PreviousRollingStateButtonAction : ButtonAction
     {
         ButtonArea _buttonArea;
-        string _imageName;
-        public SetButtonCharacterImageToPreviousRollingStateButtonAction(ButtonArea buttonArea, string imageName)
+        public PreviousRollingStateButtonAction(ButtonArea buttonArea)
         {
             _buttonArea = buttonArea;
-            _imageName = imageName;
         }
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             _buttonArea.PreviousRollingState();
-            _buttonArea.SetCharacterImageToRollingState(_imageName);
         }
     }
 }
