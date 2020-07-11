@@ -10,6 +10,7 @@ namespace RallyTheRobots
     public class SoundMenuScreen : Screen
     {
         protected ButtonArea _masterVolumeButton = new ButtonArea();
+        protected ButtonArea _musicVolumeButton = new ButtonArea();
         public override void Initialize()
         {
             //AddBackground("soundmenu");
@@ -19,24 +20,22 @@ namespace RallyTheRobots
             returnButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
-            for(int i = 0; i <= 100; i += 5)
-            {
-                _masterVolumeButton.AddRollingState(string.Format("{0:D};", i));
-            }
             _masterVolumeButton.AddImage("soundmenu_mastervolume");
-            _masterVolumeButton.AddImage("soundmenu_mastervolume_percent", ButtonAreaImageNameTypeEnum.RollingStateCharacter);
+            _masterVolumeButton.AddImage("slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueHorizontalSlider, ButtonAreaImageStackDirectionEnum.None);
+            _masterVolumeButton.AddImage("slider");
+            _masterVolumeButton.AddImage(";", ButtonAreaImageNameTypeEnum.Character);
             _masterVolumeButton.Position = new Vector2(83, 540);
-            _masterVolumeButton.SetButtonSelectAction(new NextRollingStateButtonAction(_masterVolumeButton));
-            _masterVolumeButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_masterVolumeButton));
+            _masterVolumeButton.SetButtonSelectAction(new ChangeValueButtonAction(_masterVolumeButton, 1));
+            _masterVolumeButton.SetButtonAlternateSelectAction(new ChangeValueButtonAction(_masterVolumeButton, -1));
             AddButtonArea(_masterVolumeButton);
-            ButtonArea musicVolumeButton = new ButtonArea();
-            musicVolumeButton.AddImage("soundmenu_musicvolume");
-            musicVolumeButton.AddImage("slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.HorizontalSlider, ButtonAreaImageStackDirectionEnum.None);
-            musicVolumeButton.AddImage("slider");
-            musicVolumeButton.AddImage("12;", ButtonAreaImageNameTypeEnum.Character);
-            musicVolumeButton.Position = new Vector2(83, 690);
-            //musicVolumeButton.SetButtonAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
-            AddButtonArea(musicVolumeButton);
+            _musicVolumeButton.AddImage("soundmenu_musicvolume");
+            _musicVolumeButton.AddImage("slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueHorizontalSlider, ButtonAreaImageStackDirectionEnum.None);
+            _musicVolumeButton.AddImage("slider");
+            _musicVolumeButton.AddImage(";", ButtonAreaImageNameTypeEnum.Character);
+            _musicVolumeButton.Position = new Vector2(83, 690);
+            _musicVolumeButton.SetButtonSelectAction(new ChangeValueButtonAction(_musicVolumeButton, 1));
+            _musicVolumeButton.SetButtonAlternateSelectAction(new ChangeValueButtonAction(_musicVolumeButton, -1));
+            AddButtonArea(_musicVolumeButton);
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddImage("apply_settings");
             applyButton.Position = new Vector2(83, 840);
@@ -47,7 +46,8 @@ namespace RallyTheRobots
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
         {
-            _masterVolumeButton.SetCurrentRollingState(string.Format("{0:D};", 100));
+            _masterVolumeButton.SetCurrentValue(100);
+            _musicVolumeButton.SetCurrentValue(100);
             base.EnterScreen(gameTime, gameSettings);
         }
     }

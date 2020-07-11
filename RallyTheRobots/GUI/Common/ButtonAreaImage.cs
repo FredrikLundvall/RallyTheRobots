@@ -17,7 +17,7 @@ namespace RallyTheRobots
         protected bool _focusedMissing = false;
         protected bool _selectedMissing = false;
 
-        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
+        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState, int currentValue)
         {
             Vector2 imageOffset = new Vector2(0, 0);
             if (_imageList != null && _imageList.Count > 0)
@@ -31,12 +31,12 @@ namespace RallyTheRobots
                     {
                         string characterImageName = imageName.Substring(i, numberOfChars);
                         Texture2D texture = _contentManager.GetTexture2D(characterImageName + buttonImageNameSuffix);
-                        imageOffset = DrawTexture(spriteBatch, offset, position, imageOffset, image, texture);
+                        imageOffset = DrawTexture(spriteBatch, offset, position, imageOffset, image, texture, currentValue);
                     }
                 }
             }
         }
-        public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
+        public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState, int currentValue)
         {
             Vector2 size = new Vector2(0, 0);
             if (_imageList != null && _imageList.Count > 0)
@@ -73,7 +73,7 @@ namespace RallyTheRobots
             }
             return size;
         }
-        protected virtual Vector2 DrawTexture(SpriteBatch spriteBatch, Vector2 offset, Vector2 position, Vector2 imageOffset, ImageSettings image, Texture2D buttonTexture)
+        protected virtual Vector2 DrawTexture(SpriteBatch spriteBatch, Vector2 offset, Vector2 position, Vector2 imageOffset, ImageSettings image, Texture2D buttonTexture, int currentValue)
         {
             if (buttonTexture != null)
             {
@@ -82,10 +82,10 @@ namespace RallyTheRobots
                 else
                 {
                     Rectangle sliderPartVisible = new Rectangle(0, 0, buttonTexture.Width, buttonTexture.Height);
-                    if (image.ImagePositioning == ButtonAreaImagePositioningEnum.HorizontalSlider)
-                        sliderPartVisible = new Rectangle((buttonTexture.Width * 25) / 100, 0, (buttonTexture.Width * 75) / 100, buttonTexture.Height);
-                    else if (image.ImagePositioning == ButtonAreaImagePositioningEnum.VerticalSlider)
-                        sliderPartVisible = new Rectangle(0, buttonTexture.Height / 2, buttonTexture.Width, buttonTexture.Height / 2);
+                    if (image.ImagePositioning == ButtonAreaImagePositioningEnum.ValueHorizontalSlider)
+                        sliderPartVisible = new Rectangle((buttonTexture.Width * (100 - currentValue)) / 100, 0, (buttonTexture.Width * currentValue) / 100, buttonTexture.Height);
+                    else if (image.ImagePositioning == ButtonAreaImagePositioningEnum.ValueVerticalSlider)
+                        sliderPartVisible = new Rectangle(0, (buttonTexture.Height * (100 - currentValue)) / 100, buttonTexture.Width, (buttonTexture.Height * currentValue) / 100);
                     spriteBatch.Draw(buttonTexture, position + offset + imageOffset, sliderPartVisible, Color.White);
                 }
                 if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)

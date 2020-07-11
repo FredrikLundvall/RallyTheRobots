@@ -49,7 +49,11 @@
     <Compile Include="GUI\Common\ButtonAreaImageStackDirectionEnum.cs" />
     <Compile Include="GUI\Common\ButtonAreaImagePositioningEnum.cs" />
     <Compile Include="GUI\Common\ButtonAreaStateImageEnum.cs" />
+    <Compile Include="GUI\Common\ChangeValueFocusedButtonAction.cs" />
+    <Compile Include="GUI\Common\FocusNextButtonAreaButtonAction.cs" />
+    <Compile Include="GUI\Common\FocusPreviousButtonAreaButtonAction.cs" />
     <Compile Include="GUI\Common\ImageSettings.cs" />
+    <Compile Include="GUI\Common\ChangeValueButtonAction.cs" />
     <Compile Include="GUI\Common\ResolutionFactory.cs" />
     <Compile Include="GUI\Common\NextRollingStateButtonAction.cs" />
     <Compile Include="GUI\Common\RollingState.cs" />

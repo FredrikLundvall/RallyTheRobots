@@ -26,6 +26,7 @@ namespace RallyTheRobots
         public ButtonStatusEnum Status = ButtonStatusEnum.Idle;
         protected ButtonAction _buttonSelectAction = ButtonAction.GetEmptyButtonAction();
         protected ButtonAction _buttonAlternateSelectAction = ButtonAction.GetEmptyButtonAction();
+        protected int _currentValue = 0;
 
         internal void SetContentManager(ContentManager contentManager)
         {
@@ -85,6 +86,14 @@ namespace RallyTheRobots
             }
             _buttonAreaImage.Initialize();
         }
+        public void SetCurrentValue(int currentValue)
+        {
+            _currentValue = currentValue;
+        }
+        public int GetCurrentValue()
+        {
+            return _currentValue;
+        }
         public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus, Vector2 offset, IResolution resolution)
         {
             //Check if the button was released between the last triggering of DoAction
@@ -111,10 +120,11 @@ namespace RallyTheRobots
             //Exception for the press of mousebutton outside the ButtonArea
             else if (!_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
                 manager.ButtonForAlternateSelectIsHeldDown = false;
+            _currentValue = Math.Min(Math.Max(_currentValue, 0), 100);
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
-            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState());
+            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentValue);
         }
         public virtual void ClearImages()
         {
@@ -126,7 +136,7 @@ namespace RallyTheRobots
         }
         public virtual Vector2 GetSize()
         {
-            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState());
+            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentValue);
         }
     }
 }

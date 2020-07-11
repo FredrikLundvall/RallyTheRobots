@@ -24,11 +24,10 @@ namespace RallyTheRobots
         protected TimeSpan _totalGameTimeFocusChange;
         protected ButtonAreaList _buttonAreaList;
         protected ButtonArea _focusedAtEnterButtonArea;
-        //TODO: Add actions for these buttons (maybe change how the scrolling is done)
-        protected ButtonAction _buttonPreviousVerticalAction = ButtonAction.GetEmptyButtonAction();
-        protected ButtonAction _buttonNextVerticalAction = ButtonAction.GetEmptyButtonAction();
-        protected ButtonAction _buttonPreviousHorizontalAction = ButtonAction.GetEmptyButtonAction();
-        protected ButtonAction _buttonNextHorizontalAction = ButtonAction.GetEmptyButtonAction();
+        protected ButtonAction _buttonPreviousVerticalAction = new FocusPreviousButtonAreaButtonAction();
+        protected ButtonAction _buttonNextVerticalAction = new FocusNextButtonAreaButtonAction();
+        protected ButtonAction _buttonPreviousHorizontalAction = new ChangeValueFocusedButtonAction(-1);
+        protected ButtonAction _buttonNextHorizontalAction = new ChangeValueFocusedButtonAction(1);
 
         public Screen()
         {
@@ -121,14 +120,14 @@ namespace RallyTheRobots
         public virtual void LeaveScreen()
         {
         }
-        protected virtual void FocusPreviousButtonArea(GameTime gameTime)
+        internal virtual void FocusPreviousButtonArea(GameTime gameTime)
         {
             if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
                 return;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
             SetFocusedButtonArea(_buttonAreaList.GetPreviousButtonArea());
         }
-        protected virtual void FocusNextButtonArea(GameTime gameTime)
+        internal virtual void FocusNextButtonArea(GameTime gameTime)
         {
             if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
                 return;
@@ -142,6 +141,10 @@ namespace RallyTheRobots
         public virtual void ScrollUpButtonArea(GameTime gameTime)
         {
             _buttonAreaList.ScrollUp();
+        }
+        public virtual ButtonArea GetSelectedOrFocusedButtonArea()
+        {
+            return _buttonAreaList.GetSelectedOrFocusedButtonArea(null);
         }
         protected virtual void ChangeSelectedButtonAreaToFocused(GameTime gameTime)
         {
@@ -165,6 +168,22 @@ namespace RallyTheRobots
         {
             _buttonAreaList.SetStatusButtonArea(selectedButton, ButtonStatusEnum.Selected);
         }
+        public virtual void SetPreviousVerticalAction(ButtonAction buttonAction)
+        {
+            _buttonPreviousVerticalAction = buttonAction;
+        }
+        public virtual void SetNextVerticalAction(ButtonAction buttonAction)
+        {
+            _buttonNextVerticalAction = buttonAction;
+        }
+        public virtual void SetPreviousHorizontalAction(ButtonAction buttonAction)
+        {
+            _buttonPreviousHorizontalAction = buttonAction;
+        }
+        public virtual void SetNextHorizontalAction(ButtonAction buttonAction)
+        {
+            _buttonNextHorizontalAction = buttonAction;
+        }
         public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             if (!_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) && !_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings) && !_inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings) && !_inputChecker.MouseWheelUpIsCurrentlyTurned() && !_inputChecker.MouseWheelDownIsCurrentlyTurned())
@@ -175,13 +194,25 @@ namespace RallyTheRobots
                 manager.ChangeScreen(gameTime, gameSettings, _anyButtonScreen);
             if (_timeoutScreen != null & (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds) > _timeoutSeconds)
                 manager.ChangeScreen(gameTime, gameSettings, _timeoutScreen);
-
             if (_inputChecker.PreviousVerticalButtonIsCurrentlyPressed(gameSettings))
-                FocusPreviousButtonArea(gameTime);
+            {
+                _buttonPreviousVerticalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
+            }
             else if (_inputChecker.NextVerticalButtonIsCurrentlyPressed(gameSettings))
-                FocusNextButtonArea(gameTime);
+            {
+                _buttonNextVerticalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
+            }
             else
                 _totalGameTimeFocusChange = new TimeSpan(0, 0, 0);
+
+            if (_inputChecker.PreviousHorizontalButtonIsCurrentlyPressed(gameSettings))
+            {
+                _buttonPreviousHorizontalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
+            }
+            else if (_inputChecker.NextHorizontalButtonIsCurrentlyPressed(gameSettings))
+            {
+                _buttonNextHorizontalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
+            }
 
             if (!manager.ButtonForSelectIsHeldDown && _inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
                 SelectFocusedButtonArea(gameTime);
