@@ -10,15 +10,19 @@ namespace RallyTheRobots
     public class ChangeValueButtonAction : ButtonAction
     {
         ButtonArea _buttonArea;
-        int _changeStep;
-        public ChangeValueButtonAction(ButtonArea buttonArea, int changeStep)
+        int _changeHorizontalStep;
+        int _changeVerticalStep;
+
+        public ChangeValueButtonAction(ButtonArea buttonArea, int changeHorizontalStep, int changeVerticalStep)
         {
             _buttonArea = buttonArea;
-            _changeStep = changeStep;
+            _changeHorizontalStep = changeHorizontalStep;
+            _changeVerticalStep = changeVerticalStep;
         }
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            _buttonArea.SetCurrentValue(_buttonArea.GetCurrentValue() + _changeStep);
+            _buttonArea.SetCurrentHorizontalValue(_buttonArea.GetCurrentHorizontalValue() + _changeHorizontalStep);
+            _buttonArea.SetCurrentVerticalValue(_buttonArea.GetCurrentVerticalValue() + _changeVerticalStep);
         }
     }
 }

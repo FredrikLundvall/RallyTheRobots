@@ -26,7 +26,8 @@ namespace RallyTheRobots
         public ButtonStatusEnum Status = ButtonStatusEnum.Idle;
         protected ButtonAction _buttonSelectAction = ButtonAction.GetEmptyButtonAction();
         protected ButtonAction _buttonAlternateSelectAction = ButtonAction.GetEmptyButtonAction();
-        protected int _currentValue = 0;
+        protected int _currentHorizontalValue = 0;
+        protected int _currentVerticalValue = 0;
 
         internal void SetContentManager(ContentManager contentManager)
         {
@@ -86,13 +87,21 @@ namespace RallyTheRobots
             }
             _buttonAreaImage.Initialize();
         }
-        public void SetCurrentValue(int currentValue)
+        public void SetCurrentHorizontalValue(int currentValue)
         {
-            _currentValue = currentValue;
+            _currentHorizontalValue = currentValue;
         }
-        public int GetCurrentValue()
+        public int GetCurrentHorizontalValue()
         {
-            return _currentValue;
+            return _currentHorizontalValue;
+        }
+        public void SetCurrentVerticalValue(int currentValue)
+        {
+            _currentVerticalValue = currentValue;
+        }
+        public int GetCurrentVerticalValue()
+        {
+            return _currentVerticalValue;
         }
         public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus, Vector2 offset, IResolution resolution)
         {
@@ -120,11 +129,12 @@ namespace RallyTheRobots
             //Exception for the press of mousebutton outside the ButtonArea
             else if (!_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
                 manager.ButtonForAlternateSelectIsHeldDown = false;
-            _currentValue = Math.Min(Math.Max(_currentValue, 0), 100);
+            _currentHorizontalValue = Math.Min(Math.Max(_currentHorizontalValue, 0), 100);
+            _currentVerticalValue = Math.Min(Math.Max(_currentHorizontalValue, 0), 100);
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
-            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentValue);
+            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue);
         }
         public virtual void ClearImages()
         {
@@ -136,7 +146,7 @@ namespace RallyTheRobots
         }
         public virtual Vector2 GetSize()
         {
-            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentValue);
+            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue);
         }
     }
 }

@@ -25,16 +25,16 @@ namespace RallyTheRobots
             _masterVolumeButton.AddImage("slider");
             _masterVolumeButton.AddImage(";", ButtonAreaImageNameTypeEnum.Character);
             _masterVolumeButton.Position = new Vector2(83, 540);
-            _masterVolumeButton.SetButtonSelectAction(new ChangeValueButtonAction(_masterVolumeButton, 1));
-            _masterVolumeButton.SetButtonAlternateSelectAction(new ChangeValueButtonAction(_masterVolumeButton, -1));
+            _masterVolumeButton.SetButtonSelectAction(new ChangeValueButtonAction(_masterVolumeButton, 1, 0));
+            _masterVolumeButton.SetButtonAlternateSelectAction(new ChangeValueButtonAction(_masterVolumeButton, -1, 0));
             AddButtonArea(_masterVolumeButton);
             _musicVolumeButton.AddImage("soundmenu_musicvolume");
             _musicVolumeButton.AddImage("slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueHorizontalSlider, ButtonAreaImageStackDirectionEnum.None);
             _musicVolumeButton.AddImage("slider");
             _musicVolumeButton.AddImage(";", ButtonAreaImageNameTypeEnum.Character);
             _musicVolumeButton.Position = new Vector2(83, 690);
-            _musicVolumeButton.SetButtonSelectAction(new ChangeValueButtonAction(_musicVolumeButton, 1));
-            _musicVolumeButton.SetButtonAlternateSelectAction(new ChangeValueButtonAction(_musicVolumeButton, -1));
+            _musicVolumeButton.SetButtonSelectAction(new ChangeValueButtonAction(_musicVolumeButton, 1, 0));
+            _musicVolumeButton.SetButtonAlternateSelectAction(new ChangeValueButtonAction(_musicVolumeButton, -1, 0));
             AddButtonArea(_musicVolumeButton);
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddImage("apply_settings");
@@ -46,8 +46,8 @@ namespace RallyTheRobots
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
         {
-            _masterVolumeButton.SetCurrentValue(100);
-            _musicVolumeButton.SetCurrentValue(100);
+            _masterVolumeButton.SetCurrentHorizontalValue(100);
+            _musicVolumeButton.SetCurrentHorizontalValue(100);
             base.EnterScreen(gameTime, gameSettings);
         }
     }

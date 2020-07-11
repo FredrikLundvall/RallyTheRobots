@@ -26,8 +26,8 @@ namespace RallyTheRobots
         protected ButtonArea _focusedAtEnterButtonArea;
         protected ButtonAction _buttonPreviousVerticalAction = new FocusPreviousButtonAreaButtonAction();
         protected ButtonAction _buttonNextVerticalAction = new FocusNextButtonAreaButtonAction();
-        protected ButtonAction _buttonPreviousHorizontalAction = new ChangeValueFocusedButtonAction(-1);
-        protected ButtonAction _buttonNextHorizontalAction = new ChangeValueFocusedButtonAction(1);
+        protected ButtonAction _buttonPreviousHorizontalAction = new ChangeValueFocusedButtonAction(-1, 0);
+        protected ButtonAction _buttonNextHorizontalAction = new ChangeValueFocusedButtonAction(1, 0);
 
         public Screen()
         {
