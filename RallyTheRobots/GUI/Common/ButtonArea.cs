@@ -17,6 +17,8 @@ namespace RallyTheRobots
         protected ButtonAreaImage _buttonAreaImage = new ButtonAreaImage();
         protected RollingState _rollingState = new RollingState();
         public Vector2 Position;
+        public int SliderBorderLeft;
+        public int SliderBorderRight;
         public bool Visible = true;
         public bool Disabled = false;
         //Maybe move this functionality to the screen (only one shortcut with GoBackButton per screen is probably a requirement)
@@ -113,6 +115,9 @@ namespace RallyTheRobots
                     manager.ButtonForSelectIsHeldDown = true;
                     _buttonSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
                 }
+                int horizontalSlider = _inputChecker.HorizontalValueMouseSliderButtonArea(this, offset, resolution);
+                if (horizontalSlider != -2)
+                    _currentHorizontalValue = Math.Max(Math.Min(horizontalSlider, 100), 0);
             }
             //Exception for the press of mousebutton outside the ButtonArea
             else if (!_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
@@ -134,7 +139,7 @@ namespace RallyTheRobots
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
-            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue);
+            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue, SliderBorderLeft, SliderBorderRight);
         }
         public virtual void ClearImages()
         {
@@ -146,7 +151,11 @@ namespace RallyTheRobots
         }
         public virtual Vector2 GetSize()
         {
-            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue);
+            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState());
+        }
+        public virtual Rectangle GetHorizontalSliderRectangle()
+        {
+            return _buttonAreaImage.GetHorizontalSliderRectangle(SliderBorderLeft, SliderBorderRight, Position, Visible, Disabled, Status, _rollingState.GetCurrentState());
         }
     }
 }

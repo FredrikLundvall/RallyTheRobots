@@ -85,6 +85,20 @@ namespace RallyTheRobots
             Vector2 buttonAreaSize = buttonArea.GetSize();
             return mousePosition.X >= buttonArea.Position.X + offset.X && mousePosition.X <= buttonArea.Position.X + offset.X + buttonAreaSize.X && mousePosition.Y >= buttonArea.Position.Y + offset.Y && mousePosition.Y <= buttonArea.Position.Y + offset.Y + buttonAreaSize.Y;
         }
+        public virtual int HorizontalValueMouseSliderButtonArea(ButtonArea buttonArea, Vector2 offset, IResolution resolution)
+        {
+            Point mouseScreenPosition = _currentMousePosition;
+            Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
+            Rectangle buttonAreaSliderRect = buttonArea.GetHorizontalSliderRectangle();
+            if ((int)mousePosition.X < buttonAreaSliderRect.X + (int)offset.X - buttonArea.SliderBorderLeft || (int)mousePosition.X > buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width + buttonArea.SliderBorderRight || buttonAreaSliderRect.Width == 0)
+                return -2;
+            else if ((int)mousePosition.X <= buttonAreaSliderRect.X + (int)offset.X)
+                return -1;
+            else if ((int)mousePosition.X >= buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width)
+                return 101;
+            else 
+                return (int)(((mousePosition.X - ((float)buttonAreaSliderRect.X + offset.X)) / (float) buttonAreaSliderRect.Width) * 100f + 0.5f);
+        }
         public virtual bool HasMouseWheelMoved()
         {
             return _currentScrollWheelValue != _oldScrollWheelValue;
