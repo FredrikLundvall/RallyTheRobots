@@ -64,11 +64,11 @@ namespace RallyTheRobots
         }
         public virtual bool PreviousHorizontalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
-            return GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.3 || Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A);
+            return GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < -0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < -0.3 || Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A);
         }
         public virtual bool NextHorizontalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
-            return GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < -0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < -0.3 || Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D);
+            return GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0.3 || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.3 || Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D);
         }
         public virtual bool GoBackButtonIsCurrentlyPressed(GameSettings gameSettings)
         {

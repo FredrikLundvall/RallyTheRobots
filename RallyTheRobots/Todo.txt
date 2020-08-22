@@ -1,0 +1,1 @@
+﻿When using gamepad to navigate to the SoundMenuScreen the slider-values are set to wrong value when entering the screen.

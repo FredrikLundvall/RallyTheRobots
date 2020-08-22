@@ -68,13 +68,13 @@
     <Compile Include="GUI\Common\ButtonStatusEnum.cs" />
     <Compile Include="GUI\Common\ChangeScreenButtonAction.cs" />
     <Compile Include="GUI\Common\ExitToDesktopButtonAction.cs" />
-    <Compile Include="GameStatus.cs" />
+    <Compile Include="GUI\Common\GameStatus.cs" />
     <Compile Include="GUI\Common\InputChecker.cs" />
     <Compile Include="GUI\Common\ScrollDownAction.cs" />
     <Compile Include="GUI\Common\ScrollUpAction.cs" />
     <Compile Include="GUI\LoadMenuScreen.cs" />
     <Compile Include="GUI\RallyTheRobotsScreenManager.cs" />
-    <Compile Include="RunningStatus.cs" />
+    <Compile Include="GUI\Common\RunningStatus.cs" />
     <Compile Include="GUI\Common\ScreenManager.cs" />
     <Compile Include="GUI\GameSettings.cs" />
     <Compile Include="GUI\SplashScreen.cs" />
@@ -378,7 +378,9 @@
     <Content Include="Content\x_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GUI\Common\GUI_readme.txt" />
     <Content Include="Icon.ico" />
+    <Content Include="Todo.txt" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

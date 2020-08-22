@@ -12,7 +12,7 @@ namespace RallyTheRobots
             AddBackground("splash");
             Screen startMenu = _screenManager.GetScreen<StartMenuScreen>();
             ScreenChangeOnTimeout(startMenu, 3.0);
-            ScreenChangeOnAnyButton(startMenu);
+            ScreenChangeOnAnyKey(startMenu);
             base.Initialize();
         }
     }

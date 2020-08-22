@@ -69,7 +69,7 @@ namespace RallyTheRobots
             _backgroundName = backgroundName;
             _contentManager.AddTexture2D(_backgroundName);
         }
-        public virtual void ScreenChangeOnAnyButton(Screen changeToScreen)
+        public virtual void ScreenChangeOnAnyKey(Screen changeToScreen)
         {
             _anyButtonScreen = changeToScreen;
         }
