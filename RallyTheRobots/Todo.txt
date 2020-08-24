@@ -1,1 +1,2 @@
-﻿When using gamepad to navigate to the SoundMenuScreen the slider-values are set to wrong value when entering the screen.
+﻿? When using gamepad to navigate to the SoundMenuScreen the slider-values are set to wrong value when entering the screen.
+  Button down for ScreenChangeOnAnyKey doesn´t block until key up (keyboard enter and gamepad especially).
