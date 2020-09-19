@@ -11,19 +11,51 @@ namespace RallyTheRobots
 {
     public class InputChecker
     {
-        private  Point _currentMousePosition;
-        private  Point _oldMousePosition;
-        private  int _currentScrollWheelValue;
-        private  int _oldScrollWheelValue;
+        private Point _currentMousePosition;
+        private Point _oldMousePosition;
+        private int _currentScrollWheelValue;
+        private int _oldScrollWheelValue;
+        private bool _buttonForSelectIsHeldDown;
+        private bool _buttonForAlternateSelectIsHeldDown;
+        private bool _buttonForSelectClicked;
+        private bool _buttonForAlternateSelectClicked;
         public virtual void Initialize()
         {
             _oldScrollWheelValue = Mouse.GetState().ScrollWheelValue;
             _oldMousePosition = Mouse.GetState().Position;
+            _buttonForSelectIsHeldDown = false;
+            _buttonForAlternateSelectIsHeldDown = false;
+            _buttonForSelectClicked = false;
+            _buttonForAlternateSelectClicked = false;
         }
         public virtual void BeforeUpdate(GameTime gameTime, GameSettings gameSettings)
         {
             _currentScrollWheelValue = Mouse.GetState().ScrollWheelValue;
             _currentMousePosition = Mouse.GetState().Position;
+            //Check if the button was released between the last updates
+            if (!ButtonForSelectIsCurrentlyPressed(gameSettings) && !ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
+                _buttonForSelectIsHeldDown = false;
+            _buttonForSelectClicked = false;
+            if(ButtonForSelectIsCurrentlyPressed(gameSettings) || (ButtonForSelectMouseIsCurrentlyPressed(gameSettings)))
+            {
+                if (!_buttonForSelectIsHeldDown)
+                {
+                    _buttonForSelectIsHeldDown = true;
+                    _buttonForSelectClicked = true;
+                }
+            }
+            //Check if the alternate button was released between the last updates
+            if (!ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) && !ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
+                _buttonForAlternateSelectIsHeldDown = false;
+            _buttonForAlternateSelectClicked = false;
+            if (ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) || (ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings)))
+            {
+                if (!_buttonForAlternateSelectIsHeldDown)
+                {
+                    _buttonForAlternateSelectIsHeldDown = true;
+                    _buttonForAlternateSelectClicked = true;
+                }
+            }
         }
         public virtual void AfterUpdate(GameTime gameTime, GameSettings gameSettings)
         {
@@ -37,6 +69,14 @@ namespace RallyTheRobots
         public virtual bool ButtonForAlternateSelectIsCurrentlyPressed(GameSettings gameSettings)
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Triggers.Left > 0.3 || GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Back) || Keyboard.GetState().IsKeyDown(Keys.F);
+        }
+        public virtual bool ButtonForSelectClicked(GameSettings gameSettings)
+        {
+            return _buttonForSelectClicked;
+        }
+        public virtual bool ButtonForAlternateSelectClicked(GameSettings gameSettings)
+        {
+            return _buttonForAlternateSelectClicked;
         }
         public virtual bool ButtonForSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
         {

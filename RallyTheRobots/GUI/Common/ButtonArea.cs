@@ -157,7 +157,7 @@ namespace RallyTheRobots
                 if (horizontalSlider != -2)
                     _currentHorizontalValue = Math.Max(Math.Min(horizontalSlider, 100), 0);
             }
-            //Exception for the press of mousebutton outside the ButtonArea
+            //Press of mousebutton outside the ButtonArea is treated differently
             else if (!_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
                 manager.ButtonForSelectIsHeldDown = false;
             //Check if the alternate button was released between the last triggering of DoAction
@@ -169,7 +169,7 @@ namespace RallyTheRobots
                     _buttonAlternateSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
                 }
             }
-            //Exception for the press of mousebutton outside the ButtonArea
+            //Press of mousebutton outside the ButtonArea is treated differently
             else if (!_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
                 manager.ButtonForAlternateSelectIsHeldDown = false;
             _currentHorizontalValue = Math.Min(Math.Max(_currentHorizontalValue, 0), 100);
