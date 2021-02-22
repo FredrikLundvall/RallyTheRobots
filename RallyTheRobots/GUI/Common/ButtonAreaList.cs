@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public class ButtonAreaList
     {
@@ -119,7 +119,7 @@ namespace RallyTheRobots
             int selectedIndex = -1;
             for (int i = 0; i < _buttonAreaList.Count; i++)
             {
-                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused || (orSelected &&_buttonAreaList[i].Status == ButtonStatusEnum.Selected))
+                if (_buttonAreaList[i].Status == ButtonStatusEnum.Focused || orSelected && _buttonAreaList[i].Status == ButtonStatusEnum.Selected)
                 {
                     selectedIndex = i;
                     break;
@@ -134,7 +134,7 @@ namespace RallyTheRobots
             {
                 if (button.Visible && !button.Disabled)
                 {
-                    if (!Scrollable || (button.Position.Y + button.GetSize().Y + ScrollCurrentOffset.Y < _scrollDownButtonArea.Position.Y && button.Position.Y + ScrollCurrentOffset.Y > _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y))
+                    if (!Scrollable || button.Position.Y + button.GetSize().Y + ScrollCurrentOffset.Y < _scrollDownButtonArea.Position.Y && button.Position.Y + ScrollCurrentOffset.Y > _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y)
                         if (_inputChecker.MouseIsCurrentlyOverButtonArea(button, ScrollCurrentOffset, resolution))
                             return button;
                 }
@@ -158,7 +158,7 @@ namespace RallyTheRobots
         public virtual ButtonArea GetSelectedOrFocusedButtonArea(ButtonArea selectedButton)
         {
             int selectedIndex = GetFocusedButtonAreaIndex(true);
-            if(selectedIndex >= 0)
+            if (selectedIndex >= 0)
                 selectedButton = _buttonAreaList[selectedIndex];
             return selectedButton;
         }
@@ -250,13 +250,13 @@ namespace RallyTheRobots
                     {
                         ButtonArea aboveFocusedButton = _buttonAreaList[focusedIndex - 1];
                         //Scroll down
-                        ScrollCurrentOffset.Y -= (focusedButton.Position.Y + focusedButton.GetSize().Y) - (aboveFocusedButton.Position.Y + aboveFocusedButton.GetSize().Y);
+                        ScrollCurrentOffset.Y -= focusedButton.Position.Y + focusedButton.GetSize().Y - (aboveFocusedButton.Position.Y + aboveFocusedButton.GetSize().Y);
                     }
                     else if (focusedButton.Position.Y + ScrollCurrentOffset.Y < _scrollUpButtonArea.Position.Y + _scrollUpButtonArea.GetSize().Y)
                     {
                         ButtonArea belowFocusedButton = _buttonAreaList[focusedIndex + 1];
                         //Scroll up
-                        ScrollCurrentOffset.Y += (belowFocusedButton.Position.Y + belowFocusedButton.GetSize().Y) - (focusedButton.Position.Y + focusedButton.GetSize().Y);
+                        ScrollCurrentOffset.Y += belowFocusedButton.Position.Y + belowFocusedButton.GetSize().Y - (focusedButton.Position.Y + focusedButton.GetSize().Y);
                     }
                 }
             }
@@ -282,7 +282,7 @@ namespace RallyTheRobots
             {
                 button.Update(manager, aScreen, gameTime, gameSettings, gameStatus, ScrollCurrentOffset, _resolution.GetResolution());
             }
-            if(Scrollable)
+            if (Scrollable)
             {
                 _scrollUpButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus, new Vector2(0, 0), _resolution.GetResolution());
                 _scrollDownButtonArea.Update(manager, aScreen, gameTime, gameSettings, gameStatus, new Vector2(0, 0), _resolution.GetResolution());

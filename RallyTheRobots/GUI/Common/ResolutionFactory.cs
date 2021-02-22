@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public class ResolutionFactory
     {
@@ -43,7 +43,7 @@ namespace RallyTheRobots
             }
             // Change Virtual Resolution
 #if DEBUG
-            if(resolutionIsSupported)
+            if (resolutionIsSupported)
                 _resolution = new ResolutionComponent(_game, _graphics, new Point(1920, 1080), new Point(settings.GetWidth(), settings.GetHeight()), settings.GetFullscreen(), true);
             else
                 _resolution = new ResolutionComponent(_game, _graphics, new Point(1920, 1080), new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), settings.GetFullscreen(), true);

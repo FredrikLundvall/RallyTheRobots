@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public class ButtonAreaImage
     {
@@ -23,11 +23,11 @@ namespace RallyTheRobots
             if (_imageList != null && _imageList.Count > 0)
             {
                 string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-                foreach(ImageSettings image in _imageList)
+                foreach (ImageSettings image in _imageList)
                 {
-                    string imageName = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character) ? image.ImageName : currentRollingState;
-                    int numberOfChars = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState) ? imageName.Length : 1;
-                    for(int i = 0; i < imageName.Length; i += numberOfChars)
+                    string imageName = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character ? image.ImageName : currentRollingState;
+                    int numberOfChars = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState ? imageName.Length : 1;
+                    for (int i = 0; i < imageName.Length; i += numberOfChars)
                     {
                         string characterImageName = imageName.Substring(i, numberOfChars);
                         Texture2D texture = _contentManager.GetTexture2D(characterImageName + buttonImageNameSuffix);
@@ -44,8 +44,8 @@ namespace RallyTheRobots
                 string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
                 foreach (ImageSettings image in _imageList)
                 {
-                    string imageName = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character) ? image.ImageName : currentRollingState;
-                    int numberOfChars = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState) ? imageName.Length : 1;
+                    string imageName = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character ? image.ImageName : currentRollingState;
+                    int numberOfChars = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState ? imageName.Length : 1;
                     for (int i = 0; i < imageName.Length; i += numberOfChars)
                     {
                         string characterImageName = imageName.Substring(i, numberOfChars);
@@ -66,8 +66,8 @@ namespace RallyTheRobots
                 string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
                 foreach (ImageSettings image in _imageList)
                 {
-                    string imageName = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character) ? image.ImageName : currentRollingState;
-                    int numberOfChars = (image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState) ? imageName.Length : 1;
+                    string imageName = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character ? image.ImageName : currentRollingState;
+                    int numberOfChars = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState ? imageName.Length : 1;
                     for (int i = 0; i < imageName.Length; i += numberOfChars)
                     {
                         string characterImageName = imageName.Substring(i, numberOfChars);
@@ -89,11 +89,11 @@ namespace RallyTheRobots
                 if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
                 {
                     size.X = size.X + buttonTexture.Width;
-                    size.Y = (buttonTexture.Height > size.Y) ? buttonTexture.Height : size.Y;
+                    size.Y = buttonTexture.Height > size.Y ? buttonTexture.Height : size.Y;
                 }
-                else if(image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Vertical)
+                else if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Vertical)
                 {
-                    size.X = (buttonTexture.Width > size.X) ? buttonTexture.Width : size.X;
+                    size.X = buttonTexture.Width > size.X ? buttonTexture.Width : size.X;
                     size.Y = size.Y + buttonTexture.Height;
                 }
             }
@@ -110,11 +110,11 @@ namespace RallyTheRobots
                     Rectangle sliderPartVisible = new Rectangle(0, 0, buttonTexture.Width, buttonTexture.Height);
                     if (image.ImagePositioning == ButtonAreaImagePositioningEnum.ValueHorizontalSlider)
                     {
-                        int sliderWidth = ((buttonTexture.Width - (borderLeft + borderRight)) * currentHorizontalValue) / 100 + borderLeft + borderRight;
+                        int sliderWidth = (buttonTexture.Width - (borderLeft + borderRight)) * currentHorizontalValue / 100 + borderLeft + borderRight;
                         sliderPartVisible = new Rectangle(buttonTexture.Width - sliderWidth, 0, sliderWidth, buttonTexture.Height);
                     }
                     else if (image.ImagePositioning == ButtonAreaImagePositioningEnum.ValueVerticalSlider)
-                        sliderPartVisible = new Rectangle(0, (buttonTexture.Height * (100 - currentVerticalValue)) / 100, buttonTexture.Width, (buttonTexture.Height * currentVerticalValue) / 100);
+                        sliderPartVisible = new Rectangle(0, buttonTexture.Height * (100 - currentVerticalValue) / 100, buttonTexture.Width, buttonTexture.Height * currentVerticalValue / 100);
                     spriteBatch.Draw(buttonTexture, position + offset + imageOffset, sliderPartVisible, Color.White);
                 }
                 if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
@@ -153,7 +153,7 @@ namespace RallyTheRobots
                 foreach (ImageSettings image in _imageList)
                 {
                     if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState)
-                        return true;                            
+                        return true;
                 }
             }
             return false;
@@ -206,15 +206,15 @@ namespace RallyTheRobots
         {
             ButtonAreaStateImageEnum buttonImageState;
             if (!visible)
-                buttonImageState = ButtonAreaStateImageEnum.Hidden;         
+                buttonImageState = ButtonAreaStateImageEnum.Hidden;
             else if (disabled && !_disabledMissing)
                 buttonImageState = ButtonAreaStateImageEnum.Disabled;
             else if (status == ButtonStatusEnum.Selected && !_selectedMissing)
                 buttonImageState = ButtonAreaStateImageEnum.Selected;
-            else if ((status == ButtonStatusEnum.Focused || (status == ButtonStatusEnum.Selected && _selectedMissing)) && !_focusedMissing)
+            else if ((status == ButtonStatusEnum.Focused || status == ButtonStatusEnum.Selected && _selectedMissing) && !_focusedMissing)
                 buttonImageState = ButtonAreaStateImageEnum.Focused;
             else
-                buttonImageState = ButtonAreaStateImageEnum.Idle;           
+                buttonImageState = ButtonAreaStateImageEnum.Idle;
             return buttonImageState;
         }
         protected virtual string GetCurrentImageNameSuffix(ButtonAreaStateImageEnum buttonImageStateName)

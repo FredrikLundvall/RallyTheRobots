@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public class NextRollingStateButtonAction : ButtonAction
     {
@@ -18,7 +18,7 @@ namespace RallyTheRobots
         }
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            if(_isRollingState2)
+            if (_isRollingState2)
                 _buttonArea.NextRollingState2();
             else
                 _buttonArea.NextRollingState();

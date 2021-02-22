@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RallyTheRobots.GUI.Common;
 using ResolutionBuddy;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI
 {
     public class StartMenuScreen : Screen
     {

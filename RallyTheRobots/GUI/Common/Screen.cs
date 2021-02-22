@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public class Screen
     {
@@ -36,7 +36,7 @@ namespace RallyTheRobots
         }
         internal void SetContentManager(ContentManager contentManager)
         {
-            if(_contentManager == null)
+            if (_contentManager == null)
                 _contentManager = contentManager;
         }
         internal void SetScreenManager(ScreenManager screenManager)
@@ -122,14 +122,14 @@ namespace RallyTheRobots
         }
         internal virtual void FocusPreviousButtonArea(GameTime gameTime)
         {
-            if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
+            if (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds < FOCUS_CHANGE_TIME)
                 return;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
             SetFocusedButtonArea(_buttonAreaList.GetPreviousButtonArea());
         }
         internal virtual void FocusNextButtonArea(GameTime gameTime)
         {
-            if ((gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds) < FOCUS_CHANGE_TIME)
+            if (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds < FOCUS_CHANGE_TIME)
                 return;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
             SetFocusedButtonArea(_buttonAreaList.GetNextButtonArea());
@@ -192,7 +192,7 @@ namespace RallyTheRobots
                 manager.ButtonForAlternateSelectIsHeldDown = false;
             if (!manager.ButtonForSelectIsHeldDown && !manager.ButtonForAlternateSelectIsHeldDown && _anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
                 manager.ChangeScreen(gameTime, gameSettings, _anyButtonScreen);
-            if (_timeoutScreen != null & (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds) > _timeoutSeconds)
+            if (_timeoutScreen != null & gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds > _timeoutSeconds)
                 manager.ChangeScreen(gameTime, gameSettings, _timeoutScreen);
             if (_inputChecker.PreviousVerticalButtonIsCurrentlyPressed(gameSettings))
             {

@@ -5,16 +5,30 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RallyTheRobots", "RallyTheRobots\RallyTheRobots.csproj", "{3C593F36-A8C0-499E-AE1E-C95BF3C388D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRallyTheRobots", "TestRallyTheRobots\TestRallyTheRobots.csproj", "{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C593F36-A8C0-499E-AE1E-C95BF3C388D0}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{3C593F36-A8C0-499E-AE1E-C95BF3C388D0}.Debug|x86.ActiveCfg = Debug|x86
 		{3C593F36-A8C0-499E-AE1E-C95BF3C388D0}.Debug|x86.Build.0 = Debug|x86
+		{3C593F36-A8C0-499E-AE1E-C95BF3C388D0}.Release|Any CPU.ActiveCfg = Release|x86
 		{3C593F36-A8C0-499E-AE1E-C95BF3C388D0}.Release|x86.ActiveCfg = Release|x86
 		{3C593F36-A8C0-499E-AE1E-C95BF3C388D0}.Release|x86.Build.0 = Release|x86
+		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Debug|x86.Build.0 = Debug|Any CPU
+		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Release|x86.ActiveCfg = Release|Any CPU
+		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

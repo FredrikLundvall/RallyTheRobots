@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public class InputChecker
     {
@@ -19,6 +19,7 @@ namespace RallyTheRobots
         private bool _buttonForAlternateSelectIsHeldDown;
         private bool _buttonForSelectClicked;
         private bool _buttonForAlternateSelectClicked;
+        private InputConnector _inputConnector;
         public virtual void Initialize()
         {
             _oldScrollWheelValue = Mouse.GetState().ScrollWheelValue;
@@ -36,7 +37,7 @@ namespace RallyTheRobots
             if (!ButtonForSelectIsCurrentlyPressed(gameSettings) && !ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
                 _buttonForSelectIsHeldDown = false;
             _buttonForSelectClicked = false;
-            if(ButtonForSelectIsCurrentlyPressed(gameSettings) || (ButtonForSelectMouseIsCurrentlyPressed(gameSettings)))
+            if (ButtonForSelectIsCurrentlyPressed(gameSettings) || ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
             {
                 if (!_buttonForSelectIsHeldDown)
                 {
@@ -48,7 +49,7 @@ namespace RallyTheRobots
             if (!ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) && !ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
                 _buttonForAlternateSelectIsHeldDown = false;
             _buttonForAlternateSelectClicked = false;
-            if (ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) || (ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings)))
+            if (ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) || ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
             {
                 if (!_buttonForAlternateSelectIsHeldDown)
                 {
@@ -136,8 +137,8 @@ namespace RallyTheRobots
                 return -1;
             else if ((int)mousePosition.X >= buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width)
                 return 101;
-            else 
-                return (int)(((mousePosition.X - ((float)buttonAreaSliderRect.X + offset.X)) / (float) buttonAreaSliderRect.Width) * 100f + 0.5f);
+            else
+                return (int)((mousePosition.X - (buttonAreaSliderRect.X + offset.X)) / buttonAreaSliderRect.Width * 100f + 0.5f);
         }
         public virtual bool HasMouseWheelMoved()
         {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public class PreviousRollingStateButtonAction : ButtonAction
     {

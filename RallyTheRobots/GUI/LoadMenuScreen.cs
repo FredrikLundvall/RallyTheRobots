@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using RallyTheRobots.GUI.Common;
 using ResolutionBuddy;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI
 {
     public class LoadMenuScreen : Screen
     {
@@ -24,7 +25,7 @@ namespace RallyTheRobots
             filelistButton1.AddImage("0");
             filelistButton1.AddImage("1");
             filelistButton1.AddImage("end_paranteses");
-            filelistButton1.Position = new Vector2(83,270);
+            filelistButton1.Position = new Vector2(83, 270);
             filelistButton1.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<GameScreen>()));
             AddButtonArea(filelistButton1);
             ButtonArea filelistButton2 = new ButtonArea();

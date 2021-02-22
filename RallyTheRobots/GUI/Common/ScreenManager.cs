@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ResolutionBuddy;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public class ScreenManager
     {
@@ -12,7 +12,7 @@ namespace RallyTheRobots
         protected ResolutionFactory _resolutionFactory;
         protected InputChecker _inputChecker;
         protected Screen _currentScreen;
-        protected List<Screen> _screenList= new List<Screen>(20);
+        protected List<Screen> _screenList = new List<Screen>(20);
         public bool ButtonForSelectIsHeldDown = false;
         public bool ButtonForAlternateSelectIsHeldDown = false;
         public ScreenManager()
@@ -59,7 +59,7 @@ namespace RallyTheRobots
         {
             foreach (Screen screen in _screenList)
             {
-                if(screen is T)
+                if (screen is T)
                     return screen;
             }
             return null;
@@ -73,7 +73,7 @@ namespace RallyTheRobots
             _inputChecker.BeforeUpdate(gameTime, gameSettings);
             _currentScreen.Update(this, gameTime, gameSettings, gameStatus);
             _inputChecker.AfterUpdate(gameTime, gameSettings);
-            if(gameSettings.IsGraphicsChanged())
+            if (gameSettings.IsGraphicsChanged())
             {
                 _resolutionFactory.CreateResolution(gameSettings);
                 gameSettings.GraphicsChangeApplied();

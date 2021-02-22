@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RallyTheRobots.GUI.Common;
 using ResolutionBuddy;
 using System.IO;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI
 {
     public class StartupScreen : Screen
     {

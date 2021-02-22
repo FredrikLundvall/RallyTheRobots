@@ -1,2 +1,3 @@
-﻿? When using gamepad to navigate to the SoundMenuScreen the slider-values are set to wrong value when entering the screen.
+﻿Create unittests for everything start with input checker (Use MouseState, GamePadState and KeyboardState (in a new InputState object?) to be able to test)
+? When using gamepad to navigate to the SoundMenuScreen the slider-values are set to wrong value when entering the screen.
   Button down for ScreenChangeOnAnyKey doesn´t block until key up (keyboard enter and gamepad especially).

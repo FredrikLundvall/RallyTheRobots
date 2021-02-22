@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using RallyTheRobots.GUI.Common;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI
 {
     public class SettingsMenuScreen : Screen
     {

@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RallyTheRobots.GUI.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI
 {
     public class GraphicsMenuScreen : Screen
     {
@@ -50,7 +51,7 @@ namespace RallyTheRobots
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
         {
             _fullscreenButton.SetCurrentRollingState(gameSettings.GetFullscreen() ? "true" : "false");
-            
+
             _resolutionButton.SetCurrentRollingState(string.Format("{0:D}x{1:D};", gameSettings.GetWidth(), gameSettings.GetHeight()));
             base.EnterScreen(gameTime, gameSettings);
         }

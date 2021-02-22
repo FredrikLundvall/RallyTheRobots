@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using RallyTheRobots.GUI.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI
 {
-    public class ControlsMenuScreen: Screen
+    public class ControlsMenuScreen : Screen
     {
         public override void Initialize()
         {

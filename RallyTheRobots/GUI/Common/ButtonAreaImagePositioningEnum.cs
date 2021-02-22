@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public enum ButtonAreaImagePositioningEnum { Unmovable, ValueHorizontalSlider, ValueVerticalSlider };
 }

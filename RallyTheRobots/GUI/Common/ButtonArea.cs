@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RallyTheRobots.GUI;
+using RallyTheRobots.GUI.Common;
 using ResolutionBuddy;
 using System;
 using System.Collections.Generic;

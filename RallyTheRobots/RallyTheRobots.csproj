@@ -54,6 +54,7 @@
     <Compile Include="GUI\Common\FocusPreviousButtonAreaButtonAction.cs" />
     <Compile Include="GUI\Common\ImageSettings.cs" />
     <Compile Include="GUI\Common\ChangeValueButtonAction.cs" />
+    <Compile Include="GUI\Common\InputConnector.cs" />
     <Compile Include="GUI\Common\ResolutionFactory.cs" />
     <Compile Include="GUI\Common\NextRollingStateButtonAction.cs" />
     <Compile Include="GUI\Common\RollingState.cs" />

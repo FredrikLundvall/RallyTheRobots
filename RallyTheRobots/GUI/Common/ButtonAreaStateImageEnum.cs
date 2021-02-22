@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI.Common
 {
     public enum ButtonAreaStateImageEnum { Hidden, Disabled, Idle, Focused, Selected };
 }

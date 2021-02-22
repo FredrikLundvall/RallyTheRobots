@@ -1,11 +1,12 @@
-﻿using ResolutionBuddy;
+﻿using RallyTheRobots.GUI.Common;
+using ResolutionBuddy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RallyTheRobots
+namespace RallyTheRobots.GUI
 {
     public class RallyTheRobotsScreenManager : ScreenManager
     {
