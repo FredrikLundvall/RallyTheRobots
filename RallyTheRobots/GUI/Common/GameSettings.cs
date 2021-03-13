@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
-namespace RallyTheRobots.GUI
+namespace RallyTheRobots.GUI.Common
 {
     public class GameSettings
     {
@@ -12,6 +9,8 @@ namespace RallyTheRobots.GUI
         protected bool _fullscreen = true;
         protected int _width = 1920;
         protected int _height = 1080;
+        protected Keys[] _keyboardKeysForSelect = new Keys[] {Keys.Enter, Keys.E};
+        protected PlayerIndex _gamePadPlayerIndex = PlayerIndex.One;
         public void SetFullscreen(bool fullscreen)
         {
             _graphicsChanged = _graphicsChanged || fullscreen != _fullscreen;
@@ -46,6 +45,22 @@ namespace RallyTheRobots.GUI
         public int GetHeight()
         {
             return _height;
+        }
+        public PlayerIndex GetGamePadPlayerIndex()
+        {
+            return _gamePadPlayerIndex;
+        }
+        public void SetGamePadPlayerIndex(PlayerIndex gamePadPlayerIndex)
+        {
+            _gamePadPlayerIndex = gamePadPlayerIndex;
+        }
+        public void SetKeyboardKeysForSelect(Keys[] keyboardKeysForSelect)
+        {
+            _keyboardKeysForSelect = keyboardKeysForSelect;
+        }
+        public Keys[] GetKeyboardKeysForSelect()
+        {
+            return _keyboardKeysForSelect;
         }
     }
 }
