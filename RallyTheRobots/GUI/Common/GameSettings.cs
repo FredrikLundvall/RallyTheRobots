@@ -9,8 +9,14 @@ namespace RallyTheRobots.GUI.Common
         protected bool _fullscreen = true;
         protected int _width = 1920;
         protected int _height = 1080;
-        protected Keys[] _keyboardKeysForSelect = new Keys[] {Keys.Enter, Keys.E};
         protected PlayerIndex _gamePadPlayerIndex = PlayerIndex.One;
+        protected Keys[] _keyboardKeysForSelect = new Keys[] {Keys.Enter, Keys.E};
+        protected Keys[] _keyboardKeysForAlternateSelect = new Keys[] { Keys.Back, Keys.F };
+        protected Keys[] _keyboardKeysForPreviousVertical = new Keys[] { Keys.Up, Keys.W };
+        protected Keys[] _keyboardKeysForNextVertical = new Keys[] { Keys.Down, Keys.S };
+        protected Keys[] _keyboardKeysForPreviousHorizontal = new Keys[] { Keys.Left, Keys.A };
+        protected Keys[] _keyboardKeysForNextHorizontal = new Keys[] { Keys.Right, Keys.D };
+        protected Keys[] _keyboardKeysForGoBack = new Keys[] { Keys.Escape };
         public void SetFullscreen(bool fullscreen)
         {
             _graphicsChanged = _graphicsChanged || fullscreen != _fullscreen;
@@ -61,6 +67,54 @@ namespace RallyTheRobots.GUI.Common
         public Keys[] GetKeyboardKeysForSelect()
         {
             return _keyboardKeysForSelect;
+        }
+        public void SetKeyboardKeysForAlternateSelect(Keys[] keyboardKeysForAlternateSelect)
+        {
+            _keyboardKeysForAlternateSelect = keyboardKeysForAlternateSelect;
+        }
+        public Keys[] GetKeyboardKeysForAlternateSelect()
+        {
+            return _keyboardKeysForAlternateSelect;
+        }
+        public void SetKeyboardKeysForPreviousVertical(Keys[] keyboardKeysForPreviousVertical)
+        {
+            _keyboardKeysForPreviousVertical = keyboardKeysForPreviousVertical;
+        }
+        public Keys[] GetKeyboardKeysForPreviousVertical()
+        {
+            return _keyboardKeysForPreviousVertical;
+        }
+        public void SetKeyboardKeysForNextVertical(Keys[] keyboardKeysForNextVertical)
+        {
+            _keyboardKeysForNextVertical = keyboardKeysForNextVertical;
+        }
+        public Keys[] GetKeyboardKeysForNextVertical()
+        {
+            return _keyboardKeysForNextVertical;
+        }
+        public void SetKeyboardKeysForPreviousHorizontal(Keys[] keyboardKeysForPreviousHorizontal)
+        {
+            _keyboardKeysForPreviousHorizontal = keyboardKeysForPreviousHorizontal;
+        }
+        public Keys[] GetKeyboardKeysForPreviousHorizontal()
+        {
+            return _keyboardKeysForPreviousHorizontal;
+        }
+        public void SetKeyboardKeysForNextHorizontal(Keys[] keyboardKeysForNextHorizontal)
+        {
+            _keyboardKeysForNextHorizontal = keyboardKeysForNextHorizontal;
+        }
+        public Keys[] GetKeyboardKeysForNextHorizontal()
+        {
+            return _keyboardKeysForNextHorizontal;
+        }
+        public void SetKeyboardKeysForGoBack(Keys[] keyboardKeysForGoBack)
+        {
+            _keyboardKeysForGoBack = keyboardKeysForGoBack;
+        }
+        public Keys[] GetKeyboardKeysForGoBack()
+        {
+            return _keyboardKeysForGoBack;
         }
     }
 }
