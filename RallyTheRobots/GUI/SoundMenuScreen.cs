@@ -45,15 +45,15 @@ namespace RallyTheRobots.GUI
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddImage("apply_settings");
             applyButton.Position = new Vector2(83, 840);
-            //applyButton.SetButtonAction(new ApplySettingFromRollingStateButtonAction(_fullscreenButton, _resolutionButton));
+            applyButton.SetButtonSelectAction(new ApplySettingFromSliderButtonAction(_masterVolumeButton, _musicVolumeButton));
             AddButtonArea(applyButton);
             SetFocusedButtonArea(returnButton);
             base.Initialize();
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
-        {
-            _masterVolumeButton.SetCurrentHorizontalValue(100);
-            _musicVolumeButton.SetCurrentHorizontalValue(100);
+        {       
+            _masterVolumeButton.SetCurrentHorizontalValue(gameSettings.GetMasterVolume());
+            _musicVolumeButton.SetCurrentHorizontalValue(gameSettings.GetMusicVolume());
             base.EnterScreen(gameTime, gameSettings);
         }
     }

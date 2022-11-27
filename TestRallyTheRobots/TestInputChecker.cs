@@ -22,6 +22,9 @@ namespace TestRallyTheRobots
             Assert.IsTrue(inputChecker.AnyButtonIsCurrentlyPressed(gameSettings));
             inputConnectorMock.ManipulateKeyboardState = new KeyboardState(new Keys[] { Keys.Enter });
             Assert.IsTrue(inputChecker.AnyButtonIsCurrentlyPressed(gameSettings));
+            //Gamepad mock
+            inputConnectorMock.ManipulateGamePadState[(int)PlayerIndex.One] = new GamePadState(new Vector2(0.0f,0.0f), new Vector2(0.0f,0.0f), 0.0f, 0.0f, Buttons.A);
+            Assert.IsTrue(inputChecker.AnyButtonIsCurrentlyPressed(gameSettings));
         }
         [TestMethod]
         public void WhenNoKeyboardKeyIsPushed_AnyButtonIsCurrentlyPressed_ReturnsFalse()

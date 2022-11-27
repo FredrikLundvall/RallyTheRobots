@@ -10,6 +10,8 @@ namespace RallyTheRobots.GUI.Common
         protected bool _fullscreen = true;
         protected int _width = 1920;
         protected int _height = 1080;
+        protected int _masterVolume = 100;
+        protected int _musicVolume = 1080;
         protected PlayerIndex _gamePadPlayerIndex = PlayerIndex.One;
         protected Dictionary<InputFunctionEnum, InputButtonSetting> _inputButtonsForFunction = new Dictionary<InputFunctionEnum, InputButtonSetting>()
         {
@@ -63,6 +65,22 @@ namespace RallyTheRobots.GUI.Common
         public int GetHeight()
         {
             return _height;
+        }
+        public void SetMasterVolume(int masterVolume)
+        {
+             _masterVolume = masterVolume;
+        }
+        public int GetMasterVolume()
+        {
+            return _masterVolume;
+        }
+        public void SetMusicVolume(int musicVolume)
+        {
+            _musicVolume = musicVolume;
+        }
+        public int GetMusicVolume()
+        {
+            return _musicVolume;
         }
         public PlayerIndex GetGamePadPlayerIndex()
         {

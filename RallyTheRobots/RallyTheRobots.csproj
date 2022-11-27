@@ -66,6 +66,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GUI\ApplySettingFromSliderButtonAction.cs" />
     <Compile Include="GUI\Common\ButtonAreaImage.cs" />
     <Compile Include="GUI\Common\ButtonAreaImageNameTypeEnum.cs" />
     <Compile Include="GUI\Common\ButtonAreaImageStackDirectionEnum.cs" />
