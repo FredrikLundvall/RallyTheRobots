@@ -98,11 +98,13 @@
     <Compile Include="GUI\Common\InputChecker.cs" />
     <Compile Include="GUI\Common\ScrollDownAction.cs" />
     <Compile Include="GUI\Common\ScrollUpAction.cs" />
+    <Compile Include="GUI\LoadInGameMenuScreen.cs" />
     <Compile Include="GUI\LoadMenuScreen.cs" />
     <Compile Include="GUI\RallyTheRobotsScreenManager.cs" />
     <Compile Include="GUI\Common\RunningStatus.cs" />
     <Compile Include="GUI\Common\ScreenManager.cs" />
     <Compile Include="GUI\Common\GameSettings.cs" />
+    <Compile Include="GUI\SettingsInGameMenuScreen.cs" />
     <Compile Include="GUI\SplashScreen.cs" />
     <Compile Include="GUI\StartMenuScreen.cs" />
     <Compile Include="GUI\StartupScreen.cs" />

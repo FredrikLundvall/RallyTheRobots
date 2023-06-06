@@ -24,12 +24,12 @@ namespace RallyTheRobots.GUI
             ButtonArea saveGameButton = new ButtonArea();
             saveGameButton.AddImage("pausemenu_save");
             saveGameButton.Position = new Vector2(83, 450);
-            saveGameButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<LoadMenuScreen>()));
+            saveGameButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<LoadInGameMenuScreen>()));
             AddButtonArea(saveGameButton);
             ButtonArea loadGameButton = new ButtonArea();
             loadGameButton.AddImage("pausemenu_load");
             loadGameButton.Position = new Vector2(83,550);
-            loadGameButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<LoadMenuScreen>()));
+            loadGameButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<LoadInGameMenuScreen>()));
             AddButtonArea(loadGameButton);
             ButtonArea exitButtonMain = new ButtonArea();
             exitButtonMain.AddImage("pausemenu_exit_main");
