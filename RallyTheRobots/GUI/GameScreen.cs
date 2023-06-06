@@ -12,7 +12,8 @@ namespace RallyTheRobots.GUI
         public override void Initialize()
         {
             AddBackground("ingame");
-            ScreenChangeOnTimeout(_screenManager.GetScreen<StartMenuScreen>(), 3.0);
+            //ScreenChangeOnTimeout(_screenManager.GetScreen<StartMenuScreen>(), 3.0);
+            ScreenChangeOnPauseKey(_screenManager.GetScreen<PauseMenuScreen>());
             base.Initialize();
         }
     }

@@ -21,7 +21,8 @@ namespace RallyTheRobots.GUI.Common
             {InputFunctionEnum.NextVertical, new InputButtonSetting { KeyboardKeys = new Keys[] { Keys.Down, Keys.S } } },
             {InputFunctionEnum.PreviousHorizontal, new InputButtonSetting { KeyboardKeys = new Keys[] { Keys.Left, Keys.A } } },
             {InputFunctionEnum.NextHorizontal, new InputButtonSetting { KeyboardKeys = new Keys[] { Keys.Right, Keys.D } } },
-            {InputFunctionEnum.GoBack, new InputButtonSetting { KeyboardKeys = new Keys[] { Keys.Escape } } }
+            {InputFunctionEnum.GoBack, new InputButtonSetting { KeyboardKeys = new Keys[] { Keys.Escape } } },
+            {InputFunctionEnum.Pause, new InputButtonSetting { KeyboardKeys = new Keys[] { Keys.Escape }, GamepadButtons = new Buttons[] { Buttons.Start } } }
         };
         //protected GamePadButtons
         //protected Keys[] _keyboardKeysForSelect = new Keys[] {Keys.Enter, Keys.E};

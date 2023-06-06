@@ -143,9 +143,9 @@ namespace RallyTheRobots
             //Check if the button was released between the last triggering of DoAction
             if (_inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings) || (_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings) && _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution)) || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned()))
             {
-                if (!manager.ButtonForSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
+                if (!_inputChecker.ButtonForSelectIsHeldDown(gameSettings) && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
                 {
-                    manager.ButtonForSelectIsHeldDown = true;
+                    //manager.ButtonForSelectIsHeldDown = true; //Changed to _inputchecker
                     _buttonSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
                 }
                 int horizontalSlider = _inputChecker.HorizontalValueMouseSliderButtonArea(this, offset, resolution);
@@ -153,20 +153,20 @@ namespace RallyTheRobots
                     _currentHorizontalValue = Math.Max(Math.Min(horizontalSlider, 100), 0);
             }
             //Press of mousebutton outside the ButtonArea is treated differently
-            else if (!_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
-                manager.ButtonForSelectIsHeldDown = false;
+            //else if (!_inputChecker.ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
+            //    manager.ButtonForSelectIsHeldDown = false; //Changed to _inputchecker
             //Check if the alternate button was released between the last triggering of DoAction
             if (_inputChecker.ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) || (_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings) && _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution)))
             {
-                if (!manager.ButtonForAlternateSelectIsHeldDown && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
+                if (!_inputChecker.ButtonForAlternateSelectIsHeldDown(gameSettings) && Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.GoBackButtonIsCurrentlyPressed(gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
                 {
-                    manager.ButtonForAlternateSelectIsHeldDown = true;
+                    //manager.ButtonForAlternateSelectIsHeldDown = true; //Changed to _inputchecker
                     _buttonAlternateSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
                 }
             }
             //Press of mousebutton outside the ButtonArea is treated differently
-            else if (!_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
-                manager.ButtonForAlternateSelectIsHeldDown = false;
+            //else if (!_inputChecker.ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
+            //    manager.ButtonForAlternateSelectIsHeldDown = false; //Changed to _inputchecker
             _currentHorizontalValue = Math.Min(Math.Max(_currentHorizontalValue, 0), 100);
             _currentVerticalValue = Math.Min(Math.Max(_currentHorizontalValue, 0), 100);
         }

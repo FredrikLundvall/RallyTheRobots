@@ -12,8 +12,7 @@ namespace RallyTheRobots.GUI.Common
         private int _oldScrollWheelValue;
         private bool _buttonForSelectIsHeldDown;
         private bool _buttonForAlternateSelectIsHeldDown;
-        private bool _buttonForSelectClicked;
-        private bool _buttonForAlternateSelectClicked;
+        private bool _buttonForPauseIsHeldDown;
         private InputConnector _inputConnector;
         public virtual void Initialize()
         {
@@ -23,8 +22,7 @@ namespace RallyTheRobots.GUI.Common
             _oldMousePosition = _inputConnector.GetMouseState().Position;
             _buttonForSelectIsHeldDown = false;
             _buttonForAlternateSelectIsHeldDown = false;
-            _buttonForSelectClicked = false;
-            _buttonForAlternateSelectClicked = false;
+            _buttonForPauseIsHeldDown = false;
         }
         public void SetInputConnector(InputConnector inputConnector)
         {
@@ -35,30 +33,36 @@ namespace RallyTheRobots.GUI.Common
         {
             _currentScrollWheelValue = _inputConnector.GetMouseState().ScrollWheelValue;
             _currentMousePosition = _inputConnector.GetMouseState().Position;
-            //Check if the button was released between the last updates
-            if (!ButtonForSelectIsCurrentlyPressed(gameSettings) && !ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
-                _buttonForSelectIsHeldDown = false;
-            _buttonForSelectClicked = false;
-            if (ButtonForSelectIsCurrentlyPressed(gameSettings) || ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
-            {
-                if (!_buttonForSelectIsHeldDown)
-                {
-                    _buttonForSelectIsHeldDown = true;
-                    _buttonForSelectClicked = true;
-                }
-            }
-            //Check if the alternate button was released between the last updates
-            if (!ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) && !ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
-                _buttonForAlternateSelectIsHeldDown = false;
-            _buttonForAlternateSelectClicked = false;
-            if (ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) || ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
-            {
-                if (!_buttonForAlternateSelectIsHeldDown)
-                {
-                    _buttonForAlternateSelectIsHeldDown = true;
-                    _buttonForAlternateSelectClicked = true;
-                }
-            }
+            ////Check if the select-button was released between the last updates
+            //if (!ButtonForSelectIsCurrentlyPressed(gameSettings) && !ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
+            //    _buttonForSelectIsHeldDown = false;
+            //if (ButtonForSelectIsCurrentlyPressed(gameSettings) || ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
+            //{
+            //    if (!_buttonForSelectIsHeldDown)
+            //    {
+            //        _buttonForSelectIsHeldDown = true;
+            //    }
+            //}
+            ////Check if the alternate-select-button button was released between the last updates
+            //if (!ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) && !ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
+            //    _buttonForAlternateSelectIsHeldDown = false;
+            //if (ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) || ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
+            //{
+            //    if (!_buttonForAlternateSelectIsHeldDown)
+            //    {
+            //        _buttonForAlternateSelectIsHeldDown = true;
+            //    }
+            //}
+            ////Check if the pause-button was released between the last updates
+            //if (!ButtonForPauseIsCurrentlyPressed(gameSettings))
+            //    _buttonForPauseIsHeldDown = false;
+            //if (ButtonForSelectIsCurrentlyPressed(gameSettings))
+            //{
+            //    if (!_buttonForPauseIsHeldDown)
+            //    {
+            //        _buttonForPauseIsHeldDown = true;
+            //    }
+            //}
         }
         public virtual void AfterUpdate(GameTime gameTime, GameSettings gameSettings)
         {
@@ -80,17 +84,26 @@ namespace RallyTheRobots.GUI.Common
             }
             return false;
         }
+        protected bool IsAnyOfTheseGamePadKeysPressed(GamePadState gamePadState, Buttons[] gamePadButtons)
+        {
+            Buttons combinedButtons = 0;
+            foreach (Buttons button in gamePadButtons)
+            {
+                combinedButtons |= button;
+            }
+            return gamePadState.IsButtonDown(combinedButtons);
+        }
         public virtual bool ButtonForAlternateSelectIsCurrentlyPressed(GameSettings gameSettings)
         {
             return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.B == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Triggers.Left > 0.3 || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.LeftShoulder == ButtonState.Pressed || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.AlternateSelect).KeyboardKeys);
         }
-        public virtual bool ButtonForSelectClicked(GameSettings gameSettings)
+        public virtual bool ButtonForSelectIsHeldDown(GameSettings gameSettings)
         {
-            return _buttonForSelectClicked;
+            return _buttonForSelectIsHeldDown;
         }
-        public virtual bool ButtonForAlternateSelectClicked(GameSettings gameSettings)
+        public virtual bool ButtonForAlternateSelectIsHeldDown(GameSettings gameSettings)
         {
-            return _buttonForAlternateSelectClicked;
+            return _buttonForAlternateSelectIsHeldDown;
         }
         public virtual bool ButtonForSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
         {
@@ -160,6 +173,16 @@ namespace RallyTheRobots.GUI.Common
         public virtual bool MouseWheelDownIsCurrentlyTurned()
         {
             return _currentScrollWheelValue < _oldScrollWheelValue;
+        }
+        public virtual bool ButtonForPauseIsCurrentlyPressed(GameSettings gameSettings)
+        {
+            //New way to check for buttons
+            //TODO: use this way everywhere
+            return IsAnyOfTheseGamePadKeysPressed(_inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()), gameSettings.GetInputButtonsForFunction(InputFunctionEnum.Pause).GamepadButtons) || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.Pause).KeyboardKeys);
+        }
+        public virtual bool ButtonForPauseIsHeldDown(GameSettings gameSettings)
+        {
+            return _buttonForPauseIsHeldDown;
         }
     }
 }

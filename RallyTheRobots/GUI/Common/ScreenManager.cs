@@ -13,8 +13,6 @@ namespace RallyTheRobots.GUI.Common
         protected InputChecker _inputChecker;
         protected Screen _currentScreen;
         protected List<Screen> _screenList = new List<Screen>(20);
-        public bool ButtonForSelectIsHeldDown = false;
-        public bool ButtonForAlternateSelectIsHeldDown = false;
         public ScreenManager()
         {
         }
