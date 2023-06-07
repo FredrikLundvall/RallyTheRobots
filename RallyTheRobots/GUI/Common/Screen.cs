@@ -191,10 +191,9 @@ namespace RallyTheRobots.GUI.Common
         }
         public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            if (!_inputChecker.ButtonForPauseIsHeldDown(gameSettings) && _pauseButtonScreen != null && _inputChecker.ButtonForPauseIsCurrentlyPressed(gameSettings))
+            if (_pauseButtonScreen != null && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.Pause, gameTime, gameSettings))
                 manager.ChangeScreen(gameTime, gameSettings, _pauseButtonScreen);
-
-            if (!_inputChecker.ButtonForSelectIsHeldDown(gameSettings) && !_inputChecker.ButtonForAlternateSelectIsHeldDown(gameSettings) && _anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
+            if (_anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
                 manager.ChangeScreen(gameTime, gameSettings, _anyButtonScreen);
             if (_timeoutScreen != null & gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds > _timeoutSeconds)
                 manager.ChangeScreen(gameTime, gameSettings, _timeoutScreen);
@@ -218,9 +217,7 @@ namespace RallyTheRobots.GUI.Common
                 _buttonNextHorizontalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
             }
 
-            if (!_inputChecker.ButtonForSelectIsHeldDown(gameSettings) && _inputChecker.ButtonForSelectIsCurrentlyPressed(gameSettings))
-                
-                
+            if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.PrimarySelect, gameTime, gameSettings))
                 SelectFocusedButtonArea(gameTime);
 
             _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);

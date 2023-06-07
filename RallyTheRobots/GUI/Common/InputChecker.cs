@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ResolutionBuddy;
+using System;
+using System.Collections.Generic;
 
 namespace RallyTheRobots.GUI.Common
 {
@@ -10,100 +12,72 @@ namespace RallyTheRobots.GUI.Common
         private Point _oldMousePosition;
         private int _currentScrollWheelValue;
         private int _oldScrollWheelValue;
-        private bool _buttonForSelectIsHeldDown;
-        private bool _buttonForAlternateSelectIsHeldDown;
-        private bool _buttonForPauseIsHeldDown;
         private InputConnector _inputConnector;
+        private Dictionary<InputFunctionEnum, InputFunctionStatus> _inputFunctionStatusList;
+
         public virtual void Initialize()
         {
             if (_inputConnector == null)
                 _inputConnector = new InputConnector();
+            if (_inputFunctionStatusList == null)
+                _inputFunctionStatusList = new Dictionary<InputFunctionEnum, InputFunctionStatus>();
+            foreach (int i in Enum.GetValues(typeof(InputFunctionEnum)))
+            {
+                //Adding all InputFunctionEnums here
+                _inputFunctionStatusList.Add((InputFunctionEnum)i, new InputFunctionStatus(false, new TimeSpan(0)));
+            }
             _oldScrollWheelValue = _inputConnector.GetMouseState().ScrollWheelValue;
             _oldMousePosition = _inputConnector.GetMouseState().Position;
-            _buttonForSelectIsHeldDown = false;
-            _buttonForAlternateSelectIsHeldDown = false;
-            _buttonForPauseIsHeldDown = false;
         }
         public void SetInputConnector(InputConnector inputConnector)
         {
             if (_inputConnector == null)
                 _inputConnector = inputConnector;
         }
+        public void SetInputFunctionStatusList(Dictionary<InputFunctionEnum, InputFunctionStatus> inputFunctionStatusList)
+        {
+            if (_inputFunctionStatusList == null)
+                _inputFunctionStatusList = inputFunctionStatusList;
+        }
         public virtual void BeforeUpdate(GameTime gameTime, GameSettings gameSettings)
         {
             _currentScrollWheelValue = _inputConnector.GetMouseState().ScrollWheelValue;
             _currentMousePosition = _inputConnector.GetMouseState().Position;
-            ////Check if the select-button was released between the last updates
-            //if (!ButtonForSelectIsCurrentlyPressed(gameSettings) && !ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
-            //    _buttonForSelectIsHeldDown = false;
-            //if (ButtonForSelectIsCurrentlyPressed(gameSettings) || ButtonForSelectMouseIsCurrentlyPressed(gameSettings))
-            //{
-            //    if (!_buttonForSelectIsHeldDown)
-            //    {
-            //        _buttonForSelectIsHeldDown = true;
-            //    }
-            //}
-            ////Check if the alternate-select-button button was released between the last updates
-            //if (!ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) && !ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
-            //    _buttonForAlternateSelectIsHeldDown = false;
-            //if (ButtonForAlternateSelectIsCurrentlyPressed(gameSettings) || ButtonForAlternateSelectMouseIsCurrentlyPressed(gameSettings))
-            //{
-            //    if (!_buttonForAlternateSelectIsHeldDown)
-            //    {
-            //        _buttonForAlternateSelectIsHeldDown = true;
-            //    }
-            //}
-            ////Check if the pause-button was released between the last updates
-            //if (!ButtonForPauseIsCurrentlyPressed(gameSettings))
-            //    _buttonForPauseIsHeldDown = false;
-            //if (ButtonForSelectIsCurrentlyPressed(gameSettings))
-            //{
-            //    if (!_buttonForPauseIsHeldDown)
-            //    {
-            //        _buttonForPauseIsHeldDown = true;
-            //    }
-            //}
         }
         public virtual void AfterUpdate(GameTime gameTime, GameSettings gameSettings)
         {
             _oldScrollWheelValue = _currentScrollWheelValue;
             _oldMousePosition = _currentMousePosition;
         }
-        public virtual bool ButtonForSelectIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool InputFunctionWasTriggered(InputFunctionEnum inputFunction, GameTime gameTime, GameSettings gameSettings)
         {
-            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.A == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Triggers.Right > 0.3 || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.RightShoulder == ButtonState.Pressed || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.PrimarySelect).KeyboardKeys);
-        }
-        protected bool IsAnyOfTheseKeboardKeysPressed(Keys[] keyboardKeys)
-        {
-            foreach (Keys key in keyboardKeys)
-            {
-                if (_inputConnector.GetKeyboardState().IsKeyDown(key))
+            //Check for buttons pressed while avoiding cascading event in next screen
+            var isPressed = InputFunctionIsCurrentlyPressed(inputFunction, gameSettings);
+            if (isPressed)
+            {             
+                if (_inputFunctionStatusList[inputFunction].ButtonIsHeldDown && _inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtElapsedTime != gameTime.ElapsedGameTime)
                 {
-                    return true;
+                    isPressed = false;
+                }
+                else
+                {
+                    _inputFunctionStatusList[inputFunction] = new InputFunctionStatus(true, gameTime.ElapsedGameTime);
                 }
             }
-            return false;
-        }
-        protected bool IsAnyOfTheseGamePadKeysPressed(GamePadState gamePadState, Buttons[] gamePadButtons)
-        {
-            Buttons combinedButtons = 0;
-            foreach (Buttons button in gamePadButtons)
+            else
             {
-                combinedButtons |= button;
+                //The elapsed time isn't used, but preserving it anyway if some future use of last time pressed is needed
+                _inputFunctionStatusList[inputFunction] = new InputFunctionStatus(false, _inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtElapsedTime);
             }
-            return gamePadState.IsButtonDown(combinedButtons);
+            return isPressed;
         }
-        public virtual bool ButtonForAlternateSelectIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool InputFunctionIsCurrentlyPressed(InputFunctionEnum inputFunction, GameSettings gameSettings)
         {
-            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.B == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Triggers.Left > 0.3 || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.LeftShoulder == ButtonState.Pressed || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.AlternateSelect).KeyboardKeys);
-        }
-        public virtual bool ButtonForSelectIsHeldDown(GameSettings gameSettings)
-        {
-            return _buttonForSelectIsHeldDown;
-        }
-        public virtual bool ButtonForAlternateSelectIsHeldDown(GameSettings gameSettings)
-        {
-            return _buttonForAlternateSelectIsHeldDown;
+            //Check for buttons being pressed down right now
+            //Broken down for debugging
+            var isPressed = IsAnyOfTheseGamePadKeysPressed(_inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()), gameSettings.GetInputButtonsForFunction(inputFunction).GamepadButtons, gameSettings.GetTriggerThreshold());
+            isPressed |= IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(inputFunction).KeyboardKeys);
+            return isPressed;
         }
         public virtual bool ButtonForSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
         {
@@ -174,15 +148,38 @@ namespace RallyTheRobots.GUI.Common
         {
             return _currentScrollWheelValue < _oldScrollWheelValue;
         }
-        public virtual bool ButtonForPauseIsCurrentlyPressed(GameSettings gameSettings)
+        protected bool IsAnyOfTheseKeboardKeysPressed(Keys[] keyboardKeys)
         {
-            //New way to check for buttons
-            //TODO: use this way everywhere
-            return IsAnyOfTheseGamePadKeysPressed(_inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()), gameSettings.GetInputButtonsForFunction(InputFunctionEnum.Pause).GamepadButtons) || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.Pause).KeyboardKeys);
+            foreach (Keys key in keyboardKeys)
+            {
+                if (_inputConnector.GetKeyboardState().IsKeyDown(key))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
-        public virtual bool ButtonForPauseIsHeldDown(GameSettings gameSettings)
+        protected bool IsAnyOfTheseGamePadKeysPressed(GamePadState gamePadState, Buttons[] gamePadButtons, float triggerThreshold)
         {
-            return _buttonForPauseIsHeldDown;
+            if (gamePadButtons == null)
+                return false;
+            Buttons combinedButtons = 0;
+            foreach (Buttons button in gamePadButtons)
+            {
+                if (button == Buttons.RightTrigger)
+                {
+                    if (gamePadState.Triggers.Right > triggerThreshold)
+                        return true;
+                }
+                else if (button == Buttons.LeftTrigger)
+                {
+                    if (gamePadState.Triggers.Left > triggerThreshold)
+                        return true;
+                }
+                else
+                    combinedButtons |= button;
+            }
+            return gamePadState.IsButtonDown(combinedButtons);
         }
     }
 }
