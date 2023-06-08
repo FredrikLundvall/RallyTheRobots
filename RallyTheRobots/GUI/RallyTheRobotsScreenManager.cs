@@ -22,8 +22,6 @@ namespace RallyTheRobots.GUI
             AddScreen(new SoundMenuScreen());
             AddScreen(new ControlsMenuScreen());
             AddScreen(new PauseMenuScreen());
-            AddScreen(new SettingsInGameMenuScreen());
-            AddScreen(new LoadInGameMenuScreen());
             base.Initialize();
         }
     }

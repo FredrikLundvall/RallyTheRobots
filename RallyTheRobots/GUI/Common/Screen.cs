@@ -28,6 +28,7 @@ namespace RallyTheRobots.GUI.Common
         protected ButtonAction _buttonNextVerticalAction = new FocusNextButtonAreaButtonAction();
         protected ButtonAction _buttonPreviousHorizontalAction = new ChangeValueFocusedButtonAction(-1, 0);
         protected ButtonAction _buttonNextHorizontalAction = new ChangeValueFocusedButtonAction(1, 0);
+        protected Screen _previousScreen;
 
         public Screen()
         {
@@ -112,16 +113,17 @@ namespace RallyTheRobots.GUI.Common
             buttonArea.SetInputChecker(_inputChecker);
             _buttonAreaList.Add(buttonArea);
         }
-        public virtual void EnterScreen(GameTime gameTime, GameSettings gameSettings)
+        public virtual void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
         {
-             _totalGameTimeEnter = gameTime.TotalGameTime;
+            _previousScreen = oldScreen;
+            _totalGameTimeEnter = gameTime.TotalGameTime;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
             if (_focusedAtEnterButtonArea != null)
                 SetFocusedButtonArea(_focusedAtEnterButtonArea);
             else
                 ChangeSelectedButtonAreaToFocused(gameTime);
         }
-        public virtual void LeaveScreen()
+        public virtual void LeaveScreen(GameTime gameTime, GameSettings gameSettings, Screen newScreen)
         {
         }
         internal virtual void FocusPreviousButtonArea(GameTime gameTime, GameSettings gameSettings)
@@ -187,6 +189,10 @@ namespace RallyTheRobots.GUI.Common
         public virtual void SetNextHorizontalAction(ButtonAction buttonAction)
         {
             _buttonNextHorizontalAction = buttonAction;
+        }
+        public virtual Screen GetPreviousScreen()
+        {
+            return _previousScreen;
         }
         public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {

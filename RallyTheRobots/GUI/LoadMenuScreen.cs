@@ -17,7 +17,7 @@ namespace RallyTheRobots.GUI
             ButtonArea returnButton = new ButtonArea();
             returnButton.AddImage("return");
             returnButton.Position = new Vector2(83, 120);
-            returnButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<StartMenuScreen>()));
+            returnButton.SetButtonSelectAction(new ChangeToPreviousScreenAction());
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
             ButtonArea filelistButton1 = new ButtonArea();

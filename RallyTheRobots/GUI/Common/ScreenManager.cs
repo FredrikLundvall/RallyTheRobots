@@ -64,7 +64,7 @@ namespace RallyTheRobots.GUI.Common
         }
         public virtual void EnterStartScreen(GameTime gameTime, GameSettings gameSettings)
         {
-            _currentScreen.EnterScreen(gameTime, gameSettings);
+            _currentScreen.EnterScreen(gameTime, gameSettings, null);
         }
         public virtual void Update(GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
@@ -79,9 +79,26 @@ namespace RallyTheRobots.GUI.Common
         }
         public virtual void ChangeScreen(GameTime gameTime, GameSettings gameSettings, Screen newScreen)
         {
-            _currentScreen.LeaveScreen();
+            if (newScreen == null)
+            {
+                //TODO: some kind of log here
+                return;
+            }
+            _currentScreen.LeaveScreen(gameTime, gameSettings, newScreen);
+            var oldScreen = _currentScreen;
             _currentScreen = newScreen;
-            _currentScreen.EnterScreen(gameTime, gameSettings);
+            _currentScreen.EnterScreen(gameTime, gameSettings, oldScreen);
+        }
+        public virtual void ChangeToPreviousScreen(GameTime gameTime, GameSettings gameSettings, Screen newScreen)
+        {
+            if (newScreen == null)
+            {
+                //TODO: some kind of log here
+                return;
+            }
+            _currentScreen.LeaveScreen(gameTime, gameSettings, newScreen);
+            _currentScreen = newScreen.GetPreviousScreen();
+            _currentScreen.EnterScreen(gameTime, gameSettings, _currentScreen.GetPreviousScreen());//Don't change the previous screen
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
         {

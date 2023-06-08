@@ -19,7 +19,7 @@ namespace RallyTheRobots.GUI
             ButtonArea returnButton = new ButtonArea();
             returnButton.AddImage("return");
             returnButton.Position = new Vector2(83, 390);
-            returnButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
+            returnButton.SetButtonSelectAction(new ChangeToPreviousScreenAction());
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
             _fullscreenButton.AddRollingState("true");
@@ -48,12 +48,12 @@ namespace RallyTheRobots.GUI
             SetFocusedButtonArea(returnButton);
             base.Initialize();
         }
-        public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
+        public override void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
         {
             _fullscreenButton.SetCurrentRollingState(gameSettings.GetFullscreen() ? "true" : "false");
 
             _resolutionButton.SetCurrentRollingState(string.Format("{0:D}x{1:D};", gameSettings.GetWidth(), gameSettings.GetHeight()));
-            base.EnterScreen(gameTime, gameSettings);
+            base.EnterScreen(gameTime, gameSettings, oldScreen);
         }
     }
 }

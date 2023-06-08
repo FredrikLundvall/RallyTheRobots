@@ -18,7 +18,7 @@ namespace RallyTheRobots.GUI
             ButtonArea returnButton = new ButtonArea();
             returnButton.AddImage("return");
             returnButton.Position = new Vector2(83, 390);
-            returnButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<SettingsMenuScreen>()));
+            returnButton.SetButtonSelectAction(new ChangeToPreviousScreenAction());
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
             _masterVolumeButton.AddImage("soundmenu_mastervolume");
@@ -50,11 +50,11 @@ namespace RallyTheRobots.GUI
             SetFocusedButtonArea(returnButton);
             base.Initialize();
         }
-        public override void EnterScreen(GameTime gameTime, GameSettings gameSettings)
+        public override void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
         {       
             _masterVolumeButton.SetCurrentHorizontalValue(gameSettings.GetMasterVolume());
             _musicVolumeButton.SetCurrentHorizontalValue(gameSettings.GetMusicVolume());
-            base.EnterScreen(gameTime, gameSettings);
+            base.EnterScreen(gameTime, gameSettings, oldScreen);
         }
     }
 }
