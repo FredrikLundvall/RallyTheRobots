@@ -9,14 +9,9 @@ namespace RallyTheRobots.GUI.Common
 {
     public class FocusPreviousButtonAreaButtonAction : ButtonAction
     {
-        //Screen _screen;
-        //public FocusNextButtonAreaButtonAction(Screen screen)
-        //{
-        //    _screen = screen;
-        //}
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            screen.FocusPreviousButtonArea(gameTime);
+            screen.FocusPreviousButtonArea(gameTime, gameSettings);
         }
     }
 }

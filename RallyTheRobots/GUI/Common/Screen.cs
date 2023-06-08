@@ -10,7 +10,6 @@ namespace RallyTheRobots.GUI.Common
 {
     public class Screen
     {
-        const double FOCUS_CHANGE_TIME = 0.4;
         protected ContentManager _contentManager;
         protected ResolutionFactory _resolutionFactory;
         protected ScreenManager _screenManager;
@@ -125,16 +124,16 @@ namespace RallyTheRobots.GUI.Common
         public virtual void LeaveScreen()
         {
         }
-        internal virtual void FocusPreviousButtonArea(GameTime gameTime)
+        internal virtual void FocusPreviousButtonArea(GameTime gameTime, GameSettings gameSettings)
         {
-            if (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds < FOCUS_CHANGE_TIME)
+            if (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds < gameSettings.GetFocusChangeTime())
                 return;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
             SetFocusedButtonArea(_buttonAreaList.GetPreviousButtonArea());
         }
-        internal virtual void FocusNextButtonArea(GameTime gameTime)
+        internal virtual void FocusNextButtonArea(GameTime gameTime, GameSettings gameSettings)
         {
-            if (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds < FOCUS_CHANGE_TIME)
+            if (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeFocusChange.TotalSeconds < gameSettings.GetFocusChangeTime())
                 return;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
             SetFocusedButtonArea(_buttonAreaList.GetNextButtonArea());

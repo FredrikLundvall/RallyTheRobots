@@ -14,6 +14,7 @@ namespace RallyTheRobots.GUI.Common
         protected int _musicVolume = 1080;
         protected float _triggerThreshold = 0.3f;
         protected PlayerIndex _gamePadPlayerIndex = PlayerIndex.One;
+        protected double _focusChangeTime = 0.3;
         protected Dictionary<InputFunctionEnum, InputButtonSetting> _inputButtonsForFunction = new Dictionary<InputFunctionEnum, InputButtonSetting>()
         {
             {InputFunctionEnum.PrimarySelect, new InputButtonSetting { KeyboardKeys = new Keys[] { Keys.Enter, Keys.E }, GamepadButtons = new Buttons[] {Buttons.A, Buttons.RightShoulder, Buttons.RightTrigger } } },
@@ -95,6 +96,10 @@ namespace RallyTheRobots.GUI.Common
         public float GetTriggerThreshold()
         {
             return _triggerThreshold;
+        }
+        public double GetFocusChangeTime()
+        {
+            return _focusChangeTime;
         }
     }
 }

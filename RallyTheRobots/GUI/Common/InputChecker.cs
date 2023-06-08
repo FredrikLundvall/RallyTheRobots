@@ -137,29 +137,29 @@ namespace RallyTheRobots.GUI.Common
         public virtual bool PreviousVerticalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Up == ButtonState.Pressed || 
-                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.Y > 0.3 || 
-                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.Y > 0.3 || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.Y > gameSettings.GetTriggerThreshold() || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.Y > gameSettings.GetTriggerThreshold() || 
                 IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.PreviousVertical).KeyboardKeys);
         }
         public virtual bool NextVerticalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Down == ButtonState.Pressed || 
-                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.Y < -0.3 || 
-                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.Y < -0.3 || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.Y < -gameSettings.GetTriggerThreshold() || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.Y < -gameSettings.GetTriggerThreshold() || 
                 IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.NextVertical).KeyboardKeys);
         }
         public virtual bool PreviousHorizontalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Left == ButtonState.Pressed || 
-                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.X < -0.3 || 
-                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.X < -0.3 || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.X < -gameSettings.GetTriggerThreshold() || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.X < -gameSettings.GetTriggerThreshold() || 
                 IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.PreviousHorizontal).KeyboardKeys);
         }
         public virtual bool NextHorizontalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
             return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Right == ButtonState.Pressed || 
-                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.X > 0.3 || 
-                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.X > 0.3 || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.X > gameSettings.GetTriggerThreshold() || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.X > gameSettings.GetTriggerThreshold() || 
                 IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.NextHorizontal).KeyboardKeys);
         }
         public virtual bool HasMouseMoved(GameTime gameTime, GameSettings gameSettings)
