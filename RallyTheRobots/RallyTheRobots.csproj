@@ -80,7 +80,8 @@
     <Compile Include="GUI\Common\InputButtonSetting.cs" />
     <Compile Include="GUI\Common\InputConnector.cs" />
     <Compile Include="GUI\Common\InputFunctionEnum.cs" />
-    <Compile Include="GUI\Common\InputFunctionStatus.cs" />
+    <Compile Include="GUI\Common\InputButtonStatus.cs" />
+    <Compile Include="GUI\Common\MouseButtonEnum.cs" />
     <Compile Include="GUI\Common\ResolutionFactory.cs" />
     <Compile Include="GUI\Common\NextRollingStateButtonAction.cs" />
     <Compile Include="GUI\Common\RollingState.cs" />

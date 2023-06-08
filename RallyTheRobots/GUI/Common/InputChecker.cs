@@ -13,18 +13,26 @@ namespace RallyTheRobots.GUI.Common
         private int _currentScrollWheelValue;
         private int _oldScrollWheelValue;
         private InputConnector _inputConnector;
-        private Dictionary<InputFunctionEnum, InputFunctionStatus> _inputFunctionStatusList;
+        private Dictionary<InputFunctionEnum, InputButtonStatus> _inputFunctionStatusList;
+        private Dictionary<MouseButtonEnum, InputButtonStatus> _mouseButtonStatusList;
 
         public virtual void Initialize()
         {
             if (_inputConnector == null)
                 _inputConnector = new InputConnector();
             if (_inputFunctionStatusList == null)
-                _inputFunctionStatusList = new Dictionary<InputFunctionEnum, InputFunctionStatus>();
+                _inputFunctionStatusList = new Dictionary<InputFunctionEnum, InputButtonStatus>();
+            if (_mouseButtonStatusList == null)
+                _mouseButtonStatusList = new Dictionary<MouseButtonEnum, InputButtonStatus>();
             foreach (int i in Enum.GetValues(typeof(InputFunctionEnum)))
             {
                 //Adding all InputFunctionEnums here
-                _inputFunctionStatusList.Add((InputFunctionEnum)i, new InputFunctionStatus(false, new TimeSpan(0)));
+                _inputFunctionStatusList.Add((InputFunctionEnum)i, new InputButtonStatus(false, new TimeSpan(0)));
+            }
+            foreach (int i in Enum.GetValues(typeof(MouseButtonEnum)))
+            {
+                //Adding all MouseButtonEnums here
+                _mouseButtonStatusList.Add((MouseButtonEnum)i, new InputButtonStatus(false, new TimeSpan(0)));
             }
             _oldScrollWheelValue = _inputConnector.GetMouseState().ScrollWheelValue;
             _oldMousePosition = _inputConnector.GetMouseState().Position;
@@ -34,10 +42,15 @@ namespace RallyTheRobots.GUI.Common
             if (_inputConnector == null)
                 _inputConnector = inputConnector;
         }
-        public void SetInputFunctionStatusList(Dictionary<InputFunctionEnum, InputFunctionStatus> inputFunctionStatusList)
+        public void SetInputFunctionStatusList(Dictionary<InputFunctionEnum, InputButtonStatus> inputFunctionStatusList)
         {
             if (_inputFunctionStatusList == null)
                 _inputFunctionStatusList = inputFunctionStatusList;
+        }
+        public void SetMouseButtonStatusList(Dictionary<MouseButtonEnum, InputButtonStatus> mouseButtonStatusList)
+        {
+            if (_mouseButtonStatusList == null)
+                _mouseButtonStatusList = mouseButtonStatusList;
         }
         public virtual void BeforeUpdate(GameTime gameTime, GameSettings gameSettings)
         {
@@ -61,13 +74,13 @@ namespace RallyTheRobots.GUI.Common
                 }
                 else
                 {
-                    _inputFunctionStatusList[inputFunction] = new InputFunctionStatus(true, gameTime.ElapsedGameTime);
+                    _inputFunctionStatusList[inputFunction] = new InputButtonStatus(true, gameTime.ElapsedGameTime);
                 }
             }
             else
             {
                 //The elapsed time isn't used, but preserving it anyway if some future use of last time pressed is needed
-                _inputFunctionStatusList[inputFunction] = new InputFunctionStatus(false, _inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtElapsedTime);
+                _inputFunctionStatusList[inputFunction] = new InputButtonStatus(false, _inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtElapsedTime);
             }
             return isPressed;
         }
@@ -79,37 +92,75 @@ namespace RallyTheRobots.GUI.Common
             isPressed |= IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(inputFunction).KeyboardKeys);
             return isPressed;
         }
-        public virtual bool ButtonForSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool MouseButtonWasTriggered(MouseButtonEnum mouseButton, GameTime gameTime, GameSettings gameSettings)
         {
-            return _inputConnector.GetMouseState().LeftButton == ButtonState.Pressed;
+            //Check for buttons pressed while avoiding cascading event in next screen
+            var isPressed = MoueseButtonIsCurrentlyPressed(mouseButton, gameSettings);
+            if (isPressed)
+            {
+                if (_mouseButtonStatusList[mouseButton].ButtonIsHeldDown && _mouseButtonStatusList[mouseButton].ButtonIsHeldDownAtElapsedTime != gameTime.ElapsedGameTime)
+                {
+                    isPressed = false;
+                }
+                else
+                {
+                    _mouseButtonStatusList[mouseButton] = new InputButtonStatus(true, gameTime.ElapsedGameTime);
+                }
+            }
+            else
+            {
+                //The elapsed time isn't used, but preserving it anyway if some future use of last time pressed is needed
+                _mouseButtonStatusList[mouseButton] = new InputButtonStatus(false, _mouseButtonStatusList[mouseButton].ButtonIsHeldDownAtElapsedTime);
+            }
+            return isPressed;
         }
-        public virtual bool ButtonForAlternateSelectMouseIsCurrentlyPressed(GameSettings gameSettings)
+        public virtual bool MoueseButtonIsCurrentlyPressed(MouseButtonEnum mouseButton, GameSettings gameSettings)
         {
-            return _inputConnector.GetMouseState().RightButton == ButtonState.Pressed;
+            //Check for buttons being pressed down right now
+            switch (mouseButton)
+            {
+                case MouseButtonEnum.LeftButton: return _inputConnector.GetMouseState().LeftButton == ButtonState.Pressed;
+                case MouseButtonEnum.RightButton: return _inputConnector.GetMouseState().RightButton == ButtonState.Pressed;
+                case MouseButtonEnum.MiddleButton: return _inputConnector.GetMouseState().MiddleButton == ButtonState.Pressed;
+                case MouseButtonEnum.XButton1: return _inputConnector.GetMouseState().XButton1 == ButtonState.Pressed;
+                case MouseButtonEnum.XButton2: return _inputConnector.GetMouseState().XButton2 == ButtonState.Pressed;
+            }
+            return false;
         }
         public virtual bool AnyButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
-            return _inputConnector.GetKeyboardState().GetPressedKeys().GetLength(0) > 0 || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.A == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.B == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.X == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.Y == ButtonState.Pressed || _inputConnector.GetMouseState().LeftButton == ButtonState.Pressed || _inputConnector.GetMouseState().RightButton == ButtonState.Pressed;
+            return _inputConnector.GetKeyboardState().GetPressedKeys().GetLength(0) > 0 ||
+                IsAnyOfTheseGamePadKeysPressed(_inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()), new Buttons[] { Buttons.A, Buttons.B, Buttons.X, Buttons.Y}, 0f) ||
+                MoueseButtonIsCurrentlyPressed(MouseButtonEnum.LeftButton , gameSettings) ||
+                MoueseButtonIsCurrentlyPressed(MouseButtonEnum.RightButton, gameSettings);
         }
         public virtual bool PreviousVerticalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
-            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Up == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.Y > 0.3 || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.Y > 0.3 || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.PreviousVertical).KeyboardKeys);
+            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Up == ButtonState.Pressed || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.Y > 0.3 || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.Y > 0.3 || 
+                IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.PreviousVertical).KeyboardKeys);
         }
         public virtual bool NextVerticalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
-            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Down == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.Y < -0.3 || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.Y < -0.3 || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.NextVertical).KeyboardKeys);
+            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Down == ButtonState.Pressed || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.Y < -0.3 || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.Y < -0.3 || 
+                IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.NextVertical).KeyboardKeys);
         }
         public virtual bool PreviousHorizontalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
-            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Left == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.X < -0.3 || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.X < -0.3 || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.PreviousHorizontal).KeyboardKeys);
+            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Left == ButtonState.Pressed || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.X < -0.3 || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.X < -0.3 || 
+                IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.PreviousHorizontal).KeyboardKeys);
         }
         public virtual bool NextHorizontalButtonIsCurrentlyPressed(GameSettings gameSettings)
         {
-            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Right == ButtonState.Pressed || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.X > 0.3 || _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.X > 0.3 || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.NextHorizontal).KeyboardKeys);
-        }
-        public virtual bool GoBackButtonIsCurrentlyPressed(GameSettings gameSettings)
-        {
-            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).Buttons.Back == ButtonState.Pressed || IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.GoBack).KeyboardKeys);
+            return _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).DPad.Right == ButtonState.Pressed || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Left.X > 0.3 || 
+                _inputConnector.GetGamePadState(gameSettings.GetGamePadPlayerIndex()).ThumbSticks.Right.X > 0.3 || 
+                IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(InputFunctionEnum.NextHorizontal).KeyboardKeys);
         }
         public virtual bool HasMouseMoved(GameTime gameTime, GameSettings gameSettings)
         {
@@ -128,13 +179,13 @@ namespace RallyTheRobots.GUI.Common
             Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
             Rectangle buttonAreaSliderRect = buttonArea.GetHorizontalSliderRectangle();
             if ((int)mousePosition.X < buttonAreaSliderRect.X + (int)offset.X - buttonArea.SliderBorderLeft || (int)mousePosition.X > buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width + buttonArea.SliderBorderRight || buttonAreaSliderRect.Width == 0)
-                return -2;
+                return -2; //TODO: This value need explaining
             else if ((int)mousePosition.X <= buttonAreaSliderRect.X + (int)offset.X)
-                return -1;
+                return -1; //TODO: This value need explaining
             else if ((int)mousePosition.X >= buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width)
-                return 101;
+                return 101; //TODO: This value need explaining
             else
-                return (int)((mousePosition.X - (buttonAreaSliderRect.X + offset.X)) / buttonAreaSliderRect.Width * 100f + 0.5f);
+                return (int)((mousePosition.X - (buttonAreaSliderRect.X + offset.X)) / buttonAreaSliderRect.Width * 100f + 0.5f); //TODO: This value should be explained too
         }
         public virtual bool HasMouseWheelMoved()
         {

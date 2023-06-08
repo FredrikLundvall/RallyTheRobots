@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots.GUI
 {
-    public struct InputFunctionStatus
+    public struct InputButtonStatus
     {
         public bool ButtonIsHeldDown;
         public TimeSpan ButtonIsHeldDownAtElapsedTime;
 
-        public InputFunctionStatus(bool buttonIsHeldDown, TimeSpan buttonIsHeldDownAtElapsedTime)
+        public InputButtonStatus(bool buttonIsHeldDown, TimeSpan buttonIsHeldDownAtElapsedTime)
         {
             ButtonIsHeldDown = buttonIsHeldDown;
             ButtonIsHeldDownAtElapsedTime = buttonIsHeldDownAtElapsedTime;
