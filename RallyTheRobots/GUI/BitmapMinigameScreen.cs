@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots.GUI
 {
-    public class GameScreen : Screen
+    public class BitmapMinigameScreen : Screen
     {
         public override void Initialize()
         {
-            AddBackground("ingame");
-            ScreenChangeOnTimeout(_screenManager.GetScreen<BitmapMinigameScreen>(), 7.0);
+            AddBackground("bitmap_minigame");
             ScreenChangeOnPauseKey(_screenManager.GetScreen<PauseMenuScreen>());
             base.Initialize();
         }
     }
 }
+

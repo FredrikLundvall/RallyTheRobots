@@ -1,0 +1,32 @@
+﻿History:
+An engineer transfer his consciousness into an AI-system before he dies.
+He has a workshop with different robots and a server with the AI-system.
+
+Setting:
+Workshop with different equipment and robots.
+Janitor closet
+Store room
+Garden outside the workshop with other robots.
+Shed with other equipment.
+Bedroom with the dead engineer.
+
+Tools:
+Different cameras: Security cameras, robots, webcams and telephones.
+Different robots.
+Solar panels.
+Windmill.
+Generator.
+
+Problems:
+Data corruption
+Data fragmentation
+Data hardware error
+Communication down
+Power shortage
+
+Minigame idéas:
+Find bitmap in data by selecting the right width and position. Scroll and select when you found a match.
+
+
+
+

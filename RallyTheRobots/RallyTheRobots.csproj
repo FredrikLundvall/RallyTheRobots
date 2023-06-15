@@ -67,6 +67,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GUI\ApplySettingFromSliderButtonAction.cs" />
+    <Compile Include="GUI\BitmapMinigameScreen.cs" />
     <Compile Include="GUI\Common\ButtonAreaImage.cs" />
     <Compile Include="GUI\Common\ButtonAreaImageNameTypeEnum.cs" />
     <Compile Include="GUI\Common\ButtonAreaImageStackDirectionEnum.cs" />
@@ -247,6 +248,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\apply_settings_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Bitmap_minigame.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\controlsmenu.png">

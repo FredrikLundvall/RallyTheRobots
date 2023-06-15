@@ -14,7 +14,8 @@ namespace RallyTheRobots.GUI
             ButtonArea continueGameButton = new ButtonArea();
             continueGameButton.AddImage("pausemenu_continue");
             continueGameButton.Position = new Vector2(83, 250);
-            continueGameButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<GameScreen>()));
+            continueGameButton.SetButtonSelectAction(new ChangeToPreviousScreenAction());
+            //continueGameButton.SetButtonSelectAction(new ChangeScreenButtonAction(_screenManager.GetScreen<GameScreen>()));
             AddButtonArea(continueGameButton);
             ButtonArea settingsButton = new ButtonArea();
             settingsButton.AddImage("pausemenu_settings");
