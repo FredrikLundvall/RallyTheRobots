@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots.GUI.Common
 {
-    public enum ButtonAreaImageNameTypeEnum { Actual, Character, RollingState, RollingStateCharacter, RollingState2, RollingState2Character }
+    public enum ButtonAreaImageNameTypeEnum { Actual, Character, RollingState, RollingStateCharacter }
 }

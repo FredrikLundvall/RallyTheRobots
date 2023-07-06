@@ -17,7 +17,7 @@ namespace RallyTheRobots.GUI.Common
         protected bool _focusedMissing = false;
         protected bool _selectedMissing = false;
 
-        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState, string currentRollingState2, int currentHorizontalValue, int currentVerticalValue, int borderLeft, int borderRight)
+        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState, int currentHorizontalValue, int currentVerticalValue, int borderLeft, int borderRight)
         {
             Vector2 imageOffset = new Vector2(0, 0);
             if (_imageList != null && _imageList.Count > 0)
@@ -36,7 +36,7 @@ namespace RallyTheRobots.GUI.Common
                 }
             }
         }
-        public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState, string currentRollingState2)
+        public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
         {
             Vector2 size = new Vector2(0, 0);
             if (_imageList != null && _imageList.Count > 0)
@@ -158,18 +158,6 @@ namespace RallyTheRobots.GUI.Common
             }
             return false;
         }
-        public virtual bool ReferencingRollingState2AsImage()
-        {
-            if (_imageList != null && _imageList.Count > 0)
-            {
-                foreach (ImageSettings image in _imageList)
-                {
-                    if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState2)
-                        return true;
-                }
-            }
-            return false;
-        }
         public virtual bool ReferencingRollingStateAsCharacterImage()
         {
             if (_imageList != null && _imageList.Count > 0)
@@ -177,18 +165,6 @@ namespace RallyTheRobots.GUI.Common
                 foreach (ImageSettings image in _imageList)
                 {
                     if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingStateCharacter)
-                        return true;
-                }
-            }
-            return false;
-        }
-        public virtual bool ReferencingRollingState2AsCharacterImage()
-        {
-            if (_imageList != null && _imageList.Count > 0)
-            {
-                foreach (ImageSettings image in _imageList)
-                {
-                    if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState2Character)
                         return true;
                 }
             }

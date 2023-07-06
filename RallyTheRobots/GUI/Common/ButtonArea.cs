@@ -11,7 +11,6 @@ namespace RallyTheRobots
         internal InputChecker _inputChecker;
         protected ButtonAreaImage _buttonAreaImage = new ButtonAreaImage();
         protected RollingState _rollingState = new RollingState();
-        protected RollingState _rollingState2 = new RollingState();
         public Vector2 Position;
         public int SliderBorderLeft;
         public int SliderBorderRight;
@@ -56,26 +55,6 @@ namespace RallyTheRobots
         {
             _rollingState.PreviousState();
         }
-        public virtual void AddRollingState2(string rollingState)
-        {
-            _rollingState2.AddState(rollingState);
-        }
-        public virtual string GetCurrentRollingState2()
-        {
-            return _rollingState2.GetCurrentState();
-        }
-        public virtual void SetCurrentRollingState2(string rollingState)
-        {
-            _rollingState2.SetCurrentState(rollingState);
-        }
-        public virtual void NextRollingState2()
-        {
-            _rollingState2.NextState();
-        }
-        public virtual void PreviousRollingState2()
-        {
-            _rollingState2.PreviousState();
-        }
         public virtual void SetButtonSelectAction(ButtonAction buttonAction)
         {
             _buttonSelectAction = buttonAction;
@@ -96,23 +75,6 @@ namespace RallyTheRobots
             if (_buttonAreaImage.ReferencingRollingStateAsCharacterImage())
             {
                 foreach (string stateName in _rollingState.ToArray())
-                {
-                    foreach (char characterImageName in stateName)
-                    {
-                        _buttonAreaImage.AddRollingStatesAsImages(characterImageName.ToString());
-                    }
-                }
-            }
-            if (_buttonAreaImage.ReferencingRollingState2AsImage())
-            {
-                foreach (string stateName in _rollingState2.ToArray())
-                {
-                    _buttonAreaImage.AddRollingStatesAsImages(stateName);
-                }
-            }
-            if (_buttonAreaImage.ReferencingRollingState2AsCharacterImage())
-            {
-                foreach (string stateName in _rollingState2.ToArray())
                 {
                     foreach (char characterImageName in stateName)
                     {
@@ -162,7 +124,7 @@ namespace RallyTheRobots
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
-            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _rollingState2.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue, SliderBorderLeft, SliderBorderRight);
+            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue, SliderBorderLeft, SliderBorderRight);
         }
         public virtual void ClearImages()
         {
@@ -174,7 +136,7 @@ namespace RallyTheRobots
         }
         public virtual Vector2 GetSize()
         {
-            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState(), _rollingState2.GetCurrentState());
+            return _buttonAreaImage.GetSize(Visible, Disabled, Status, _rollingState.GetCurrentState());
         }
         public virtual Rectangle GetHorizontalSliderRectangle()
         {

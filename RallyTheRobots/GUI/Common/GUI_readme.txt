@@ -37,7 +37,10 @@ property ButtonStatusEnum (Idle, Focused, Selected) are controlled by the Button
 meaning in perspective of the ButtonAreaList. The ButtonAreaList is where the Screen saves all the ButtonAreas for the screen.
 The ButtonArea has two RollingStates that can be used to keep track of the state of the button. It is a rolling list of strings that 
 can be switched forward and backwards with NextRollingStateButtonAction and PreviousRollingStateButtonAction. The RollingState can be 
-used as the name of the image of the ButtonArea. ButtonAreas can be sliders that is used to represent a value of for example a volume of the sound.
+used as the name of the image of the ButtonArea. 
+RollingStateCharacter is a rolling state where the characters in the strings are used as name of the images that is used for presenting the 
+current rolling state.
+ButtonAreas can be sliders that is used to represent a value of for example a volume of the sound.
 ButtonAreas can have a stack of images that builds the graphics of the button. A slider will probably have at least three images. A 
 text for the sliders function a slider-bar for the representation of the value and a box where the slider will slide inside. The 
 sliders don´t need any ButtonAction it is automaticly triggered. 
