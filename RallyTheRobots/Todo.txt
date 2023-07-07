@@ -1,6 +1,6 @@
 ﻿Create unittests for only new things and bugs! //(everything start with input checker (Use MouseState, GamePadState and KeyboardState (in a new InputState object?) to be able to test))
 x Remove RollingState2 and RollingState2Character. Don't know what they where planned to be used for. Probably they where planned for when control-buttons can be configured?
-Refactor ButtonAreaImage
+x Refactor ButtonAreaImage
 Add number of characters for RollingStateCharacter-images
 Bug list:
 Maybe this is the bug bellow, but when entering the game there is no block when exiting the splash with mouse button. You can hit the menu continue directly.

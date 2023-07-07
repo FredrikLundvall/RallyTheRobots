@@ -16,44 +16,33 @@ namespace RallyTheRobots.GUI.Common
         protected bool _disabledMissing = false;
         protected bool _focusedMissing = false;
         protected bool _selectedMissing = false;
-
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState, int currentHorizontalValue, int currentVerticalValue, int borderLeft, int borderRight)
         {
-            Vector2 imageOffset = new Vector2(0, 0);
-            if (_imageList != null && _imageList.Count > 0)
-            {
-                string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-                foreach (ImageSettings image in _imageList)
+            Vector2 imageOffset = Vector2.Zero;
+            ForEveryTexture2D(
+                (image, texture) =>
                 {
-                    string imageName = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character ? image.ImageName : currentRollingState;
-                    int numberOfChars = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState ? imageName.Length : 1;
-                    for (int i = 0; i < imageName.Length; i += numberOfChars)
-                    {
-                        string characterImageName = imageName.Substring(i, numberOfChars);
-                        Texture2D texture = _contentManager.GetTexture2D(characterImageName + buttonImageNameSuffix);
-                        imageOffset = DrawTexture(spriteBatch, offset, position, imageOffset, image, texture, currentHorizontalValue, currentVerticalValue, borderLeft, borderRight);
-                    }
-                }
-            }
+                    imageOffset = DrawTexture(spriteBatch, offset, position, imageOffset, image, texture, currentHorizontalValue, currentVerticalValue, borderLeft, borderRight);
+                }, 
+                visible, 
+                disabled, 
+                status, 
+                currentRollingState
+            );
         }
         public virtual Vector2 GetSize(bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
         {
-            Vector2 size = new Vector2(0, 0);
-            if (_imageList != null && _imageList.Count > 0)
-            {
-                string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
-                foreach (ImageSettings image in _imageList)
+            Vector2 size = Vector2.Zero;
+            ForEveryTexture2D(
+                (image, texture) =>
                 {
-                    string imageName = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character ? image.ImageName : currentRollingState;
-                    int numberOfChars = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState ? imageName.Length : 1;
-                    for (int i = 0; i < imageName.Length; i += numberOfChars)
-                    {
-                        string characterImageName = imageName.Substring(i, numberOfChars);
-                        Texture2D texture = _contentManager.GetTexture2D(characterImageName + buttonImageNameSuffix);
-                        size = GetTextureSize(size, image, texture);
-                    }
-                }
-            }
+                    size = GetTextureSize(size, image, texture);
+                }, 
+                visible, 
+                disabled, 
+                status, 
+                currentRollingState
+            );
             return size;
         }
         public virtual Rectangle GetHorizontalSliderRectangle(int borderLeft, int borderRight, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
@@ -61,26 +50,54 @@ namespace RallyTheRobots.GUI.Common
             Vector2 imageOffset = position;
             imageOffset.X = imageOffset.X + borderLeft;
             Rectangle sliderRect = new Rectangle(0, 0, 0, 0);
+            ForEveryTexture2D(
+                (image, texture) =>
+                {
+                    imageOffset = GetHorizontalTextureRectangle(imageOffset, ref sliderRect, image, texture);
+                    if (!sliderRect.IsEmpty)
+                        return;
+                }, 
+                visible, 
+                disabled, 
+                status, 
+                currentRollingState
+            );
+            if (!sliderRect.IsEmpty)
+                sliderRect.Width = sliderRect.Width - (borderLeft + borderRight);
+            return sliderRect;
+        }
+        private void ForEveryTexture2D(Action<ImageSettings, Texture2D> action, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
+        {
             if (_imageList != null && _imageList.Count > 0)
             {
                 string buttonImageNameSuffix = GetCurrentExistingImageNameSuffix(visible, disabled, status);
                 foreach (ImageSettings image in _imageList)
                 {
-                    string imageName = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.Character ? image.ImageName : currentRollingState;
-                    int numberOfChars = image.ImageNameType == ButtonAreaImageNameTypeEnum.Actual || image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingState ? imageName.Length : 1;
+                    string imageName = GetImageName(image.ImageNameType, image.ImageName, currentRollingState);
+                    int numberOfChars = GetNumberOfChars(image.ImageNameType, imageName.Length);
                     for (int i = 0; i < imageName.Length; i += numberOfChars)
                     {
                         string characterImageName = imageName.Substring(i, numberOfChars);
                         Texture2D texture = _contentManager.GetTexture2D(characterImageName + buttonImageNameSuffix);
-                        imageOffset = GetHorizontalTextureRectangle(imageOffset, ref sliderRect, image, texture);
-                        if (!sliderRect.IsEmpty)
-                            break;
+                        action(image, texture);
                     }
                 }
             }
-            if (!sliderRect.IsEmpty)
-                sliderRect.Width = sliderRect.Width - (borderLeft + borderRight);
-            return sliderRect;
+        }
+        private string GetImageName(ButtonAreaImageNameTypeEnum imageNameType, string image, string currentRollingState)
+        {
+            if (imageNameType == ButtonAreaImageNameTypeEnum.Actual || imageNameType == ButtonAreaImageNameTypeEnum.Character)
+            {
+                return image;
+            }
+            else
+            {
+                return currentRollingState;
+            }
+        }
+        private int GetNumberOfChars(ButtonAreaImageNameTypeEnum imageNameType, int imageNameLength)
+        {
+            return (imageNameType == ButtonAreaImageNameTypeEnum.Actual || imageNameType == ButtonAreaImageNameTypeEnum.RollingState) ? imageNameLength : 1;
         }
         private static Vector2 GetTextureSize(Vector2 size, ImageSettings image, Texture2D buttonTexture)
         {
