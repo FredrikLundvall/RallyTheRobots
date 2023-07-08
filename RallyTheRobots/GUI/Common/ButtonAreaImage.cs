@@ -78,7 +78,7 @@ namespace RallyTheRobots.GUI.Common
                     for (int i = 0; i < imageName.Length; i += numberOfChars)
                     {
                         string characterImageName = imageName.Substring(i, numberOfChars);
-                        Texture2D texture = _contentManager.GetTexture2D(characterImageName + buttonImageNameSuffix);
+                        Texture2D texture = _contentManager.GetTexture2D(characterImageName + image.ImageCharacterNameSuffix + buttonImageNameSuffix);
                         action(image, texture);
                     }
                 }
@@ -187,13 +187,25 @@ namespace RallyTheRobots.GUI.Common
             }
             return false;
         }
+        public virtual string GetRollingStateCharacterImageSuffix()
+        {
+            if (_imageList != null && _imageList.Count > 0)
+            {
+                foreach (ImageSettings image in _imageList)
+                {
+                    if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingStateCharacter && image.ImageCharacterNameSuffix != "")
+                        return image.ImageCharacterNameSuffix;
+                }
+            }
+            return "";
+        }
         public virtual void ClearImages()
         {
             _imageList.Clear();
         }
-        public virtual void AddImage(string imageName, ButtonAreaImageNameTypeEnum imageNameType = ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum imageType = ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
+        public virtual void AddImage(string imageName, ButtonAreaImageNameTypeEnum imageNameType = ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum imageType = ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal, string imageCharacterNameSuffix = "")
         {
-            _imageList.Add(new ImageSettings(imageName, imageNameType, imageType, imageStackDirection));
+            _imageList.Add(new ImageSettings(imageName, imageNameType, imageType, imageStackDirection, imageCharacterNameSuffix));
         }
         protected virtual ButtonAreaStateImageEnum GetCurrentImageStateEnum(bool visible, bool disabled, ButtonStatusEnum status)
         {

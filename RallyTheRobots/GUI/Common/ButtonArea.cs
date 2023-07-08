@@ -74,11 +74,12 @@ namespace RallyTheRobots
             }
             if (_buttonAreaImage.ReferencingRollingStateAsCharacterImage())
             {
+                string rollingStateCharacterImageSuffix = _buttonAreaImage.GetRollingStateCharacterImageSuffix();
                 foreach (string stateName in _rollingState.ToArray())
                 {
                     foreach (char characterImageName in stateName)
                     {
-                        _buttonAreaImage.AddRollingStatesAsImages(characterImageName.ToString());
+                        _buttonAreaImage.AddRollingStatesAsImages(characterImageName.ToString() + rollingStateCharacterImageSuffix);
                     }
                 }
             }
@@ -130,9 +131,9 @@ namespace RallyTheRobots
         {
             _buttonAreaImage.ClearImages();
         }
-        public virtual void AddImage(string imageName, ButtonAreaImageNameTypeEnum imageNameType = ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum imageType = ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal)
+        public virtual void AddImage(string imageName, ButtonAreaImageNameTypeEnum imageNameType = ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum imageType = ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum imageStackDirection = ButtonAreaImageStackDirectionEnum.Horizontal, string imageCharacterNameSuffix = "")
         {
-            _buttonAreaImage.AddImage(imageName, imageNameType, imageType, imageStackDirection);
+            _buttonAreaImage.AddImage(imageName, imageNameType, imageType, imageStackDirection, imageCharacterNameSuffix);
         }
         public virtual Vector2 GetSize()
         {

@@ -12,12 +12,14 @@ namespace RallyTheRobots.GUI.Common
         public ButtonAreaImagePositioningEnum ImagePositioning;
         public ButtonAreaImageStackDirectionEnum ImageStackDirection;
         public ButtonAreaImageNameTypeEnum ImageNameType;
-        public ImageSettings(string imageName, ButtonAreaImageNameTypeEnum imageNameType, ButtonAreaImagePositioningEnum imagePositioning, ButtonAreaImageStackDirectionEnum imageStackDirection)
+        public string ImageCharacterNameSuffix;
+        public ImageSettings(string imageName, ButtonAreaImageNameTypeEnum imageNameType, ButtonAreaImagePositioningEnum imagePositioning, ButtonAreaImageStackDirectionEnum imageStackDirection, string imageCharacterNameSuffix)
         {
             ImageName = imageName;
             ImageNameType = imageNameType;
             ImagePositioning = imagePositioning;
             ImageStackDirection = imageStackDirection;
+            ImageCharacterNameSuffix = imageCharacterNameSuffix;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace RallyTheRobots.GUI
             returnButton.SetButtonSelectAction(new ChangeToPreviousScreenAction());
             returnButton.HasShortcutWithGoBackButton = true;
             AddButtonArea(returnButton);
+
             _masterVolumeButton.AddImage("soundmenu_mastervolume");
             _masterVolumeButton.AddImage("slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueHorizontalSlider, ButtonAreaImageStackDirectionEnum.None);
             _masterVolumeButton.AddImage("slider");
@@ -42,6 +43,7 @@ namespace RallyTheRobots.GUI
             //_musicVolumeButton.SetButtonSelectAction(new ChangeValueButtonAction(_musicVolumeButton, 1, 0));
             //_musicVolumeButton.SetButtonAlternateSelectAction(new ChangeValueButtonAction(_musicVolumeButton, -1, 0));
             AddButtonArea(_musicVolumeButton);
+
             ButtonArea applyButton = new ButtonArea();
             applyButton.AddImage("apply_settings");
             applyButton.Position = new Vector2(83, 840);
