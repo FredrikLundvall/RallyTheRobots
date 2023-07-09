@@ -184,10 +184,10 @@
     <Content Include="Content\%3b_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\0s_focused.png">
+    <Content Include="Content\s0_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\0s_idle.png">
+    <Content Include="Content\s0_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\0_focused.png">
@@ -196,10 +196,10 @@
     <Content Include="Content\0_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\1s_focused.png">
+    <Content Include="Content\s1_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\1s_idle.png">
+    <Content Include="Content\s1_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\1_focused.png">
@@ -208,10 +208,10 @@
     <Content Include="Content\1_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\2s_focused.png">
+    <Content Include="Content\s2_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\2s_idle.png">
+    <Content Include="Content\s2_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\2_focused.png">
@@ -220,10 +220,10 @@
     <Content Include="Content\2_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\3s_focused.png">
+    <Content Include="Content\s3_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\3s_idle.png">
+    <Content Include="Content\s3_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\3_focused.png">
@@ -232,10 +232,10 @@
     <Content Include="Content\3_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\4s_focused.png">
+    <Content Include="Content\s4_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\4s_idle.png">
+    <Content Include="Content\s4_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\4_focused.png">
@@ -244,10 +244,10 @@
     <Content Include="Content\4_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\5s_focused.png">
+    <Content Include="Content\s5_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\5s_idle.png">
+    <Content Include="Content\s5_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\5_focused.png">
@@ -256,10 +256,10 @@
     <Content Include="Content\5_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\6s_focused.png">
+    <Content Include="Content\s6_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\6s_idle.png">
+    <Content Include="Content\s6_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\6_focused.png">
@@ -268,10 +268,10 @@
     <Content Include="Content\6_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\7s_focused.png">
+    <Content Include="Content\s7_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\7s_idle.png">
+    <Content Include="Content\s7_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\7_focused.png">
@@ -280,10 +280,10 @@
     <Content Include="Content\7_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\8s_focused.png">
+    <Content Include="Content\s8_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\8s_idle.png">
+    <Content Include="Content\s8_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\8_focused.png">
@@ -292,10 +292,10 @@
     <Content Include="Content\8_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\9s_focused.png">
+    <Content Include="Content\s9_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\9s_idle.png">
+    <Content Include="Content\s9_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\9_focused.png">
@@ -304,10 +304,10 @@
     <Content Include="Content\9_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\address_focused.png">
+    <Content Include="Content\bitmap_mg_address_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\address_idle.png">
+    <Content Include="Content\bitmap_mg_address_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\apply_settings_focused.png">
@@ -316,34 +316,34 @@
     <Content Include="Content\apply_settings_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Bitmap_minigame.png">
+    <Content Include="Content\bitmap_minigame.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\colour_focused.png">
+    <Content Include="Content\bitmap_mg_colour_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\colour_idle.png">
+    <Content Include="Content\bitmap_mg_colour_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\controlsmenu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\expansion_focused.png">
+    <Content Include="Content\bitmap_mg_expansion_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\expansion_idle.png">
+    <Content Include="Content\bitmap_mg_expansion_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\extended_focused.png">
+    <Content Include="Content\bitmap_mg_extended_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\extended_idle.png">
+    <Content Include="Content\bitmap_mg_extended_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\external_focused.png">
+    <Content Include="Content\bitmap_mg_external_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\external_idle.png">
+    <Content Include="Content\bitmap_mg_external_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\false_focused.png">
@@ -352,10 +352,10 @@
     <Content Include="Content\false_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\full_focused.png">
+    <Content Include="Content\bitmap_mg_full_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\full_idle.png">
+    <Content Include="Content\bitmap_mg_full_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\graphicsmenu_fullscreen_focused.png">
@@ -373,31 +373,31 @@
     <Content Include="Content\graphicsmenu_resolution_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\halftone_focused.png">
+    <Content Include="Content\bitmap_mg_halftone_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\halftone_idle.png">
+    <Content Include="Content\bitmap_mg_halftone_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\height_focused.png">
+    <Content Include="Content\bitmap_mg_height_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\height_idle.png">
+    <Content Include="Content\bitmap_mg_height_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\high_focused.png">
+    <Content Include="Content\bitmap_mg_high_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\high_idle.png">
+    <Content Include="Content\bitmap_mg_high_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\ingame.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\interlaced_focused.png">
+    <Content Include="Content\bitmap_mg_interlaced_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\interlaced_idle.png">
+    <Content Include="Content\bitmap_mg_interlaced_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\loadmenu.png">
@@ -415,28 +415,28 @@
     <Content Include="Content\end_paranteses_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\low_focused.png">
+    <Content Include="Content\bitmap_mg_low_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\low_idle.png">
+    <Content Include="Content\bitmap_mg_low_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\mode_focused.png">
+    <Content Include="Content\bitmap_mg_mode_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\mode_idle.png">
+    <Content Include="Content\bitmap_mg_mode_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\normal_focused.png">
+    <Content Include="Content\bitmap_mg_normal_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\normal_idle.png">
+    <Content Include="Content\bitmap_mg_normal_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\palette_focused.png">
+    <Content Include="Content\bitmap_mg_palette_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\palette_idle.png">
+    <Content Include="Content\bitmap_mg_palette_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\pausemenu.png">
@@ -478,10 +478,10 @@
     <Content Include="Content\pausemenu_settings_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\realistic_focused.png">
+    <Content Include="Content\bitmap_mg_realistic_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\realistic_idle.png">
+    <Content Include="Content\bitmap_mg_realistic_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\return_focused.png">
@@ -589,10 +589,10 @@
     <Content Include="Content\startup.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\system_focused.png">
+    <Content Include="Content\bitmap_mg_system_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\system_idle.png">
+    <Content Include="Content\bitmap_mg_system_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\true_focused.png">
@@ -601,10 +601,10 @@
     <Content Include="Content\true_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\width_focused.png">
+    <Content Include="Content\bitmap_mg_width_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\width_idle.png">
+    <Content Include="Content\bitmap_mg_width_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\x_focused.png">

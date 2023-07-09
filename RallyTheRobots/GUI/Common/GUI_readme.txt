@@ -7,8 +7,7 @@ for gameStatus.RunningStatus should be checked to see if the game should shutdow
 should be added.  
 ContentManager holds the list of imagenames and maps them to the actual bitmap data.
 ImageSettings specifies how the image is used (if it´s a slider, if it´s horizontal or vertical, if the name maps to a image or 
-the characters are separate images or the rollingstates are separate images or the rollingstates characters are separate images 
-or the rollingstate2s are separate images or the rollingstate2s characters are separate images).
+the characters are separate images or the rollingstates are separate images or the rollingstates characters are separate images).
 InputChecker handles the inputs by different means (keyboard, mouse, gamepads) and is mainly used in ButtonAreas and Screens.
 RollingState is a list of strings that can be used to keep a state of o ButtonArea. It can be mapped to an image to change the 
 image presented by the ButtonArea.

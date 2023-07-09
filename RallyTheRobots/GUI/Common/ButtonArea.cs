@@ -65,21 +65,21 @@ namespace RallyTheRobots
         }
         public virtual void Initialize()
         {
+            string rollingStateImagePrefix = _buttonAreaImage.GetRollingStateImagePrefix();
             if (_buttonAreaImage.ReferencingRollingStateAsImage())
             {
                 foreach (string stateName in _rollingState.ToArray())
                 {
-                    _buttonAreaImage.AddRollingStatesAsImages(stateName);
+                    _buttonAreaImage.AddRollingStatesAsImages(rollingStateImagePrefix + stateName);
                 }
             }
             if (_buttonAreaImage.ReferencingRollingStateAsCharacterImage())
             {
-                string rollingStateCharacterImageSuffix = _buttonAreaImage.GetRollingStateCharacterImageSuffix();
                 foreach (string stateName in _rollingState.ToArray())
                 {
                     foreach (char characterImageName in stateName)
                     {
-                        _buttonAreaImage.AddRollingStatesAsImages(characterImageName.ToString() + rollingStateCharacterImageSuffix);
+                        _buttonAreaImage.AddRollingStatesAsImages(rollingStateImagePrefix + characterImageName.ToString());
                     }
                 }
             }

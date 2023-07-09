@@ -78,7 +78,7 @@ namespace RallyTheRobots.GUI.Common
                     for (int i = 0; i < imageName.Length; i += numberOfChars)
                     {
                         string characterImageName = imageName.Substring(i, numberOfChars);
-                        Texture2D texture = _contentManager.GetTexture2D(characterImageName + image.ImageCharacterNameSuffix + buttonImageNameSuffix);
+                        Texture2D texture = _contentManager.GetTexture2D(image.ImageNamePrefix + characterImageName + buttonImageNameSuffix);
                         action(image, texture);
                     }
                 }
@@ -187,14 +187,14 @@ namespace RallyTheRobots.GUI.Common
             }
             return false;
         }
-        public virtual string GetRollingStateCharacterImageSuffix()
+        public virtual string GetRollingStateImagePrefix()
         {
             if (_imageList != null && _imageList.Count > 0)
             {
                 foreach (ImageSettings image in _imageList)
                 {
-                    if (image.ImageNameType == ButtonAreaImageNameTypeEnum.RollingStateCharacter && image.ImageCharacterNameSuffix != "")
-                        return image.ImageCharacterNameSuffix;
+                    if (image.ImageNamePrefix != "")
+                        return image.ImageNamePrefix;
                 }
             }
             return "";

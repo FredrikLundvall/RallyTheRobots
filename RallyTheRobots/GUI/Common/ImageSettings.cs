@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RallyTheRobots.GUI.Common
+﻿namespace RallyTheRobots.GUI.Common
 {
     public class ImageSettings
     {
@@ -12,14 +6,14 @@ namespace RallyTheRobots.GUI.Common
         public ButtonAreaImagePositioningEnum ImagePositioning;
         public ButtonAreaImageStackDirectionEnum ImageStackDirection;
         public ButtonAreaImageNameTypeEnum ImageNameType;
-        public string ImageCharacterNameSuffix;
-        public ImageSettings(string imageName, ButtonAreaImageNameTypeEnum imageNameType, ButtonAreaImagePositioningEnum imagePositioning, ButtonAreaImageStackDirectionEnum imageStackDirection, string imageCharacterNameSuffix)
+        public string ImageNamePrefix;
+        public ImageSettings(string imageName, ButtonAreaImageNameTypeEnum imageNameType, ButtonAreaImagePositioningEnum imagePositioning, ButtonAreaImageStackDirectionEnum imageStackDirection, string imageNamePrefix)
         {
             ImageName = imageName;
             ImageNameType = imageNameType;
             ImagePositioning = imagePositioning;
             ImageStackDirection = imageStackDirection;
-            ImageCharacterNameSuffix = imageCharacterNameSuffix;
+            ImageNamePrefix = imageNamePrefix;
         }
     }
 }

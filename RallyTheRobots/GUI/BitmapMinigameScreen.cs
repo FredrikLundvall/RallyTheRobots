@@ -29,7 +29,7 @@ namespace RallyTheRobots.GUI
             _widthButton.AddRollingState("48");
             _widthButton.AddRollingState("56");
             _widthButton.AddRollingState("64");
-            _widthButton.AddImage("width");
+            _widthButton.AddImage("bitmap_mg_width");
             _widthButton.AddImage("width_value", ButtonAreaImageNameTypeEnum.RollingStateCharacter, ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum.Horizontal, "s");
             _widthButton.Position = new Vector2(10, 565);
             _widthButton.SetButtonSelectAction(new NextRollingStateButtonAction(_widthButton));
@@ -44,7 +44,7 @@ namespace RallyTheRobots.GUI
             _heightButton.AddRollingState("48");
             _heightButton.AddRollingState("56");
             _heightButton.AddRollingState("64");
-            _heightButton.AddImage("height");
+            _heightButton.AddImage("bitmap_mg_height");
             _heightButton.AddImage("height_value", ButtonAreaImageNameTypeEnum.RollingStateCharacter, ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum.Horizontal, "s");
             _heightButton.Position = new Vector2(10, 635);
             _heightButton.SetButtonSelectAction(new NextRollingStateButtonAction(_heightButton));
@@ -57,7 +57,7 @@ namespace RallyTheRobots.GUI
             _colourButton.AddRollingState("16");
             _colourButton.AddRollingState("32");
             _colourButton.AddRollingState("64");
-            _colourButton.AddImage("colour");
+            _colourButton.AddImage("bitmap_mg_colour");
             _colourButton.AddImage("colour_value", ButtonAreaImageNameTypeEnum.RollingStateCharacter, ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum.Horizontal, "s");
             _colourButton.Position = new Vector2(10, 710);
             _colourButton.SetButtonSelectAction(new NextRollingStateButtonAction(_colourButton));
@@ -69,8 +69,8 @@ namespace RallyTheRobots.GUI
             _paletteButton.AddRollingState("extended");
             _paletteButton.AddRollingState("full");
             _paletteButton.AddRollingState("realistic");
-            _paletteButton.AddImage("palette");
-            _paletteButton.AddImage("palette_value", ButtonAreaImageNameTypeEnum.RollingState);
+            _paletteButton.AddImage("bitmap_mg_palette");
+            _paletteButton.AddImage("palette_value", ButtonAreaImageNameTypeEnum.RollingState, ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum.Horizontal, "bitmap_mg_");
             _paletteButton.Position = new Vector2(10, 785);
             _paletteButton.SetButtonSelectAction(new NextRollingStateButtonAction(_paletteButton));
             _paletteButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_paletteButton));
@@ -80,8 +80,8 @@ namespace RallyTheRobots.GUI
             _addressButton.AddRollingState("high");
             _addressButton.AddRollingState("expansion");
             _addressButton.AddRollingState("external");
-            _addressButton.AddImage("address");
-            _addressButton.AddImage("address_value", ButtonAreaImageNameTypeEnum.RollingState);
+            _addressButton.AddImage("bitmap_mg_address");
+            _addressButton.AddImage("address_value", ButtonAreaImageNameTypeEnum.RollingState, ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum.Horizontal, "bitmap_mg_");
             _addressButton.Position = new Vector2(10, 865);
             _addressButton.SetButtonSelectAction(new NextRollingStateButtonAction(_addressButton));
             _addressButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_addressButton));
@@ -89,8 +89,8 @@ namespace RallyTheRobots.GUI
 
             _modeButton.AddRollingState("normal");
             _modeButton.AddRollingState("interlaced");
-            _modeButton.AddImage("mode");
-            _modeButton.AddImage("mode_value", ButtonAreaImageNameTypeEnum.RollingState);
+            _modeButton.AddImage("bitmap_mg_mode");
+            _modeButton.AddImage("mode_value", ButtonAreaImageNameTypeEnum.RollingState, ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum.Horizontal, "bitmap_mg_");
             _modeButton.Position = new Vector2(10, 940);
             _modeButton.SetButtonSelectAction(new NextRollingStateButtonAction(_modeButton));
             _modeButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_modeButton));
