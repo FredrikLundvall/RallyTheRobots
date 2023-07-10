@@ -16,13 +16,13 @@ namespace RallyTheRobots.GUI.Common
         protected bool _disabledMissing = false;
         protected bool _focusedMissing = false;
         protected bool _selectedMissing = false;
-        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState, int currentHorizontalValue, int currentVerticalValue, int borderLeft, int borderRight)
+        public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState, int currentHorizontalValue, int currentVerticalValue, int borderLeft, int borderRight, int borderTop, int borderBottom)
         {
             Vector2 imageOffset = Vector2.Zero;
             ForEveryTexture2D(
                 (image, texture) =>
                 {
-                    imageOffset = DrawTexture(spriteBatch, offset, position, imageOffset, image, texture, currentHorizontalValue, currentVerticalValue, borderLeft, borderRight);
+                    imageOffset = DrawTexture(spriteBatch, offset, position, imageOffset, image, texture, currentHorizontalValue, currentVerticalValue, borderLeft, borderRight, borderTop, borderBottom);
                 }, 
                 visible, 
                 disabled, 
@@ -64,6 +64,27 @@ namespace RallyTheRobots.GUI.Common
             );
             if (!sliderRect.IsEmpty)
                 sliderRect.Width = sliderRect.Width - (borderLeft + borderRight);
+            return sliderRect;
+        }
+        public virtual Rectangle GetVerticalSliderRectangle(int borderTop, int borderBottom, Vector2 position, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
+        {
+            Vector2 imageOffset = position;
+            imageOffset.Y = imageOffset.Y + borderTop;
+            Rectangle sliderRect = new Rectangle(0, 0, 0, 0);
+            ForEveryTexture2D(
+                (image, texture) =>
+                {
+                    imageOffset = GetVerticalTextureRectangle(imageOffset, ref sliderRect, image, texture);
+                    if (!sliderRect.IsEmpty)
+                        return;
+                },
+                visible,
+                disabled,
+                status,
+                currentRollingState
+            );
+            if (!sliderRect.IsEmpty)
+                sliderRect.Height = sliderRect.Height - (borderTop + borderBottom);
             return sliderRect;
         }
         private void ForEveryTexture2D(Action<ImageSettings, Texture2D> action, bool visible, bool disabled, ButtonStatusEnum status, string currentRollingState)
@@ -116,7 +137,7 @@ namespace RallyTheRobots.GUI.Common
             }
             return size;
         }
-        protected virtual Vector2 DrawTexture(SpriteBatch spriteBatch, Vector2 offset, Vector2 position, Vector2 imageOffset, ImageSettings image, Texture2D buttonTexture, int currentHorizontalValue, int currentVerticalValue, int borderLeft, int borderRight)
+        protected virtual Vector2 DrawTexture(SpriteBatch spriteBatch, Vector2 offset, Vector2 position, Vector2 imageOffset, ImageSettings image, Texture2D buttonTexture, int currentHorizontalValue, int currentVerticalValue, int borderLeft, int borderRight, int borderTop, int borderBottom)
         {
             if (buttonTexture != null)
             {
@@ -131,7 +152,10 @@ namespace RallyTheRobots.GUI.Common
                         sliderPartVisible = new Rectangle(buttonTexture.Width - sliderWidth, 0, sliderWidth, buttonTexture.Height);
                     }
                     else if (image.ImagePositioning == ButtonAreaImagePositioningEnum.ValueVerticalSlider)
-                        sliderPartVisible = new Rectangle(0, buttonTexture.Height * (100 - currentVerticalValue) / 100, buttonTexture.Width, buttonTexture.Height * currentVerticalValue / 100);
+                    {
+                        int sliderHeight = (buttonTexture.Height - (borderTop + borderBottom)) * currentVerticalValue / 100 + borderTop + borderBottom;
+                        sliderPartVisible = new Rectangle(0, buttonTexture.Height - sliderHeight, buttonTexture.Width, sliderHeight);
+                    }
                     spriteBatch.Draw(buttonTexture, position + offset + imageOffset, sliderPartVisible, Color.White);
                 }
                 if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
@@ -146,6 +170,19 @@ namespace RallyTheRobots.GUI.Common
             if (buttonTexture != null)
             {
                 if (image.ImagePositioning == ButtonAreaImagePositioningEnum.ValueHorizontalSlider)
+                    sliderRect = new Rectangle((int)imageOffset.X, (int)imageOffset.Y, buttonTexture.Width, buttonTexture.Height);
+                if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
+                    imageOffset.X = imageOffset.X + buttonTexture.Width;
+                else if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Vertical)
+                    imageOffset.Y = imageOffset.Y + buttonTexture.Height;
+            }
+            return imageOffset;
+        }
+        private static Vector2 GetVerticalTextureRectangle(Vector2 imageOffset, ref Rectangle sliderRect, ImageSettings image, Texture2D buttonTexture)
+        {
+            if (buttonTexture != null)
+            {
+                if (image.ImagePositioning == ButtonAreaImagePositioningEnum.ValueVerticalSlider)
                     sliderRect = new Rectangle((int)imageOffset.X, (int)imageOffset.Y, buttonTexture.Width, buttonTexture.Height);
                 if (image.ImageStackDirection == ButtonAreaImageStackDirectionEnum.Horizontal)
                     imageOffset.X = imageOffset.X + buttonTexture.Width;

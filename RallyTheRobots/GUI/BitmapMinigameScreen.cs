@@ -17,6 +17,9 @@ namespace RallyTheRobots.GUI
         protected ButtonArea _paletteButton = new ButtonArea();
         protected ButtonArea _addressButton = new ButtonArea();
         protected ButtonArea _modeButton = new ButtonArea();
+        protected ButtonArea _upButton = new ButtonArea();
+        protected ButtonArea _positionSlider = new ButtonArea();
+        protected ButtonArea _downButton = new ButtonArea();
         public override void Initialize()
         {
             AddBackground("bitmap_minigame");
@@ -96,6 +99,21 @@ namespace RallyTheRobots.GUI
             _modeButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_modeButton));
             AddButtonArea(_modeButton);
 
+            _upButton.AddImage("bitmap_mg_up");
+            _upButton.Position = new Vector2(1100, 5);
+            AddButtonArea(_upButton);
+
+            _positionSlider.AddImage("bitmap_mg_slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueVerticalSlider, ButtonAreaImageStackDirectionEnum.None);
+            _positionSlider.AddImage("bitmap_mg_slider");
+            _positionSlider.Position = new Vector2(1100, 80);
+            _positionSlider.SliderBorderTop = 80;
+            _positionSlider.SliderBorderBottom = 8;
+            AddButtonArea(_positionSlider);
+
+            _downButton.AddImage("bitmap_mg_down");
+            _downButton.Position = new Vector2(1100, 975);
+            AddButtonArea(_downButton);
+
             ScreenChangeOnPauseKey(_screenManager.GetScreen<PauseMenuScreen>());
             SetFocusedButtonArea(_widthButton);
             base.Initialize();
@@ -108,8 +126,19 @@ namespace RallyTheRobots.GUI
             _paletteButton.SetCurrentRollingState("system");
             _addressButton.SetCurrentRollingState("low");
             _modeButton.SetCurrentRollingState("normal");
+            _positionSlider.SetCurrentVerticalValue(0);
 
             base.EnterScreen(gameTime, gameSettings, oldScreen);
+        }
+        public override void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
+        {
+            int.TryParse(_widthButton.GetCurrentRollingState(), out int width);
+
+            _upButton.Position = new Vector2(1100 + width * 10, 5);
+            _positionSlider.Position = new Vector2(1100 + width * 10, 80);
+            _downButton.Position = new Vector2(1100 + width * 10, 975);
+
+            base.Update(manager, gameTime, gameSettings, gameStatus);
         }
     }
 }

@@ -14,6 +14,8 @@ namespace RallyTheRobots
         public Vector2 Position;
         public int SliderBorderLeft;
         public int SliderBorderRight;
+        public int SliderBorderTop;
+        public int SliderBorderBottom;
         public bool Visible = true;
         public bool Disabled = false;
         //Maybe move this functionality to the screen (only one shortcut with GoBackButton per screen is probably a requirement)
@@ -112,6 +114,9 @@ namespace RallyTheRobots
                 int horizontalSlider = _inputChecker.HorizontalValueMouseSliderButtonArea(this, offset, resolution);
                 if (horizontalSlider != -2) //TODO: This need explaining
                     _currentHorizontalValue = Math.Max(Math.Min(horizontalSlider, 100), 0);
+                int verticalSlider = _inputChecker.VerticalValueMouseSliderButtonArea(this, offset, resolution);
+                if (verticalSlider != -2) //TODO: This need explaining
+                    _currentVerticalValue = Math.Max(Math.Min(verticalSlider, 100), 0);
             }
             if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.AlternateSelect, gameTime, gameSettings) || (_inputChecker.MouseButtonWasTriggered(MouseButtonEnum.RightButton, gameTime, gameSettings) && _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution)))
             {
@@ -121,11 +126,11 @@ namespace RallyTheRobots
                 }
             }
             _currentHorizontalValue = Math.Min(Math.Max(_currentHorizontalValue, 0), 100);
-            _currentVerticalValue = Math.Min(Math.Max(_currentHorizontalValue, 0), 100);
+            _currentVerticalValue = Math.Min(Math.Max(_currentVerticalValue, 0), 100);
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
-            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue, SliderBorderLeft, SliderBorderRight);
+            _buttonAreaImage.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch, offset, Position, Visible, Disabled, Status, _rollingState.GetCurrentState(), _currentHorizontalValue, _currentVerticalValue, SliderBorderLeft, SliderBorderRight, SliderBorderTop, SliderBorderBottom);
         }
         public virtual void ClearImages()
         {
@@ -142,6 +147,10 @@ namespace RallyTheRobots
         public virtual Rectangle GetHorizontalSliderRectangle()
         {
             return _buttonAreaImage.GetHorizontalSliderRectangle(SliderBorderLeft, SliderBorderRight, Position, Visible, Disabled, Status, _rollingState.GetCurrentState());
+        }
+        public virtual Rectangle GetVerticalSliderRectangle()
+        {
+            return _buttonAreaImage.GetVerticalSliderRectangle(SliderBorderTop, SliderBorderBottom, Position, Visible, Disabled, Status, _rollingState.GetCurrentState());
         }
     }
 }

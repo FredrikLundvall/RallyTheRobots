@@ -187,6 +187,20 @@ namespace RallyTheRobots.GUI.Common
             else
                 return (int)((mousePosition.X - (buttonAreaSliderRect.X + offset.X)) / buttonAreaSliderRect.Width * 100f + 0.5f); //TODO: This value should be explained too
         }
+        public virtual int VerticalValueMouseSliderButtonArea(ButtonArea buttonArea, Vector2 offset, IResolution resolution)
+        {
+            Point mouseScreenPosition = _currentMousePosition;
+            Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
+            Rectangle buttonAreaSliderRect = buttonArea.GetVerticalSliderRectangle();
+            if ((int)mousePosition.Y < buttonAreaSliderRect.Y + (int)offset.Y - buttonArea.SliderBorderTop || (int)mousePosition.Y > buttonAreaSliderRect.Y + (int)offset.Y + buttonAreaSliderRect.Height + buttonArea.SliderBorderBottom || buttonAreaSliderRect.Height == 0)
+                return -2; //TODO: This value need explaining
+            else if ((int)mousePosition.Y <= buttonAreaSliderRect.Y + (int)offset.Y)
+                return -1; //TODO: This value need explaining
+            else if ((int)mousePosition.Y >= buttonAreaSliderRect.Y + (int)offset.Y + buttonAreaSliderRect.Height)
+                return 101; //TODO: This value need explaining
+            else
+                return (int)((mousePosition.Y - (buttonAreaSliderRect.Y + offset.Y)) / buttonAreaSliderRect.Height * 100f + 0.5f); //TODO: This value should be explained too
+        }
         public virtual bool HasMouseWheelMoved()
         {
             return _currentScrollWheelValue != _oldScrollWheelValue;
