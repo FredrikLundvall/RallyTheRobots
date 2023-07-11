@@ -106,8 +106,8 @@ namespace RallyTheRobots.GUI
             _positionSlider.AddImage("bitmap_mg_slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueVerticalSlider, ButtonAreaImageStackDirectionEnum.None);
             _positionSlider.AddImage("bitmap_mg_slider");
             _positionSlider.Position = new Vector2(1100, 80);
-            _positionSlider.SliderBorderTop = 80;
-            _positionSlider.SliderBorderBottom = 8;
+            _positionSlider.SliderBorderTop = 45;
+            _positionSlider.SliderBorderBottom = 45;
             AddButtonArea(_positionSlider);
 
             _downButton.AddImage("bitmap_mg_down");
