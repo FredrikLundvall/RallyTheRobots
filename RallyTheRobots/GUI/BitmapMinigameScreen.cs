@@ -119,8 +119,8 @@ namespace RallyTheRobots.GUI
 
             ScreenChangeOnPauseKey(_screenManager.GetScreen<PauseMenuScreen>());
             SetFocusedButtonArea(_widthButton);
-            SetPreviousHorizontalAction(new ChangeValueFocusedButtonAction(0, -1)); //Using the scroll next horizontal, for sliding horizontal slider bar up
-            SetNextHorizontalAction(new ChangeValueFocusedButtonAction(0, 1)); //Using the scroll previous horizontal, for sliding horizontal slider bar down
+            SetPreviousHorizontalAction(new ChangeValueFocusedButtonAction(0, -1)); //Using the scroll previous horizontal, for sliding horizontal slider bar up
+            SetNextHorizontalAction(new ChangeValueFocusedButtonAction(0, 1)); //Using the scroll next horizontal, for sliding horizontal slider bar down
 
             base.Initialize();
         }
