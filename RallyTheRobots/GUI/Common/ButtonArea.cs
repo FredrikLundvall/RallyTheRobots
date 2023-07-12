@@ -27,6 +27,7 @@ namespace RallyTheRobots
         protected ButtonAction _buttonAlternateSelectAction = ButtonAction.GetEmptyButtonAction();
         protected int _currentHorizontalValue = 0;
         protected int _currentVerticalValue = 0;
+        protected TimeSpan _totalGameTimeRollingStateChange;
 
         internal void SetContentManager(ContentManager contentManager)
         {
@@ -49,12 +50,18 @@ namespace RallyTheRobots
         {
             _rollingState.SetCurrentState(rollingState);
         }
-        public virtual void NextRollingState()
+        public virtual void NextRollingState(GameTime gameTime, GameSettings gameSettings)
         {
+            if (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeRollingStateChange.TotalSeconds < gameSettings.GetRollingStateChangeTime())
+                return;
+            _totalGameTimeRollingStateChange = gameTime.TotalGameTime;
             _rollingState.NextState();
         }
-        public virtual void PreviousRollingState()
+        public virtual void PreviousRollingState(GameTime gameTime, GameSettings gameSettings)
         {
+            if (gameTime.TotalGameTime.TotalSeconds - _totalGameTimeRollingStateChange.TotalSeconds < gameSettings.GetRollingStateChangeTime())
+                return;
+            _totalGameTimeRollingStateChange = gameTime.TotalGameTime;
             _rollingState.PreviousState();
         }
         public virtual void SetButtonSelectAction(ButtonAction buttonAction)

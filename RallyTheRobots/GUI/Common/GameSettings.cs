@@ -15,6 +15,7 @@ namespace RallyTheRobots.GUI.Common
         protected float _triggerThreshold = 0.3f;
         protected PlayerIndex _gamePadPlayerIndex = PlayerIndex.One;
         protected double _focusChangeTime = 0.3;
+        protected double _rollingStateChangeTime = 0.1;
         protected Dictionary<InputFunctionEnum, InputButtonSetting> _inputButtonsForFunction = new Dictionary<InputFunctionEnum, InputButtonSetting>()
         {
             {InputFunctionEnum.PrimarySelect, new InputButtonSetting { KeyboardKeys = new Keys[] { Keys.Enter, Keys.E }, GamepadButtons = new Buttons[] {Buttons.A, Buttons.RightShoulder, Buttons.RightTrigger } } },
@@ -100,6 +101,10 @@ namespace RallyTheRobots.GUI.Common
         public double GetFocusChangeTime()
         {
             return _focusChangeTime;
+        }
+        public double GetRollingStateChangeTime()
+        {
+            return _rollingStateChangeTime;
         }
     }
 }

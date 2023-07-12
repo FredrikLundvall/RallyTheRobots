@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace RallyTheRobots.GUI.Common
 {
-    public class ChangeValueButtonAction : ButtonAction
+    public class ChangeSliderValueButtonAction : ButtonAction
     {
         ButtonArea _buttonArea;
         int _changeHorizontalStep;
         int _changeVerticalStep;
 
-        public ChangeValueButtonAction(ButtonArea buttonArea, int changeHorizontalStep, int changeVerticalStep)
+        public ChangeSliderValueButtonAction(ButtonArea buttonArea, int changeHorizontalStep, int changeVerticalStep)
         {
             _buttonArea = buttonArea;
             _changeHorizontalStep = changeHorizontalStep;

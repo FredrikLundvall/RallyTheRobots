@@ -74,11 +74,13 @@
     <Compile Include="GUI\Common\ButtonAreaImagePositioningEnum.cs" />
     <Compile Include="GUI\Common\ButtonAreaStateImageEnum.cs" />
     <Compile Include="GUI\Common\ChangeToPreviousScreenAction.cs" />
+    <Compile Include="GUI\Common\ChangeSliderValueFocusedButtonAction.cs" />
     <Compile Include="GUI\Common\ChangeValueFocusedButtonAction.cs" />
+    <Compile Include="GUI\Common\DirectionEnum.cs" />
     <Compile Include="GUI\Common\FocusNextButtonAreaButtonAction.cs" />
     <Compile Include="GUI\Common\FocusPreviousButtonAreaButtonAction.cs" />
     <Compile Include="GUI\Common\ImageSettings.cs" />
-    <Compile Include="GUI\Common\ChangeValueButtonAction.cs" />
+    <Compile Include="GUI\Common\ChangeSliderValueButtonAction.cs" />
     <Compile Include="GUI\Common\InputButtonSetting.cs" />
     <Compile Include="GUI\Common\InputConnector.cs" />
     <Compile Include="GUI\Common\InputFunctionEnum.cs" />

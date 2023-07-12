@@ -178,8 +178,9 @@ namespace RallyTheRobots.GUI.Common
             Point mouseScreenPosition = _currentMousePosition;
             Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
             Rectangle buttonAreaSliderRect = buttonArea.GetHorizontalSliderRectangle();
-            if ((int)mousePosition.X < buttonAreaSliderRect.X + (int)offset.X - buttonArea.SliderBorderLeft || (int)mousePosition.X > buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width + buttonArea.SliderBorderRight || buttonAreaSliderRect.Width == 0)
-                return -2; //This click was outside of the borders of the horizontal slider
+            if (((int)mousePosition.X < buttonAreaSliderRect.X + (int)offset.X - buttonArea.SliderBorderLeft || (int)mousePosition.X > buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width + buttonArea.SliderBorderRight || buttonAreaSliderRect.Width == 0) ||
+                ((int)mousePosition.Y < buttonAreaSliderRect.Y + (int)offset.Y - buttonArea.SliderBorderTop || (int)mousePosition.Y > buttonAreaSliderRect.Y + (int)offset.Y + buttonAreaSliderRect.Height + buttonArea.SliderBorderBottom || buttonAreaSliderRect.Height == 0))
+                    return -2; //This click was outside of the borders of the horizontal slider
             else if ((int)mousePosition.X <= buttonAreaSliderRect.X + (int)offset.X)
                 return -1; //This click was on to the left border of the horizontal slider
             else if ((int)mousePosition.X >= buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width)
@@ -192,7 +193,8 @@ namespace RallyTheRobots.GUI.Common
             Point mouseScreenPosition = _currentMousePosition;
             Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
             Rectangle buttonAreaSliderRect = buttonArea.GetVerticalSliderRectangle();
-            if ((int)mousePosition.Y < buttonAreaSliderRect.Y + (int)offset.Y - buttonArea.SliderBorderTop || (int)mousePosition.Y > buttonAreaSliderRect.Y + (int)offset.Y + buttonAreaSliderRect.Height + buttonArea.SliderBorderBottom || buttonAreaSliderRect.Height == 0)
+            if (((int)mousePosition.Y < buttonAreaSliderRect.Y + (int)offset.Y - buttonArea.SliderBorderTop || (int)mousePosition.Y > buttonAreaSliderRect.Y + (int)offset.Y + buttonAreaSliderRect.Height + buttonArea.SliderBorderBottom || buttonAreaSliderRect.Height == 0) ||
+                ((int)mousePosition.X < buttonAreaSliderRect.X + (int)offset.X - buttonArea.SliderBorderLeft || (int)mousePosition.X > buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width + buttonArea.SliderBorderRight || buttonAreaSliderRect.Width == 0))
                 return -2; //This click was outside of the borders of the vertical slider
             else if ((int)mousePosition.Y <= buttonAreaSliderRect.Y + (int)offset.Y)
                 return -1; //This click was on the the top border of the vertical slider

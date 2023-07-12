@@ -51,8 +51,8 @@ namespace RallyTheRobots.GUI
             AddButtonArea(applyButton);
             SetFocusedButtonArea(returnButton);
 
-            SetPreviousHorizontalAction( new ChangeValueFocusedButtonAction(-1, 0)); //Using the scroll next horizontal, for sliding vertical slider bar
-            SetNextHorizontalAction( new ChangeValueFocusedButtonAction(1, 0)); //Using the scroll previous horizontal, for sliding vertical slider bar
+            SetPreviousHorizontalAction( new ChangeSliderValueFocusedButtonAction(-1, 0)); //Using the scroll next horizontal, for sliding vertical slider bar
+            SetNextHorizontalAction( new ChangeSliderValueFocusedButtonAction(1, 0)); //Using the scroll previous horizontal, for sliding vertical slider bar
 
             base.Initialize();
         }
