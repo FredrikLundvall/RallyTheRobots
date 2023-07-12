@@ -9,20 +9,20 @@ namespace RallyTheRobots.GUI.Common
 {
     public class ChangeValueFocusedButtonAction : ButtonAction
     {
-        int _changeHorizontalStep;
-        int _changeVerticalStep;
-        public ChangeValueFocusedButtonAction(int changeHorizontalStep, int changeVerticalStep)
+        int _changeHorizontalSliderStep;
+        int _changeVerticalSliderStep;
+        public ChangeValueFocusedButtonAction(int changeHorizontalSliderStep, int changeVerticalSliderStep)
         {
-            _changeHorizontalStep = changeHorizontalStep;
-            _changeVerticalStep = changeVerticalStep;
+            _changeHorizontalSliderStep = changeHorizontalSliderStep;
+            _changeVerticalSliderStep = changeVerticalSliderStep;
         }
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             ButtonArea buttonArea = screen.GetSelectedOrFocusedButtonArea();
             if (buttonArea != null)
             {
-                buttonArea.SetCurrentHorizontalValue(buttonArea.GetCurrentHorizontalValue() + _changeHorizontalStep);
-                buttonArea.SetCurrentVerticalValue(buttonArea.GetCurrentVerticalValue() + _changeVerticalStep);
+                buttonArea.SetCurrentHorizontalSliderValue(buttonArea.GetCurrentHorizontalValue() + _changeHorizontalSliderStep);
+                buttonArea.SetCurrentVerticalSliderValue(buttonArea.GetCurrentVerticalValue() + _changeVerticalSliderStep);
             }
         }
     }

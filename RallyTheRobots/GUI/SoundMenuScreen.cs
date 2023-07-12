@@ -50,12 +50,16 @@ namespace RallyTheRobots.GUI
             applyButton.SetButtonSelectAction(new ApplySettingFromSliderButtonAction(_masterVolumeButton, _musicVolumeButton));
             AddButtonArea(applyButton);
             SetFocusedButtonArea(returnButton);
+
+            SetPreviousHorizontalAction( new ChangeValueFocusedButtonAction(-1, 0)); //Using the scroll next horizontal, for sliding vertical slider bar
+            SetNextHorizontalAction( new ChangeValueFocusedButtonAction(1, 0)); //Using the scroll previous horizontal, for sliding vertical slider bar
+
             base.Initialize();
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
         {       
-            _masterVolumeButton.SetCurrentHorizontalValue(gameSettings.GetMasterVolume());
-            _musicVolumeButton.SetCurrentHorizontalValue(gameSettings.GetMusicVolume());
+            _masterVolumeButton.SetCurrentHorizontalSliderValue(gameSettings.GetMasterVolume());
+            _musicVolumeButton.SetCurrentHorizontalSliderValue(gameSettings.GetMusicVolume());
             base.EnterScreen(gameTime, gameSettings, oldScreen);
         }
     }

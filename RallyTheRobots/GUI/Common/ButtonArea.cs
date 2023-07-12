@@ -87,7 +87,7 @@ namespace RallyTheRobots
             }
             _buttonAreaImage.Initialize();
         }
-        public void SetCurrentHorizontalValue(int currentValue)
+        public void SetCurrentHorizontalSliderValue(int currentValue)
         {
             _currentHorizontalValue = currentValue;
         }
@@ -95,7 +95,7 @@ namespace RallyTheRobots
         {
             return _currentHorizontalValue;
         }
-        public void SetCurrentVerticalValue(int currentValue)
+        public void SetCurrentVerticalSliderValue(int currentValue)
         {
             _currentVerticalValue = currentValue;
         }
@@ -112,10 +112,10 @@ namespace RallyTheRobots
                     _buttonSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
                 }
                 int horizontalSlider = _inputChecker.HorizontalValueMouseSliderButtonArea(this, offset, resolution);
-                if (horizontalSlider != -2) //TODO: This need explaining
+                if (horizontalSlider != -2) // -2 means it was outside the borders of the slider
                     _currentHorizontalValue = Math.Max(Math.Min(horizontalSlider, 100), 0);
                 int verticalSlider = _inputChecker.VerticalValueMouseSliderButtonArea(this, offset, resolution);
-                if (verticalSlider != -2) //TODO: This need explaining
+                if (verticalSlider != -2)  // -2 means it was outside the borders of the slider
                     _currentVerticalValue = Math.Max(Math.Min(verticalSlider, 100), 0);
             }
             if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.AlternateSelect, gameTime, gameSettings) || (_inputChecker.MouseButtonWasTriggered(MouseButtonEnum.RightButton, gameTime, gameSettings) && _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution)))

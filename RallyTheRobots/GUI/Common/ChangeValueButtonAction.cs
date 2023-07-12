@@ -21,8 +21,8 @@ namespace RallyTheRobots.GUI.Common
         }
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            _buttonArea.SetCurrentHorizontalValue(_buttonArea.GetCurrentHorizontalValue() + _changeHorizontalStep);
-            _buttonArea.SetCurrentVerticalValue(_buttonArea.GetCurrentVerticalValue() + _changeVerticalStep);
+            _buttonArea.SetCurrentHorizontalSliderValue(_buttonArea.GetCurrentHorizontalValue() + _changeHorizontalStep);
+            _buttonArea.SetCurrentVerticalSliderValue(_buttonArea.GetCurrentVerticalValue() + _changeVerticalStep);
         }
     }
 }

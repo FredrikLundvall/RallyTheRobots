@@ -179,13 +179,13 @@ namespace RallyTheRobots.GUI.Common
             Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
             Rectangle buttonAreaSliderRect = buttonArea.GetHorizontalSliderRectangle();
             if ((int)mousePosition.X < buttonAreaSliderRect.X + (int)offset.X - buttonArea.SliderBorderLeft || (int)mousePosition.X > buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width + buttonArea.SliderBorderRight || buttonAreaSliderRect.Width == 0)
-                return -2; //TODO: This value need explaining
+                return -2; //This click was outside of the borders of the horizontal slider
             else if ((int)mousePosition.X <= buttonAreaSliderRect.X + (int)offset.X)
-                return -1; //TODO: This value need explaining
+                return -1; //This click was on to the left border of the horizontal slider
             else if ((int)mousePosition.X >= buttonAreaSliderRect.X + (int)offset.X + buttonAreaSliderRect.Width)
-                return 101; //TODO: This value need explaining
+                return 101; //This click was on the right border of the horizontal slider
             else
-                return (int)((mousePosition.X - (buttonAreaSliderRect.X + offset.X)) / buttonAreaSliderRect.Width * 100f + 0.5f); //TODO: This value should be explained too
+                return (int)((mousePosition.X - (buttonAreaSliderRect.X + offset.X)) / buttonAreaSliderRect.Width * 100f + 0.5f); //Current position of the click of the mouse within the horizontal slider rectangle, recounted to max 100
         }
         public virtual int VerticalValueMouseSliderButtonArea(ButtonArea buttonArea, Vector2 offset, IResolution resolution)
         {
@@ -193,13 +193,13 @@ namespace RallyTheRobots.GUI.Common
             Vector2 mousePosition = resolution.ScreenToGameCoord(new Vector2(mouseScreenPosition.X, mouseScreenPosition.Y));
             Rectangle buttonAreaSliderRect = buttonArea.GetVerticalSliderRectangle();
             if ((int)mousePosition.Y < buttonAreaSliderRect.Y + (int)offset.Y - buttonArea.SliderBorderTop || (int)mousePosition.Y > buttonAreaSliderRect.Y + (int)offset.Y + buttonAreaSliderRect.Height + buttonArea.SliderBorderBottom || buttonAreaSliderRect.Height == 0)
-                return -2; //TODO: This value need explaining
+                return -2; //This click was outside of the borders of the vertical slider
             else if ((int)mousePosition.Y <= buttonAreaSliderRect.Y + (int)offset.Y)
-                return -1; //TODO: This value need explaining
+                return -1; //This click was on the the top border of the vertical slider
             else if ((int)mousePosition.Y >= buttonAreaSliderRect.Y + (int)offset.Y + buttonAreaSliderRect.Height)
-                return 101; //TODO: This value need explaining
+                return 101; //This click was on the bottom border of the vertical slider
             else
-                return (int)((mousePosition.Y - (buttonAreaSliderRect.Y + offset.Y)) / buttonAreaSliderRect.Height * 100f + 0.5f); //TODO: This value should be explained too
+                return (int)((mousePosition.Y - (buttonAreaSliderRect.Y + offset.Y)) / buttonAreaSliderRect.Height * 100f + 0.5f); //Current position of the click of the mouse within the vertical slider rectangle, recounted to max 100
         }
         public virtual bool HasMouseWheelMoved()
         {

@@ -17,7 +17,8 @@ Screen
 The Screen class is ment to be the inherited from, to create your own specialised class of screen for every gui-screen you need.
 The screen can contain a Background-image that is defined by a name (a filename without the .png) and multiple ButtonAreas.
 If more ButtonAreas are needed in a screen than can fit in the display the screen can setup to be scrollable. The ButtonAreas 
-are then scrolled as a list in the Screen.
+are then scrolled as a list in the Screen. A scrollable screen is not to be confused for the slider ButtonArea, a slider is a 
+scrollbar while a scrollable Screen is when there are more alternatives then there is place on the screen.
 The Screen is placed in the ScreenManager class 
 The screen class has some events:
 ScreenChangeOnAnyKey - Set screen to change to when any keys is pressed 

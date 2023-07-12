@@ -101,6 +101,7 @@ namespace RallyTheRobots.GUI
 
             _upButton.AddImage("bitmap_mg_up");
             _upButton.Position = new Vector2(1100, 5);
+            _upButton.SetButtonSelectAction(new ChangeValueButtonAction(_positionSlider, 0, -1));
             AddButtonArea(_upButton);
 
             _positionSlider.AddImage("bitmap_mg_slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueVerticalSlider, ButtonAreaImageStackDirectionEnum.None);
@@ -110,12 +111,17 @@ namespace RallyTheRobots.GUI
             _positionSlider.SliderBorderBottom = 45;
             AddButtonArea(_positionSlider);
 
+
             _downButton.AddImage("bitmap_mg_down");
             _downButton.Position = new Vector2(1100, 975);
+            _downButton.SetButtonSelectAction(new ChangeValueButtonAction(_positionSlider, 0, 1));
             AddButtonArea(_downButton);
 
             ScreenChangeOnPauseKey(_screenManager.GetScreen<PauseMenuScreen>());
             SetFocusedButtonArea(_widthButton);
+            SetPreviousHorizontalAction(new ChangeValueFocusedButtonAction(0, -1)); //Using the scroll next horizontal, for sliding horizontal slider bar up
+            SetNextHorizontalAction(new ChangeValueFocusedButtonAction(0, 1)); //Using the scroll previous horizontal, for sliding horizontal slider bar down
+
             base.Initialize();
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
@@ -126,7 +132,7 @@ namespace RallyTheRobots.GUI
             _paletteButton.SetCurrentRollingState("system");
             _addressButton.SetCurrentRollingState("low");
             _modeButton.SetCurrentRollingState("normal");
-            _positionSlider.SetCurrentVerticalValue(0);
+            _positionSlider.SetCurrentVerticalSliderValue(0);
 
             base.EnterScreen(gameTime, gameSettings, oldScreen);
         }
