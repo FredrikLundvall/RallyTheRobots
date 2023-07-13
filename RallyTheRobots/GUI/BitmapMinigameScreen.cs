@@ -100,20 +100,20 @@ namespace RallyTheRobots.GUI
             AddButtonArea(_modeButton);
 
             _upButton.AddImage("bitmap_mg_up");
-            _upButton.Position = new Vector2(1100, 5);
+            _upButton.Position = new Vector2(1000, 5);
             _upButton.SetButtonSelectAction(new ChangeSliderValueButtonAction(_positionSlider, 0, -1));
             AddButtonArea(_upButton);
 
             _positionSlider.AddImage("bitmap_mg_slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueVerticalSlider, ButtonAreaImageStackDirectionEnum.None);
             _positionSlider.AddImage("bitmap_mg_slider");
-            _positionSlider.Position = new Vector2(1100, 80);
+            _positionSlider.Position = new Vector2(1000, 80);
             _positionSlider.SliderBorderTop = 45;
             _positionSlider.SliderBorderBottom = 45;
             AddButtonArea(_positionSlider);
 
 
             _downButton.AddImage("bitmap_mg_down");
-            _downButton.Position = new Vector2(1100, 975);
+            _downButton.Position = new Vector2(1000, 975);
             _downButton.SetButtonSelectAction(new ChangeSliderValueButtonAction(_positionSlider, 0, 1));
             AddButtonArea(_downButton);
 
@@ -122,6 +122,18 @@ namespace RallyTheRobots.GUI
             SetPreviousHorizontalAction(new ChangeValueFocusedButtonAction(0, -1, DirectionEnum.Previous)); //Using the scroll previous horizontal, for sliding horizontal slider bar up and changing rolling state to previous
             SetNextHorizontalAction(new ChangeValueFocusedButtonAction(0, 1, DirectionEnum.Next)); //Using the scroll next horizontal, for sliding horizontal slider bar down and changing rolling state to next
 
+            _contentManager.AddTexture2D("bitmap_mg_frame_top_left");
+            _contentManager.AddTexture2D("bitmap_mg_frame_top");
+            _contentManager.AddTexture2D("bitmap_mg_frame_top_right");
+            _contentManager.AddTexture2D("bitmap_mg_frame_left");
+            _contentManager.AddTexture2D("bitmap_mg_frame_bottom_left");
+            _contentManager.AddTexture2D("bitmap_mg_frame_bottom");
+            _contentManager.AddTexture2D("bitmap_mg_frame_bottom_right");
+            _contentManager.AddTexture2D("bitmap_mg_frame_right");
+
+            _contentManager.AddTexture2D("bitmap_mg_frame_left_full");
+            _contentManager.AddTexture2D("bitmap_mg_frame_right_full");
+            _contentManager.AddTexture2D("bitmap_mg_frame_top_bottom");
             base.Initialize();
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
@@ -145,6 +157,15 @@ namespace RallyTheRobots.GUI
             _downButton.Position = new Vector2(1100 + width * 10, 975);
 
             base.Update(manager, gameTime, gameSettings, gameStatus);
+        }
+        public override void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch)
+        {
+            base.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch);
+
+            int.TryParse(_widthButton.GetCurrentRollingState(), out int width);
+            //int.TryParse(_heightButton.GetCurrentRollingState(), out int height);
+
+            //GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(940, 5, width * 10 + 40, 980), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
         }
     }
 }

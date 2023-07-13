@@ -79,6 +79,7 @@
     <Compile Include="GUI\Common\DirectionEnum.cs" />
     <Compile Include="GUI\Common\FocusNextButtonAreaButtonAction.cs" />
     <Compile Include="GUI\Common\FocusPreviousButtonAreaButtonAction.cs" />
+    <Compile Include="GUI\Common\GraphicsToolbox.cs" />
     <Compile Include="GUI\Common\ImageSettings.cs" />
     <Compile Include="GUI\Common\ChangeSliderValueButtonAction.cs" />
     <Compile Include="GUI\Common\InputButtonSetting.cs" />
@@ -190,6 +191,30 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bitmap_mg_down_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bitmap_mg_frame_bottom.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bitmap_mg_frame_bottom_left.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bitmap_mg_frame_bottom_right.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bitmap_mg_frame_left.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bitmap_mg_frame_right.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bitmap_mg_frame_top.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bitmap_mg_frame_top_left.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bitmap_mg_frame_top_right.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bitmap_mg_slider_bar_focused.png">
