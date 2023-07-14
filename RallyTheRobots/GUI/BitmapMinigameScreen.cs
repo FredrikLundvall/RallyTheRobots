@@ -100,21 +100,22 @@ namespace RallyTheRobots.GUI
             _modeButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_modeButton));
             AddButtonArea(_modeButton);
 
+            int width = 8;
             _upButton.AddImage("bitmap_mg_up");
-            _upButton.Position = new Vector2(1000, 5);
+            _upButton.Position = new Vector2(1100 + width * 10, 5);
             _upButton.SetButtonSelectAction(new ChangeSliderValueButtonAction(_positionSlider, 0, -1));
             AddButtonArea(_upButton);
 
             _positionSlider.AddImage("bitmap_mg_slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueVerticalSlider, ButtonAreaImageStackDirectionEnum.None);
             _positionSlider.AddImage("bitmap_mg_slider");
-            _positionSlider.Position = new Vector2(1000, 80);
+            _positionSlider.Position = new Vector2(1100 + width * 10, 80);
             _positionSlider.SliderBorderTop = 45;
             _positionSlider.SliderBorderBottom = 45;
             AddButtonArea(_positionSlider);
 
 
             _downButton.AddImage("bitmap_mg_down");
-            _downButton.Position = new Vector2(1000, 975);
+            _downButton.Position = new Vector2(1100 + width * 10, 975);
             _downButton.SetButtonSelectAction(new ChangeSliderValueButtonAction(_positionSlider, 0, 1));
             AddButtonArea(_downButton);
 
