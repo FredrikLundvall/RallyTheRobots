@@ -20,6 +20,7 @@ namespace RallyTheRobots.GUI
         protected ButtonArea _upButton = new ButtonArea();
         protected ButtonArea _positionSlider = new ButtonArea();
         protected ButtonArea _downButton = new ButtonArea();
+
         public override void Initialize()
         {
             AddBackground("bitmap_minigame");
@@ -131,9 +132,7 @@ namespace RallyTheRobots.GUI
             _contentManager.AddTexture2D("bitmap_mg_frame_bottom_right");
             _contentManager.AddTexture2D("bitmap_mg_frame_right");
 
-            _contentManager.AddTexture2D("bitmap_mg_frame_left_full");
-            _contentManager.AddTexture2D("bitmap_mg_frame_right_full");
-            _contentManager.AddTexture2D("bitmap_mg_frame_top_bottom");
+            _contentManager.AddTexture2D("bitmap_mg_pixel_white");
             base.Initialize();
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
@@ -163,9 +162,12 @@ namespace RallyTheRobots.GUI
             base.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch);
 
             int.TryParse(_widthButton.GetCurrentRollingState(), out int width);
-            //int.TryParse(_heightButton.GetCurrentRollingState(), out int height);
+            int.TryParse(_heightButton.GetCurrentRollingState(), out int height);
+            int currentVerticalSlider = _positionSlider.GetCurrentVerticalValue();
 
-            //GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(940, 5, width * 10 + 40, 980), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
+            GraphicsToolbox.DrawBitmap(spriteBatch, _contentManager, new Vector2(1001, 61), width, 98, "bitmap_mg_pixel_white", currentVerticalSlider);
+            GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(960, 25, width * 10 + 90, 1050), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
+            GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(940, 5, width * 10 + 130, height * 10 + 87), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
         }
     }
 }
