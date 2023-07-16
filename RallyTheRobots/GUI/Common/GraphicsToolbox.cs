@@ -125,9 +125,16 @@ namespace RallyTheRobots.GUI.Common
                 spriteBatch.Draw(bottomRightTexture, new Vector2(frame.Right - bottomRightTexture.Width, frame.Bottom - bottomRightTexture.Height), Color.White);
             }
         }
-        public static void DrawBitmap(SpriteBatch spriteBatch, ContentManager contentManager, Vector2 position, int width, int height, string whitePixel, int currentRow)
+        public static void DrawBitmap(SpriteBatch spriteBatch, ContentManager contentManager, Vector2 position, int width, int height, string blackPixel, string whitePixel, string bluePixel, string redPixel, string yellowPixel, string greenPixel, string grayPixel, string purplePixel, int currentRow)
         {
+            Texture2D blackPixelTexture = contentManager.GetTexture2D(blackPixel);
             Texture2D whitePixelTexture = contentManager.GetTexture2D(whitePixel);
+            Texture2D bluePixelTexture = contentManager.GetTexture2D(bluePixel);
+            Texture2D redPixelTexture = contentManager.GetTexture2D(redPixel);
+            Texture2D yellowPixelTexture = contentManager.GetTexture2D(yellowPixel);
+            Texture2D greenPixelTexture = contentManager.GetTexture2D(greenPixel);
+            Texture2D grayPixelTexture = contentManager.GetTexture2D(grayPixel);
+            Texture2D purplePixelTexture = contentManager.GetTexture2D(purplePixel);
             Random ran = new Random(42);
 
             //Scroll forward in the "memory"
@@ -140,22 +147,39 @@ namespace RallyTheRobots.GUI.Common
 
             if (whitePixelTexture != null)
             {
-                int pixelWidth = whitePixelTexture.Width;
-                int pixelHeight = whitePixelTexture.Height;
+                int pixelWidth = blackPixelTexture.Width;
+                int pixelHeight = blackPixelTexture.Height;
                 SpriteEffects flip = SpriteEffects.None;
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        int colour = ran.Next(0, 2);
+                        int colour = ran.Next(0, 8);
                         int flipHoriz = ran.Next(0, 2);
                         int flipVert = ran.Next(0, 2);
+                        Texture2D texture = blackPixelTexture;
                         if (flipHoriz == 1)
                             flip |= SpriteEffects.FlipHorizontally;
                         if (flipVert == 1)
                             flip |= SpriteEffects.FlipVertically;
-                        if (colour == 1)
-                            spriteBatch.Draw(whitePixelTexture, new Vector2(position.X + x * pixelWidth, position.Y + y * pixelHeight), null, Color.White, 0f, new Vector2(0, 0), 1.0f, flip, 0f);
+                        if (colour == 0)
+                            texture = blackPixelTexture;
+                        else if (colour == 1)
+                            texture = whitePixelTexture;
+                        else if (colour == 2)
+                            texture = bluePixelTexture;
+                        else if (colour == 3)
+                            texture = redPixelTexture;
+                        else if (colour == 4)
+                            texture = yellowPixelTexture;
+                        else if (colour == 5)
+                            texture = greenPixelTexture;
+                        else if (colour == 6)
+                            texture = grayPixelTexture;
+                        else if (colour == 7)
+                            texture = purplePixelTexture;
+
+                        spriteBatch.Draw(texture, new Vector2(position.X + x * pixelWidth, position.Y + y * pixelHeight), null, Color.White, 0f, new Vector2(0, 0), 1.0f, flip, 0f);
                     }
                 }
             }

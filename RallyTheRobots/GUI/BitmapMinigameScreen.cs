@@ -60,7 +60,6 @@ namespace RallyTheRobots.GUI
             _colourButton.AddRollingState("8");
             _colourButton.AddRollingState("16");
             _colourButton.AddRollingState("32");
-            _colourButton.AddRollingState("64");
             _colourButton.AddImage("bitmap_mg_colour");
             _colourButton.AddImage("colour_value", ButtonAreaImageNameTypeEnum.RollingStateCharacter, ButtonAreaImagePositioningEnum.Unmovable, ButtonAreaImageStackDirectionEnum.Horizontal, "s");
             _colourButton.Position = new Vector2(10, 710);
@@ -133,7 +132,14 @@ namespace RallyTheRobots.GUI
             _contentManager.AddTexture2D("bitmap_mg_frame_bottom_right");
             _contentManager.AddTexture2D("bitmap_mg_frame_right");
 
+            _contentManager.AddTexture2D("bitmap_mg_pixel_black");
             _contentManager.AddTexture2D("bitmap_mg_pixel_white");
+            _contentManager.AddTexture2D("bitmap_mg_pixel_blue");
+            _contentManager.AddTexture2D("bitmap_mg_pixel_red");
+            _contentManager.AddTexture2D("bitmap_mg_pixel_yellow");
+            _contentManager.AddTexture2D("bitmap_mg_pixel_green");
+            _contentManager.AddTexture2D("bitmap_mg_pixel_gray");
+            _contentManager.AddTexture2D("bitmap_mg_pixel_purple");
             base.Initialize();
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
@@ -166,7 +172,7 @@ namespace RallyTheRobots.GUI
             int.TryParse(_heightButton.GetCurrentRollingState(), out int height);
             int currentVerticalSlider = _positionSlider.GetCurrentVerticalValue();
 
-            GraphicsToolbox.DrawBitmap(spriteBatch, _contentManager, new Vector2(1001, 61), width, 98, "bitmap_mg_pixel_white", currentVerticalSlider);
+            GraphicsToolbox.DrawBitmap(spriteBatch, _contentManager, new Vector2(1005, 60), width, 98, "bitmap_mg_pixel_black", "bitmap_mg_pixel_white", "bitmap_mg_pixel_blue", "bitmap_mg_pixel_red", "bitmap_mg_pixel_yellow", "bitmap_mg_pixel_green", "bitmap_mg_pixel_gray", "bitmap_mg_pixel_purple", currentVerticalSlider);
             GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(960, 25, width * 10 + 90, 1050), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
             GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(940, 5, width * 10 + 130, height * 10 + 87), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
         }
