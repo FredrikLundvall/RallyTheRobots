@@ -28,6 +28,7 @@ namespace RallyTheRobots
         protected int _currentHorizontalValue = 0;
         protected int _currentVerticalValue = 0;
         protected TimeSpan _totalGameTimeRollingStateChange;
+        protected double _triggerTimeoutSeconds = 0;
 
         internal void SetContentManager(ContentManager contentManager)
         {
@@ -96,7 +97,7 @@ namespace RallyTheRobots
         }
         public void SetCurrentHorizontalSliderValue(int currentValue)
         {
-            _currentHorizontalValue = currentValue;
+            _currentHorizontalValue = Math.Max(Math.Min(currentValue, 100), 0);
         }
         public int GetCurrentHorizontalValue()
         {
@@ -104,7 +105,7 @@ namespace RallyTheRobots
         }
         public void SetCurrentVerticalSliderValue(int currentValue)
         {
-            _currentVerticalValue = currentValue;
+            _currentVerticalValue = Math.Max(Math.Min(currentValue, 100), 0);
         }
         public int GetCurrentVerticalValue()
         {
@@ -112,28 +113,35 @@ namespace RallyTheRobots
         }
         public virtual void Update(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus, Vector2 offset, IResolution resolution)
         {
-            if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.PrimarySelect, gameTime, gameSettings) || (_inputChecker.MouseButtonWasTriggered(MouseButtonEnum.LeftButton, gameTime, gameSettings) && _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution)) || (HasShortcutWithGoBackButton && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.GoBack, gameTime, gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned()))
+            if (!Visible || Disabled)
+                return;
+            bool mouseOverButtonArea = _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution);
+            if ((Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected ||
+                (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) ||
+                (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned()) ||
+                (HasShortcutWithGoBackButton && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.GoBack, gameTime, gameSettings, _triggerTimeoutSeconds))) 
+                && 
+                ((mouseOverButtonArea && _inputChecker.MouseButtonWasTriggered(MouseButtonEnum.LeftButton, gameTime, gameSettings, _triggerTimeoutSeconds)) ||
+                _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.PrimarySelect, gameTime, gameSettings, _triggerTimeoutSeconds))
+                )
             {
-                if (Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.GoBack, gameTime, gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
-                {
-                    _buttonSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
-                }
+                _buttonSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
+
                 int horizontalSlider = _inputChecker.HorizontalValueMouseSliderButtonArea(this, offset, resolution);
                 if (horizontalSlider != -2) // -2 means it was outside the borders of the slider
-                    _currentHorizontalValue = Math.Max(Math.Min(horizontalSlider, 100), 0);
+                    SetCurrentHorizontalSliderValue(horizontalSlider);
+
                 int verticalSlider = _inputChecker.VerticalValueMouseSliderButtonArea(this, offset, resolution);
                 if (verticalSlider != -2)  // -2 means it was outside the borders of the slider
-                    _currentVerticalValue = Math.Max(Math.Min(verticalSlider, 100), 0);
+                    SetCurrentVerticalSliderValue(verticalSlider);
             }
-            if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.AlternateSelect, gameTime, gameSettings) || (_inputChecker.MouseButtonWasTriggered(MouseButtonEnum.RightButton, gameTime, gameSettings) && _inputChecker.MouseIsCurrentlyOverButtonArea(this, offset, resolution)))
+            if ((Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected) 
+                && 
+                ((mouseOverButtonArea && _inputChecker.MouseButtonWasTriggered(MouseButtonEnum.RightButton, gameTime, gameSettings, _triggerTimeoutSeconds)) || 
+                _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.AlternateSelect, gameTime, gameSettings, _triggerTimeoutSeconds)))
             {
-                if (Visible && !Disabled && (Status == ButtonStatusEnum.Focused || Status == ButtonStatusEnum.Selected || (HasShortcutWithGoBackButton && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.GoBack, gameTime, gameSettings)) || (HasShortcutWithMouseWheelUp && _inputChecker.MouseWheelUpIsCurrentlyTurned()) || (HasShortcutWithMouseWheelDown && _inputChecker.MouseWheelDownIsCurrentlyTurned())))
-                {
-                    _buttonAlternateSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
-                }
+                _buttonAlternateSelectAction.DoAction(manager, screen, gameTime, gameSettings, gameStatus);
             }
-            _currentHorizontalValue = Math.Min(Math.Max(_currentHorizontalValue, 0), 100);
-            _currentVerticalValue = Math.Min(Math.Max(_currentVerticalValue, 0), 100);
         }
         public virtual void Draw(GameTime gameTime, GraphicsDevice graphicsDevice, GameSettings gameSettings, SpriteBatch spriteBatch, Vector2 offset)
         {
@@ -158,6 +166,10 @@ namespace RallyTheRobots
         public virtual Rectangle GetVerticalSliderRectangle()
         {
             return _buttonAreaImage.GetVerticalSliderRectangle(SliderBorderTop, SliderBorderBottom, Position, Visible, Disabled, Status, _rollingState.GetCurrentState());
+        }
+        public virtual void SetTriggerTimeout(double triggerTimeoutSeconds)
+        {
+            _triggerTimeoutSeconds = triggerTimeoutSeconds;
         }
     }
 }

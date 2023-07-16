@@ -103,6 +103,7 @@ namespace RallyTheRobots.GUI
             _upButton.AddImage("bitmap_mg_up");
             _upButton.Position = new Vector2(1100 + width * 10, 5);
             _upButton.SetButtonSelectAction(new ChangeSliderValueButtonAction(_positionSlider, 0, -1));
+            _upButton.SetTriggerTimeout(0.1);
             AddButtonArea(_upButton);
 
             _positionSlider.AddImage("bitmap_mg_slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueVerticalSlider, ButtonAreaImageStackDirectionEnum.None);
@@ -110,12 +111,14 @@ namespace RallyTheRobots.GUI
             _positionSlider.Position = new Vector2(1100 + width * 10, 80);
             _positionSlider.SliderBorderTop = 45;
             _positionSlider.SliderBorderBottom = 45;
+            _positionSlider.SetTriggerTimeout(0.05);
             AddButtonArea(_positionSlider);
 
 
             _downButton.AddImage("bitmap_mg_down");
             _downButton.Position = new Vector2(1100 + width * 10, 975);
             _downButton.SetButtonSelectAction(new ChangeSliderValueButtonAction(_positionSlider, 0, 1));
+            _downButton.SetTriggerTimeout(0.1);
             AddButtonArea(_downButton);
 
             ScreenChangeOnPauseKey(_screenManager.GetScreen<PauseMenuScreen>());

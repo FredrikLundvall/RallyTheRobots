@@ -62,25 +62,27 @@ namespace RallyTheRobots.GUI.Common
             _oldScrollWheelValue = _currentScrollWheelValue;
             _oldMousePosition = _currentMousePosition;
         }
-        public virtual bool InputFunctionWasTriggered(InputFunctionEnum inputFunction, GameTime gameTime, GameSettings gameSettings)
+        public virtual bool InputFunctionWasTriggered(InputFunctionEnum inputFunction, GameTime gameTime, GameSettings gameSettings, double triggerTimeoutSeconds)
         {
+            //To avoid saving ButtonArea in the _inputFunctionStatusList, when calling this function make sure to check focused and other stuff first before calling this function
+
             //Check for buttons pressed while avoiding cascading event in next screen
             var isPressed = InputFunctionIsCurrentlyPressed(inputFunction, gameSettings);
             if (isPressed)
             {             
-                if (_inputFunctionStatusList[inputFunction].ButtonIsHeldDown && _inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtElapsedTime != gameTime.ElapsedGameTime)
+                if (_inputFunctionStatusList[inputFunction].ButtonIsHeldDown && (_inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtTotalTime != gameTime.TotalGameTime) && (triggerTimeoutSeconds == 0 || (gameTime.TotalGameTime - _inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtTotalTime).TotalSeconds < triggerTimeoutSeconds))
                 {
                     isPressed = false;
                 }
                 else
                 {
-                    _inputFunctionStatusList[inputFunction] = new InputButtonStatus(true, gameTime.ElapsedGameTime);
+                    _inputFunctionStatusList[inputFunction] = new InputButtonStatus(true, gameTime.TotalGameTime);
                 }
             }
             else
             {
                 //The elapsed time isn't used, but preserving it anyway if some future use of last time pressed is needed
-                _inputFunctionStatusList[inputFunction] = new InputButtonStatus(false, _inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtElapsedTime);
+                _inputFunctionStatusList[inputFunction] = new InputButtonStatus(false, _inputFunctionStatusList[inputFunction].ButtonIsHeldDownAtTotalTime);
             }
             return isPressed;
         }
@@ -92,25 +94,27 @@ namespace RallyTheRobots.GUI.Common
             isPressed |= IsAnyOfTheseKeboardKeysPressed(gameSettings.GetInputButtonsForFunction(inputFunction).KeyboardKeys);
             return isPressed;
         }
-        public virtual bool MouseButtonWasTriggered(MouseButtonEnum mouseButton, GameTime gameTime, GameSettings gameSettings)
+        public virtual bool MouseButtonWasTriggered(MouseButtonEnum mouseButton, GameTime gameTime, GameSettings gameSettings, double triggerTimeoutSeconds)
         {
+            //To avoid saving ButtonArea in the _inputFunctionStatusList, when calling this function make sure to check focused and other stuff first before calling this function
+
             //Check for buttons pressed while avoiding cascading event in next screen
             var isPressed = MoueseButtonIsCurrentlyPressed(mouseButton, gameSettings);
             if (isPressed)
             {
-                if (_mouseButtonStatusList[mouseButton].ButtonIsHeldDown && _mouseButtonStatusList[mouseButton].ButtonIsHeldDownAtElapsedTime != gameTime.ElapsedGameTime)
+                if (_mouseButtonStatusList[mouseButton].ButtonIsHeldDown && _mouseButtonStatusList[mouseButton].ButtonIsHeldDownAtTotalTime != gameTime.TotalGameTime && (triggerTimeoutSeconds == 0 || (gameTime.TotalGameTime - _mouseButtonStatusList[mouseButton].ButtonIsHeldDownAtTotalTime).TotalSeconds < triggerTimeoutSeconds))
                 {
                     isPressed = false;
                 }
                 else
                 {
-                    _mouseButtonStatusList[mouseButton] = new InputButtonStatus(true, gameTime.ElapsedGameTime);
+                    _mouseButtonStatusList[mouseButton] = new InputButtonStatus(true, gameTime.TotalGameTime);
                 }
             }
             else
             {
                 //The elapsed time isn't used, but preserving it anyway if some future use of last time pressed is needed
-                _mouseButtonStatusList[mouseButton] = new InputButtonStatus(false, _mouseButtonStatusList[mouseButton].ButtonIsHeldDownAtElapsedTime);
+                _mouseButtonStatusList[mouseButton] = new InputButtonStatus(false, _mouseButtonStatusList[mouseButton].ButtonIsHeldDownAtTotalTime);
             }
             return isPressed;
         }

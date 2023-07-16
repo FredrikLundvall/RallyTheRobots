@@ -193,7 +193,7 @@ namespace RallyTheRobots.GUI.Common
         }
         public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            if (_pauseButtonScreen != null && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.Pause, gameTime, gameSettings))
+            if (_pauseButtonScreen != null && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.Pause, gameTime, gameSettings, 0))
                 manager.ChangeScreen(gameTime, gameSettings, _pauseButtonScreen);
             if (_anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
                 manager.ChangeScreen(gameTime, gameSettings, _anyButtonScreen);
@@ -219,7 +219,7 @@ namespace RallyTheRobots.GUI.Common
                 _buttonNextHorizontalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
             }
 
-            if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.PrimarySelect, gameTime, gameSettings))
+            if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.PrimarySelect, gameTime, gameSettings, 0))
                 SelectFocusedButtonArea(gameTime);
 
             _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);

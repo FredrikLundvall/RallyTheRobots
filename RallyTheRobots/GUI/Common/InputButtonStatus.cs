@@ -9,12 +9,12 @@ namespace RallyTheRobots.GUI
     public struct InputButtonStatus
     {
         public bool ButtonIsHeldDown;
-        public TimeSpan ButtonIsHeldDownAtElapsedTime;
+        public TimeSpan ButtonIsHeldDownAtTotalTime;
 
         public InputButtonStatus(bool buttonIsHeldDown, TimeSpan buttonIsHeldDownAtElapsedTime)
         {
             ButtonIsHeldDown = buttonIsHeldDown;
-            ButtonIsHeldDownAtElapsedTime = buttonIsHeldDownAtElapsedTime;
+            ButtonIsHeldDownAtTotalTime = buttonIsHeldDownAtElapsedTime;
         }
     }
 }
