@@ -26,6 +26,7 @@ namespace RallyTheRobots.GUI.Common
         protected ButtonAction _buttonPreviousHorizontalAction = null;
         protected ButtonAction _buttonNextHorizontalAction = null;
         protected Screen _previousScreen;
+        protected bool _anyButtonPressedAtEnteringScreen = false; 
 
         public Screen()
         {
@@ -112,6 +113,7 @@ namespace RallyTheRobots.GUI.Common
         }
         public virtual void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
         {
+            _anyButtonPressedAtEnteringScreen = _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings);
             _previousScreen = oldScreen;
             _totalGameTimeEnter = gameTime.TotalGameTime;
             _totalGameTimeFocusChange = gameTime.TotalGameTime;
@@ -122,6 +124,7 @@ namespace RallyTheRobots.GUI.Common
         }
         public virtual void LeaveScreen(GameTime gameTime, GameSettings gameSettings, Screen newScreen)
         {
+            _anyButtonPressedAtEnteringScreen = false;
         }
         internal virtual void FocusPreviousButtonArea(GameTime gameTime, GameSettings gameSettings)
         {
@@ -193,36 +196,43 @@ namespace RallyTheRobots.GUI.Common
         }
         public virtual void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            if (_pauseButtonScreen != null && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.Pause, gameTime, gameSettings, 0))
-                manager.ChangeScreen(gameTime, gameSettings, _pauseButtonScreen);
-            if (_anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
-                manager.ChangeScreen(gameTime, gameSettings, _anyButtonScreen);
             if (_timeoutScreen != null & gameTime.TotalGameTime.TotalSeconds - _totalGameTimeEnter.TotalSeconds > _timeoutSeconds)
                 manager.ChangeScreen(gameTime, gameSettings, _timeoutScreen);
-            if (_inputChecker.PreviousVerticalButtonIsCurrentlyPressed(gameSettings))
-            {
-                _buttonPreviousVerticalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
-            }
-            else if (_inputChecker.NextVerticalButtonIsCurrentlyPressed(gameSettings))
-            {
-                _buttonNextVerticalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
-            }
-            else
-                _totalGameTimeFocusChange = new TimeSpan(0, 0, 0);
+            if (_pauseButtonScreen != null && _inputChecker.InputFunctionWasTriggered(InputFunctionEnum.Pause, gameTime, gameSettings, 0))
+                manager.ChangeScreen(gameTime, gameSettings, _pauseButtonScreen);
 
-            if (_inputChecker.PreviousHorizontalButtonIsCurrentlyPressed(gameSettings))
+            //Most of the button-checks here (...CurrentlyPressed), are not protected against cascading
+            //wait for the release of all the buttons before triggering anything from buttons
+            if (!(_anyButtonPressedAtEnteringScreen && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings)))
             {
-                _buttonPreviousHorizontalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
-            }
-            else if (_inputChecker.NextHorizontalButtonIsCurrentlyPressed(gameSettings))
-            {
-                _buttonNextHorizontalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
-            }
+                _anyButtonPressedAtEnteringScreen = false;
+                if (_anyButtonScreen != null && _inputChecker.AnyButtonIsCurrentlyPressed(gameSettings))
+                    manager.ChangeScreen(gameTime, gameSettings, _anyButtonScreen);
+                if (_inputChecker.PreviousVerticalButtonIsCurrentlyPressed(gameSettings))
+                {
+                    _buttonPreviousVerticalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
+                }
+                else if (_inputChecker.NextVerticalButtonIsCurrentlyPressed(gameSettings))
+                {
+                    _buttonNextVerticalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
+                }
+                else
+                    _totalGameTimeFocusChange = new TimeSpan(0, 0, 0);
 
-            if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.PrimarySelect, gameTime, gameSettings, 0))
-                SelectFocusedButtonArea(gameTime);
+                if (_inputChecker.PreviousHorizontalButtonIsCurrentlyPressed(gameSettings))
+                {
+                    _buttonPreviousHorizontalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
+                }
+                else if (_inputChecker.NextHorizontalButtonIsCurrentlyPressed(gameSettings))
+                {
+                    _buttonNextHorizontalAction.DoAction(manager, this, gameTime, gameSettings, gameStatus);
+                }
 
-            _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
+                if (_inputChecker.InputFunctionWasTriggered(InputFunctionEnum.PrimarySelect, gameTime, gameSettings, 0))
+                    SelectFocusedButtonArea(gameTime);
+
+                _buttonAreaList.Update(manager, this, gameTime, gameSettings, gameStatus);
+            }
             if (_inputChecker.HasMouseMoved(gameTime, gameSettings) || _inputChecker.HasMouseWheelMoved())
             {
                 ButtonArea mouseOverButtonArea = _buttonAreaList.GetMouseOverButtonArea(gameTime, gameSettings, _resolutionFactory.GetResolution());
