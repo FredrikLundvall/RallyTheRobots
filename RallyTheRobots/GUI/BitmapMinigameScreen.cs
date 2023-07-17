@@ -20,6 +20,9 @@ namespace RallyTheRobots.GUI
         protected ButtonArea _upButton = new ButtonArea();
         protected ButtonArea _positionSlider = new ButtonArea();
         protected ButtonArea _downButton = new ButtonArea();
+        protected int _width = 8;
+        protected int _height = 8;
+        protected int _currentVerticalSlider = 0;
 
         public override void Initialize()
         {
@@ -99,16 +102,15 @@ namespace RallyTheRobots.GUI
             _modeButton.SetButtonAlternateSelectAction(new PreviousRollingStateButtonAction(_modeButton));
             AddButtonArea(_modeButton);
 
-            int width = 8;
             _upButton.AddImage("bitmap_mg_up");
-            _upButton.Position = new Vector2(1100 + width * 10, 5);
+            _upButton.Position = new Vector2(1100 + _width * 10, 5);
             _upButton.SetButtonSelectAction(new ChangeSliderValueButtonAction(_positionSlider, 0, -1));
             _upButton.SetTriggerTimeout(0.1);
             AddButtonArea(_upButton);
 
             _positionSlider.AddImage("bitmap_mg_slider_bar", ButtonAreaImageNameTypeEnum.Actual, ButtonAreaImagePositioningEnum.ValueVerticalSlider, ButtonAreaImageStackDirectionEnum.None);
             _positionSlider.AddImage("bitmap_mg_slider");
-            _positionSlider.Position = new Vector2(1100 + width * 10, 80);
+            _positionSlider.Position = new Vector2(1100 + _width * 10, 80);
             _positionSlider.SliderBorderTop = 45;
             _positionSlider.SliderBorderBottom = 45;
             _positionSlider.SetTriggerTimeout(0.05);
@@ -116,7 +118,7 @@ namespace RallyTheRobots.GUI
 
 
             _downButton.AddImage("bitmap_mg_down");
-            _downButton.Position = new Vector2(1100 + width * 10, 975);
+            _downButton.Position = new Vector2(1100 + _width * 10, 975);
             _downButton.SetButtonSelectAction(new ChangeSliderValueButtonAction(_positionSlider, 0, 1));
             _downButton.SetTriggerTimeout(0.1);
             AddButtonArea(_downButton);
@@ -147,23 +149,25 @@ namespace RallyTheRobots.GUI
         }
         public override void EnterScreen(GameTime gameTime, GameSettings gameSettings, Screen oldScreen)
         {
-            _widthButton.SetCurrentRollingState("8");
-            _heightButton.SetCurrentRollingState("8");
+            _widthButton.SetCurrentRollingState(_width.ToString());
+            _heightButton.SetCurrentRollingState(_height.ToString());
             _colourButton.SetCurrentRollingState("2");
             _paletteButton.SetCurrentRollingState("system");
             _addressButton.SetCurrentRollingState("low");
             _modeButton.SetCurrentRollingState("normal");
-            _positionSlider.SetCurrentVerticalSliderValue(0);
+            _positionSlider.SetCurrentVerticalSliderValue(_currentVerticalSlider);
 
             base.EnterScreen(gameTime, gameSettings, oldScreen);
         }
         public override void Update(ScreenManager manager, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
-            int.TryParse(_widthButton.GetCurrentRollingState(), out int width);
+            int.TryParse(_widthButton.GetCurrentRollingState(), out _width);
+            int.TryParse(_heightButton.GetCurrentRollingState(), out _height);
+            _currentVerticalSlider = _positionSlider.GetCurrentVerticalValue();
 
-            _upButton.Position = new Vector2(1100 + width * 10, 5);
-            _positionSlider.Position = new Vector2(1100 + width * 10, 80);
-            _downButton.Position = new Vector2(1100 + width * 10, 975);
+            _upButton.Position = new Vector2(1100 + _width * 10, 5);
+            _positionSlider.Position = new Vector2(1100 + _width * 10, 80);
+            _downButton.Position = new Vector2(1100 + _width * 10, 975);
 
             base.Update(manager, gameTime, gameSettings, gameStatus);
         }
@@ -171,13 +175,9 @@ namespace RallyTheRobots.GUI
         {
             base.Draw(gameTime, graphicsDevice, gameSettings, spriteBatch);
 
-            int.TryParse(_widthButton.GetCurrentRollingState(), out int width);
-            int.TryParse(_heightButton.GetCurrentRollingState(), out int height);
-            int currentVerticalSlider = _positionSlider.GetCurrentVerticalValue();
-
-            GraphicsToolbox.DrawBitmap(spriteBatch, _contentManager, new Vector2(1005, 60), width, 98, "bitmap_mg_pixel_black", "bitmap_mg_pixel_white", "bitmap_mg_pixel_blue", "bitmap_mg_pixel_red", "bitmap_mg_pixel_yellow", "bitmap_mg_pixel_green", "bitmap_mg_pixel_gray", "bitmap_mg_pixel_purple", currentVerticalSlider);
-            GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(960, 25, width * 10 + 90, 1050), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
-            GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(940, 5, width * 10 + 130, height * 10 + 87), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
+            GraphicsToolbox.DrawBitmap(spriteBatch, _contentManager, new Vector2(1005, 60), _width, 98, "bitmap_mg_pixel_black", "bitmap_mg_pixel_white", "bitmap_mg_pixel_blue", "bitmap_mg_pixel_red", "bitmap_mg_pixel_yellow", "bitmap_mg_pixel_green", "bitmap_mg_pixel_gray", "bitmap_mg_pixel_purple", _currentVerticalSlider);
+            GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(960, 25, _width * 10 + 90, 1050), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
+            GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(940, 5, _width * 10 + 130, _height * 10 + 87), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
         }
     }
 }

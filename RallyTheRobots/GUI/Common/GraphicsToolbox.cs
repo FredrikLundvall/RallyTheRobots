@@ -158,6 +158,7 @@ namespace RallyTheRobots.GUI.Common
                         int flipHoriz = ran.Next(0, 2);
                         int flipVert = ran.Next(0, 2);
                         Texture2D texture = blackPixelTexture;
+                        flip = SpriteEffects.None;
                         if (flipHoriz == 1)
                             flip |= SpriteEffects.FlipHorizontally;
                         if (flipVert == 1)
