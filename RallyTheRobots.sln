@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30503.244
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RallyTheRobots", "RallyTheRobots\RallyTheRobots.csproj", "{3C593F36-A8C0-499E-AE1E-C95BF3C388D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRallyTheRobots", "TestRallyTheRobots\TestRallyTheRobots.csproj", "{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemDumpDigger", "MemDumpDigger\MemDumpDigger\MemDumpDigger.csproj", "{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Release|x86.ActiveCfg = Release|Any CPU
 		{29DF6F87-75A1-4805-9BF6-E52B5F6BCEF4}.Release|x86.Build.0 = Release|Any CPU
+		{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}.Debug|x86.Build.0 = Debug|Any CPU
+		{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}.Release|x86.ActiveCfg = Release|Any CPU
+		{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

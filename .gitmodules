@@ -1,0 +1,3 @@
+[submodule "MemDumpDigger"]
+	path = MemDumpDigger
+	url = https://github.com/FredrikLundvall/MemDumpDigger.git
