@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MemDumpDigger;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -136,11 +137,17 @@ namespace RallyTheRobots.GUI.Common
             Texture2D grayPixelTexture = contentManager.GetTexture2D(grayPixel);
             Texture2D purplePixelTexture = contentManager.GetTexture2D(purplePixel);
             Random ran = new Random(42);
+            BitmapFinder bitmapFinder = new BitmapFinder("Content\\Test_bitmap.raw");
+            bitmapFinder.Width = (uint)width;
+            bitmapFinder.Height = (uint)height;
+            bitmapFinder.PixelBits = 1;
+            bitmapFinder.UsePalette = true;
+            bitmapFinder.PaletteColor.Add(0, Color.Black);
+            bitmapFinder.PaletteColor.Add(1, Color.White);
 
             //Scroll forward in the "memory"
-            for(int i = 0; i < currentRow * width; i++)
+            for (int i = 0; i < currentRow * width; i++)
             {
-                ran.Next(0, 2);
                 ran.Next(0, 2);
                 ran.Next(0, 2);
             }
@@ -154,7 +161,7 @@ namespace RallyTheRobots.GUI.Common
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        int colour = ran.Next(0, 8);
+                        int colour = (int)bitmapFinder.GetPixelValue((ulong) (x + (y + currentRow) * width));
                         int flipHoriz = ran.Next(0, 2);
                         int flipVert = ran.Next(0, 2);
                         Texture2D texture = blackPixelTexture;

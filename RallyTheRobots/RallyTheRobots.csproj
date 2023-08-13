@@ -114,6 +114,7 @@
     <Compile Include="GUI\StartMenuScreen.cs" />
     <Compile Include="GUI\StartupScreen.cs" />
     <Compile Include="GUI\PauseMenuScreen.cs" />
+    <Compile Include="Tools\ImageToStream.cs" />
     <Compile Include="RallyTheRobots.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -670,6 +671,9 @@
     <Content Include="Content\bitmap_mg_system_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Test_bitmap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\true_focused.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -700,6 +704,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MemDumpDigger\MemDumpDigger\MemDumpDigger.csproj">
+      <Project>{F65DF2CB-D82D-4D7D-85CD-3076D8634F2C}</Project>
+      <Name>MemDumpDigger</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.7.0.1708\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.0.1708\build\MonoGame.Framework.WindowsDX.targets')" />
