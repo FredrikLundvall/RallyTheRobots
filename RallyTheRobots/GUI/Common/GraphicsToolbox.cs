@@ -145,7 +145,7 @@ namespace RallyTheRobots.GUI.Common
             bitmapFinder.PaletteColor.Add(0, Color.Black);
             bitmapFinder.PaletteColor.Add(1, Color.White);
 
-            //Scroll forward in the "memory"
+            //Scroll forward for the random of the flips to be consistent
             for (int i = 0; i < currentRow * width; i++)
             {
                 ran.Next(0, 2);

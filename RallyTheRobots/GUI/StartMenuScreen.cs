@@ -11,6 +11,7 @@ namespace RallyTheRobots.GUI
         public override void Initialize()
         {
             AddBackground("startmenu");
+            AddSound("click");
             ButtonArea continueGameButton = new ButtonArea();
             continueGameButton.AddImage("startmenu_continue");
             continueGameButton.Position = new Vector2(83, 414);

@@ -68,6 +68,10 @@ namespace RallyTheRobots.GUI.Common
             _backgroundName = backgroundName;
             _contentManager.AddTexture2D(_backgroundName);
         }
+        public virtual void AddSound(string soundName)
+        {
+            _contentManager.AddSoundEffect(soundName);
+        }
         public virtual void ScreenChangeOnAnyKey(Screen changeToScreen)
         {
             _anyButtonScreen = changeToScreen;

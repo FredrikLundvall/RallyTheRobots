@@ -177,7 +177,7 @@ namespace RallyTheRobots.GUI
 
             GraphicsToolbox.DrawBitmap(spriteBatch, _contentManager, new Vector2(1005, 60), _width, 98, "bitmap_mg_pixel_black", "bitmap_mg_pixel_white", "bitmap_mg_pixel_blue", "bitmap_mg_pixel_red", "bitmap_mg_pixel_yellow", "bitmap_mg_pixel_green", "bitmap_mg_pixel_gray", "bitmap_mg_pixel_purple", _currentVerticalSlider);
             GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(960, 25, _width * 10 + 90, 1050), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
-            GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(940, 5, _width * 10 + 130, _height * 10 + 87), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
+            GraphicsToolbox.DrawFrame(spriteBatch, _contentManager, new Rectangle(940, 5, _width * 10 + 130, _height * 10 + 84), "bitmap_mg_frame_top_left", "bitmap_mg_frame_top", "bitmap_mg_frame_top_right", "bitmap_mg_frame_left", "bitmap_mg_frame_bottom_left", "bitmap_mg_frame_bottom", "bitmap_mg_frame_bottom_right", "bitmap_mg_frame_right");
         }
     }
 }

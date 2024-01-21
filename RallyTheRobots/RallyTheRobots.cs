@@ -78,7 +78,7 @@ namespace RallyTheRobots
         protected override void LoadContent()
         {
             //Create bitmap finder file
-            ImageToStream.WriteImageToFile(GraphicsDevice, "Content\\Test_bitmap.png", "Content\\Test_bitmap.raw");
+            //ImageToStream.WriteImageToFile(GraphicsDevice, "Content\\Test_bitmap.png", "Content\\Test_bitmap.raw");
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);

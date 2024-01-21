@@ -17,6 +17,9 @@ namespace RallyTheRobots.GUI.Common
         public override void DoAction(ScreenManager manager, Screen screen, GameTime gameTime, GameSettings gameSettings, GameStatus gameStatus)
         {
             manager.ChangeScreen(gameTime, gameSettings, _newScreen);
+            var effect = manager.GetContentManager().GetSoundEffect("click");
+            if (effect != null)
+                effect.Play();
         }
     }
 }

@@ -21,6 +21,10 @@ namespace RallyTheRobots.GUI.Common
             if (_contentManager == null)
                 _contentManager = contentManager;
         }
+        internal ContentManager GetContentManager()
+        {
+            return _contentManager;
+        }
         internal void SetResolution(ResolutionFactory resolutionFactory)
         {
             if (_resolutionFactory == null)
